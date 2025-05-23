@@ -1,7 +1,7 @@
 #include "VertexShader.h"
 #include "GraphicsEngine.h"
 
-bool VertexShader::release()
+void VertexShader::release()
 {
 	m_vs->Release();
 
