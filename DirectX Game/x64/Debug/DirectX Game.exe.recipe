@@ -5,11 +5,7 @@
       <FullPath>E:\VSC\Y3T3 ENG03\DirectX Game\x64\Debug\DirectX Game.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles>
-    <ContentFile>
-      <FullPath>E:\VSC\Y3T3 ENG03\DirectX Game\x64\Debug\VertexShader.cso</FullPath>
-    </ContentFile>
-  </ContentFiles>
+  <ContentFiles />
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>
