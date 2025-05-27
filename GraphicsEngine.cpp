@@ -6,6 +6,28 @@
 #include "PixelShader.h"
 #include <d3dcompiler.h>
 
+GraphicsEngine* GraphicsEngine::sharedInstance;
+
+void GraphicsEngine::initialize()
+{
+	sharedInstance = new GraphicsEngine();
+	sharedInstance->init();
+}
+
+void GraphicsEngine::destroy()
+{
+	if (sharedInstance != NULL) {
+		sharedInstance->release();
+	}
+}
+
+GraphicsEngine::GraphicsEngine()
+{
+}
+
+GraphicsEngine::~GraphicsEngine()
+{
+}
 
 bool GraphicsEngine::init()
 {

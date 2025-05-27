@@ -1,5 +1,6 @@
 #include "AppWindow.h"
 
+AppWindow* AppWindow::sharedInstance;
 struct vec3
 {
 	float x, y, z;
@@ -32,10 +33,10 @@ void AppWindow::onCreate()
 
 	vertex list[] =
 	{
-		{-0.8f, -0.5f, 0.0f, 1,0,0},
-		{-0.8f, 0.5f, 0.0f,  0,1,0},
-		{0.8f, -0.5f, 0.0f,  0,0,1},
-		{0.8f, 0.5f, 0.0f,   1,1,0}
+		{-0.8f, -0.5f,  1.4f, 1,0,0},
+		{-0.8f, 0.5f, .1f,  0,1,0},
+		{0.8f, -0.5f, 0.1f,  0,0,1},
+		{0.8f, 0.5f, 0.1f,   1,1,0}
 	
 
 		/*
@@ -96,4 +97,25 @@ void AppWindow::onDestroy()
 	m_vs->release();
 	m_ps->release();
 	GraphicsEngine::get()->release();
+}
+
+AppWindow* AppWindow::get()
+{
+	if (sharedInstance == nullptr)
+		sharedInstance = new AppWindow();
+
+	return sharedInstance;
+}
+
+void AppWindow::initialize()
+{
+	sharedInstance = new AppWindow();
+	//sharedInstance->init();
+}
+
+void AppWindow::destroy()
+{
+	if (sharedInstance != NULL) {
+		sharedInstance->release();
+	}
 }

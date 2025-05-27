@@ -12,6 +12,15 @@ class PixelShader;
 class GraphicsEngine
 {
 public:
+
+	static void initialize();
+	static void destroy();
+
+	
+	
+	GraphicsEngine();
+	~GraphicsEngine();
+
 	bool init();
 	bool release();
 
@@ -48,6 +57,11 @@ private:
 	ID3DBlob* m_psblob = nullptr;
 	ID3D11VertexShader* m_vs = nullptr;
 	ID3D11PixelShader* m_ps = nullptr;
+
+	GraphicsEngine(GraphicsEngine const&) {};
+	GraphicsEngine& operator=(GraphicsEngine const&) {};
+	static GraphicsEngine* sharedInstance;
+
 
 private:
 	friend class SwapChain;
