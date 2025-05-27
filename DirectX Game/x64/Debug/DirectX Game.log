@@ -1,5 +1,2 @@
-﻿  AppWindow.cpp
-E:\VSC\Y3T3 ENG03\DirectX Game\AppWindow.cpp(62,64): warning C4267: 'argument': conversion from 'size_t' to 'UINT', possible loss of data
-E:\VSC\Y3T3 ENG03\DirectX Game\AppWindow.cpp(77,7): warning C4305: 'argument': truncation from 'double' to 'float'
-E:\VSC\Y3T3 ENG03\DirectX Game\AppWindow.cpp(77,3): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  VertexBuffer.cpp
   DirectX Game.vcxproj -> E:\VSC\Y3T3 ENG03\DirectX Game\x64\Debug\DirectX Game.exe
