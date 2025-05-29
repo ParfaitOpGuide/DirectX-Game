@@ -6,6 +6,7 @@
 #include "PixelShader.h"
 #include <d3dcompiler.h>
 
+GraphicsEngine* GraphicsEngine::sharedInstance;
 
 bool GraphicsEngine::init()
 {
@@ -121,8 +122,32 @@ DeviceContext* GraphicsEngine::getImmediateDeviceContext()
 
 GraphicsEngine* GraphicsEngine::get()
 {
-	static GraphicsEngine engine;
-	return &engine;
+	if (!sharedInstance) {
+		initialize();
+	}
+
+	return sharedInstance;
+}
+
+void GraphicsEngine::initialize()
+{
+	sharedInstance = new GraphicsEngine();
+	sharedInstance->init();
+}
+
+void GraphicsEngine::destroy()
+{
+	if (sharedInstance != NULL) {
+		sharedInstance->release();
+	}
+}
+
+GraphicsEngine::GraphicsEngine()
+{
+}
+
+GraphicsEngine::~GraphicsEngine()
+{
 }
 
 VertexBuffer* GraphicsEngine::createVertexBuffer()

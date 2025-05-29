@@ -18,6 +18,15 @@ public:
 	void onUpdate() override;
 	void onDestroy() override;
 
+	//singleton
+	static AppWindow* get();
+	static void initialize();
+	static void destroy();
+
+	AppWindow(AppWindow const&) {};
+	AppWindow& operator=(AppWindow const&) {};
+	static AppWindow* sharedInstance;
+
 private:
 	SwapChain* m_swap_chain;
 	VertexBuffer* m_vb;

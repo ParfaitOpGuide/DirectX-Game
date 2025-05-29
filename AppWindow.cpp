@@ -1,4 +1,5 @@
 #include "AppWindow.h"
+AppWindow* AppWindow::sharedInstance;
 
 struct vec3
 {
@@ -22,9 +23,10 @@ AppWindow::~AppWindow()
 void AppWindow::onCreate()
 {
 	//Window::onCreate();
-	GraphicsEngine::get()->init();
+	GraphicsEngine::initialize();
 
-	m_swap_chain = GraphicsEngine::get()->createSwapChain();
+
+	this->m_swap_chain = GraphicsEngine::get()->createSwapChain();
 
 	RECT rc = this->getClientWindowRect();
 
@@ -96,4 +98,26 @@ void AppWindow::onDestroy()
 	m_vs->release();
 	m_ps->release();
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::initialize()
+{
+	sharedInstance = new AppWindow();
+	sharedInstance->init();
+}
+
+void AppWindow::destroy()
+{
+	if (sharedInstance != NULL) {
+		sharedInstance->release();
+	}
+}
+
+AppWindow* AppWindow::get()
+{
+	if (!sharedInstance) {
+		initialize();
+	}
+
+	return sharedInstance;
 }

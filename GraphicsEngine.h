@@ -28,6 +28,14 @@ public:
 
 	//singleton
 	static GraphicsEngine* get();
+	static void initialize();
+	static void destroy();
+
+	GraphicsEngine();
+	~GraphicsEngine();
+	GraphicsEngine(GraphicsEngine const&) {};
+	GraphicsEngine& operator=(GraphicsEngine const&) {};
+	static GraphicsEngine* sharedInstance;
 
 private:
 	DeviceContext* m_imm_device_context;
