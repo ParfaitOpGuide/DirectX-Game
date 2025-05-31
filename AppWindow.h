@@ -4,11 +4,13 @@
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include <vector>
 #include "Quads.h"
+#include "Cube.h"
 
 class AppWindow : public Window
 {
@@ -39,6 +41,7 @@ private:
 
 	ConstantBuffer* m_cb;
 
+
 	float m_old_delta;
 	float m_new_delta;
 	float m_delta_time;
@@ -47,5 +50,6 @@ private:
 	float m_delta_scale;
 
 	std::vector<Quads> quadList = {};
+	std::vector<Cube> cubeList = {};
 };
 

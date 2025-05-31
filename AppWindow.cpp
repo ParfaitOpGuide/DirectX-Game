@@ -38,10 +38,26 @@ void AppWindow::updateQuadPosition()
 	Matrix4x4 temp;
 
 	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
-	cc.m_world.setScale(Vector3D::lerp(Vector3D(.5, .5, 0), Vector3D(2, 2, 0), (sin(m_delta_scale)+1.f)/2.f));
-	
-	temp.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
+	//cc.m_world.setScale(Vector3D::lerp(Vector3D(.5, .5, 0), Vector3D(2, 2, 0), (sin(m_delta_scale) + 1.f) / 2.f));
+
+	//temp.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
+	//cc.m_world *= temp;
+
+	cc.m_world.setScale(Vector3D(1, 1, 1));
+
+	temp.setIdentity();
+	temp.setRotationZ(m_delta_scale);
 	cc.m_world *= temp;
+	
+	temp.setIdentity();
+	temp.setRotationY(m_delta_scale);
+	cc.m_world *= temp;
+	
+	temp.setIdentity();
+	temp.setRotationX(m_delta_scale);
+	cc.m_world *= temp;
+
+
 
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH
@@ -70,6 +86,8 @@ void AppWindow::onCreate()
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
+	
+
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
@@ -84,8 +102,10 @@ void AppWindow::onCreate()
 	colors2.push_back(Vector3D(1, 1, 0));
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
-	//                       w     h     cx   cy    cx2    cy2  list
-	quadList.push_back(Quads(0.3f, 0.4f, 0.6f, 0.6f, -0.6f, -0.6f, colors, colors2));
+	//                         w     h     cx   cy    list
+	//quadList.push_back(Quads(0.3f, 0.3f, 0.6f, 0.6f,colors, colors2));
+	// //                       w     h     d     cx   cy     cz      list
+	cubeList.push_back(Cube(0.3f, 0.3f, 0.3f, 0.f, 0.f, 0.f, colors, colors2));
 	/*
 	quadList.push_back(Quads(0.4f, 0.2f, -0.6f, -0.3f, 0, 0, colors, colors2));
 	colors.clear();
@@ -100,8 +120,13 @@ void AppWindow::onCreate()
 	colors2.push_back({ 0,1,1 });
 	quadList.push_back(Quads(0.7f, 0.5f, 0.2f, -0.5f, -0.2f, 0.8f, colors, colors2));
 	*/
+	/*
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].createBuffer(&shader_byte_code, &size_shader);
+	}*/
+	
+	for (int i = 0; i < cubeList.size();i++) {
+		cubeList[i].createBuffer(&shader_byte_code, &size_shader);
 	}
 
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -138,9 +163,13 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-
+	/*
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].draw();
+	}*/
+	
+	for (int i = 0; i < cubeList.size();i++) {
+		cubeList[i].draw();
 	}
 
 	m_swap_chain->present(true);
@@ -157,9 +186,14 @@ void AppWindow::onDestroy()
 	m_swap_chain->release();
 	m_vs->release();
 	m_ps->release();
-
+	m_cb->release();
+	/*
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].destroy();
+	}*/
+
+	for (int i = 0; i < cubeList.size();i++) {
+		cubeList[i].destroy();
 	}
 
 	GraphicsEngine::get()->release();
