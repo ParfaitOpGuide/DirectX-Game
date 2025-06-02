@@ -37,24 +37,23 @@ void AppWindow::updateQuadPosition()
 
 	Matrix4x4 temp;
 
-	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
+	cc.m_world.setTranslation(Vector3D::lerp(Vector3D(0, .3, 2), Vector3D(0, .3, -2), m_delta_pos));
 	//cc.m_world.setScale(Vector3D::lerp(Vector3D(.5, .5, 0), Vector3D(2, 2, 0), (sin(m_delta_scale) + 1.f) / 2.f));
-
-	//temp.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
-	//cc.m_world *= temp;
-
 	cc.m_world.setScale(Vector3D(1, 1, 1));
+	temp.setTranslation(Vector3D::lerp(Vector3D(0, .3, 2), Vector3D(0, .3, -2), m_delta_pos));
+	cc.m_world *= temp;
+
 
 	temp.setIdentity();
-	temp.setRotationZ(m_delta_scale);
+	temp.setRotationZ(0);
 	cc.m_world *= temp;
-	
+
 	temp.setIdentity();
-	temp.setRotationY(m_delta_scale);
+	temp.setRotationY(10);
 	cc.m_world *= temp;
-	
+
 	temp.setIdentity();
-	temp.setRotationX(m_delta_scale);
+	temp.setRotationX(0);
 	cc.m_world *= temp;
 
 
@@ -82,11 +81,13 @@ void AppWindow::onCreate()
 
 	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
+	//m_sb = GraphicsEngine::get()->createStencilBuffer();
+	//m_sb->load(rc.right - rc.left, rc.bottom - rc.top, m_swap_chain);
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
-	
+
 
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
@@ -105,7 +106,8 @@ void AppWindow::onCreate()
 	//                         w     h     cx   cy    list
 	//quadList.push_back(Quads(0.3f, 0.3f, 0.6f, 0.6f,colors, colors2));
 	// //                       w     h     d     cx   cy     cz      list
-	cubeList.push_back(Cube(0.3f, 0.3f, 0.3f, 0.f, 0.f, 0.f, colors, colors2));
+	cubeList.push_back(Cube(0.3f, 0.3f, 0.3f, 0.f, 0.f, 0.0f, colors, colors2));
+	cubeList.push_back(Cube(0.5f, 0.1f, 0.3f, 0.f, 0.f, 0.6f, colors2, colors));
 	/*
 	quadList.push_back(Quads(0.4f, 0.2f, -0.6f, -0.3f, 0, 0, colors, colors2));
 	colors.clear();
@@ -124,7 +126,7 @@ void AppWindow::onCreate()
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].createBuffer(&shader_byte_code, &size_shader);
 	}*/
-	
+
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].createBuffer(&shader_byte_code, &size_shader);
 	}
@@ -146,9 +148,14 @@ void AppWindow::onCreate()
 
 void AppWindow::onUpdate()
 {
+
+
+	//GraphicsEngine::get()->getImmediateDeviceContext()->clearStencil(m_db, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		.4, 0.4, 0, 1);
+	//m_sb->clearView();
 
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
@@ -159,7 +166,7 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 
-
+	//m_sb->setDepthStencilState();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
@@ -167,7 +174,7 @@ void AppWindow::onUpdate()
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].draw();
 	}*/
-	
+
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw();
 	}

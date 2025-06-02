@@ -7,6 +7,7 @@ class SwapChain;
 class DeviceContext;
 class VertexBuffer;
 class ConstantBuffer;
+class StencilBuffer;
 class IndexBuffer;
 class VertexShader;
 class PixelShader;
@@ -26,12 +27,15 @@ public:
 	DeviceContext* getImmediateDeviceContext();
 	VertexBuffer* createVertexBuffer();
 	ConstantBuffer* createConstantBuffer();
+	StencilBuffer* createStencilBuffer();
 	IndexBuffer* createIndexBuffer();
 	VertexShader* createVertexShader(const void* shader_byte_code, size_t byte_code_size);
 	PixelShader* createPixelShader(const void* shader_byte_code, size_t byte_code_size);
 
 	//singleton
 	static GraphicsEngine* get();
+	ID3D11Device* getDevice();
+	ID3D11DeviceContext* getDeviceContext();
 
 private:
 	DeviceContext* m_imm_device_context;
@@ -60,5 +64,6 @@ private:
 	friend class PixelShader;
 	friend class ConstantBuffer;
 	friend class IndexBuffer;
+	friend class StencilBuffer;
 };
 

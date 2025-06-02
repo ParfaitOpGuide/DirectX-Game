@@ -5,6 +5,7 @@
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "StencilBuffer.h"
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
@@ -40,6 +41,7 @@ private:
 	PixelShader* m_ps;
 
 	ConstantBuffer* m_cb;
+	StencilBuffer* m_sb;
 
 
 	float m_old_delta;

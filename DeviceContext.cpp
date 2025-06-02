@@ -20,6 +20,7 @@ bool DeviceContext::clearRenderTargetColor(SwapChain* swap_chain, float red, flo
 	FLOAT clear_color[] = { red,green,blue,alpha };
 
 	m_device_context->ClearRenderTargetView(swap_chain->m_rtv, clear_color);
+
 	m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, NULL);
 
 	return false;
@@ -64,6 +65,8 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 {
 	D3D11_VIEWPORT vp = {};
 	vp.Width = width;
+	w = width;
+	h = height;
 	vp.Height = height;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
@@ -89,6 +92,11 @@ void DeviceContext::setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer*
 {
 	m_device_context->PSSetConstantBuffers(0, 1, &buffer->m_buffer);
 }
+/*
+void DeviceContext::clearStencil(ID3D11DepthStencilView* pDepthStencilView, UINT ClearFlags, FLOAT Depth, UINT8 Stencil)
+{
+	m_device_context->ClearDepthStencilView(pDepthStencilView, ClearFlags, Depth, Stencil);
+}*/
 
 
 bool DeviceContext::release()

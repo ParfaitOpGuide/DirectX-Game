@@ -3,6 +3,7 @@
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "StencilBuffer.h"
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
@@ -127,6 +128,16 @@ GraphicsEngine* GraphicsEngine::get()
 	return &engine;
 }
 
+ID3D11Device* GraphicsEngine::getDevice()
+{
+	return this->m_d3d_device;
+}
+
+ID3D11DeviceContext* GraphicsEngine::getDeviceContext()
+{
+	return this->m_imm_context;
+}
+
 VertexBuffer* GraphicsEngine::createVertexBuffer()
 {
 	return new VertexBuffer();
@@ -135,6 +146,11 @@ VertexBuffer* GraphicsEngine::createVertexBuffer()
 ConstantBuffer* GraphicsEngine::createConstantBuffer()
 {
 	return new ConstantBuffer();
+}
+
+StencilBuffer* GraphicsEngine::createStencilBuffer()
+{
+	return new StencilBuffer();
 }
 
 IndexBuffer* GraphicsEngine::createIndexBuffer()

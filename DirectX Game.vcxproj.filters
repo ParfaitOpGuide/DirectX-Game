@@ -46,6 +46,9 @@
     <Filter Include="GameEngine\GraphicsEngine\Shapes\Cube">
       <UniqueIdentifier>{7e2b6165-3997-4582-88e2-5ea7838c244d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\StencilBuffer">
+      <UniqueIdentifier>{7acf1c87-a6be-40ac-9095-ff564ac74a83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>GameEngine\GraphicsEngine\Shapes\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="StencilBuffer.cpp">
+      <Filter>GameEngine\GraphicsEngine\StencilBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>GameEngine\GraphicsEngine\Shapes\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="StencilBuffer.h">
+      <Filter>GameEngine\GraphicsEngine\StencilBuffer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

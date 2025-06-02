@@ -28,12 +28,18 @@ public:
 	void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* buffer);
 	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* buffer);
 
+
+
+	//void clearStencil(ID3D11DepthStencilView* pDepthStencilView, UINT ClearFlags, FLOAT Depth, UINT8 Stencil);
+
 	bool release();
-	
+
 
 private:
 	ID3D11DeviceContext* m_device_context;
 
 	friend class ConstantBuffer;
+	UINT w;
+	UINT h;
 };
 

@@ -4,6 +4,8 @@
 
 class DeviceContext;
 
+class StencilBuffer;
+
 class SwapChain
 {
 public:
@@ -19,5 +21,6 @@ private:
 
 private:
 	friend class DeviceContext;
+	friend class StencilBuffer;
 };
 
