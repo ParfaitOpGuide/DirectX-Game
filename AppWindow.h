@@ -11,6 +11,7 @@
 #include <vector>
 #include "Quads.h"
 #include "Cube.h"
+#include "Camera.h"
 
 class AppWindow : public Window
 {
@@ -51,5 +52,7 @@ private:
 
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};
+
+	Camera cam;
 };
 

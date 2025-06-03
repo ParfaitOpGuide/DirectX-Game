@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Vector3D.h"
+#include "Vector4D.h"
 
 
 class Matrix4x4
@@ -86,11 +87,11 @@ public:
 		m_mat[3][2] = -(near_plane / (far_plane - near_plane));
 	}
 
+
 	~Matrix4x4()
 	{
 
 	}
 
-private:
 	float m_mat[4][4] = { };
 };

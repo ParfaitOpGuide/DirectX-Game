@@ -44,7 +44,9 @@ void AppWindow::updateQuadPosition()
 	//cc.m_world *= temp;
 
 	cc.m_world.setScale(Vector3D(1, 1, 1));
-
+	cc.m_view = cam.GetViewMatrix4();
+	cc.m_proj = cam.GetProjectionMatrix4();
+	/*
 	temp.setIdentity();
 	temp.setRotationZ(m_delta_scale);
 	cc.m_world *= temp;
@@ -56,9 +58,10 @@ void AppWindow::updateQuadPosition()
 	temp.setIdentity();
 	temp.setRotationX(m_delta_scale);
 	cc.m_world *= temp;
+	*/
 
 
-
+	/*
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH
 	(
@@ -66,7 +69,7 @@ void AppWindow::updateQuadPosition()
 		(this->getClientWindowRect().bottom - this->getClientWindowRect().top) / 400.f,
 		-4.f,
 		4.f
-	);
+	);*/
 
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 }
@@ -105,7 +108,7 @@ void AppWindow::onCreate()
 	//                         w     h     cx   cy    list
 	//quadList.push_back(Quads(0.3f, 0.3f, 0.6f, 0.6f,colors, colors2));
 	// //                       w     h     d     cx   cy     cz      list
-	cubeList.push_back(Cube(0.3f, 0.3f, 0.3f, 0.f, 0.f, 0.f, colors, colors2));
+	cubeList.push_back(Cube(.3f, .3f, .3f, 0.f, 0.f, 0.f, colors, colors2));
 	/*
 	quadList.push_back(Quads(0.4f, 0.2f, -0.6f, -0.3f, 0, 0, colors, colors2));
 	colors.clear();
@@ -142,6 +145,9 @@ void AppWindow::onCreate()
 
 	m_cb = GraphicsEngine::get()->createConstantBuffer();
 	m_cb->load(&cc, sizeof(constant));
+
+	cam.SetPosition(0.0f, .0f, -1.0f);
+	cam.SetProjectionValues(90.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 }
 
 void AppWindow::onUpdate()
