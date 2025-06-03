@@ -1,7 +1,11 @@
 #pragma once
 #include <memory>
+#include <vector>
+#include <iostream>
 #include "Vector3D.h"
-
+#include "DirectXMath.h"
+using namespace std;
+using namespace DirectX;
 
 class Matrix4x4
 {
@@ -43,7 +47,7 @@ public:
 		m_mat[2][1] = -sin(x);
 		m_mat[2][2] = cos(x);
 	}
-	
+
 	void setRotationY(float y)
 	{
 		m_mat[0][0] = cos(y);
@@ -51,7 +55,7 @@ public:
 		m_mat[2][0] = sin(y);
 		m_mat[2][2] = cos(y);
 	}
-	
+
 	void setRotationZ(float z)
 	{
 		m_mat[0][0] = cos(z);
@@ -84,6 +88,21 @@ public:
 		m_mat[1][1] = 2.f / height;
 		m_mat[2][2] = 1.f / (far_plane - near_plane);
 		m_mat[3][2] = -(near_plane / (far_plane - near_plane));
+	}
+
+	XMMATRIX XMMatrixCopy(const Matrix4x4& matrix) {
+		XMMATRIX out(matrix.m_mat[0][0], matrix.m_mat[0][1], matrix.m_mat[0][2], matrix.m_mat[0][3],
+			matrix.m_mat[1][0], matrix.m_mat[1][1], matrix.m_mat[1][2], matrix.m_mat[1][3],
+			matrix.m_mat[2][0], matrix.m_mat[2][1], matrix.m_mat[2][2], matrix.m_mat[2][3],
+			matrix.m_mat[3][0], matrix.m_mat[3][1], matrix.m_mat[3][2], matrix.m_mat[3][3]);
+		/*
+		std::cout << "new matrix \n";
+		std::cout << matrix.m_mat[0][0] << " " << matrix.m_mat[0][1] << " " << matrix.m_mat[0][2] << " " << matrix.m_mat[0][3] << "\n" <<
+			matrix.m_mat[1][0] << " " << matrix.m_mat[1][1] << " " << matrix.m_mat[1][2] << " " << matrix.m_mat[1][3] << "\n" <<
+			matrix.m_mat[2][0] << " " << matrix.m_mat[2][1] << " " << matrix.m_mat[2][2] << " " << matrix.m_mat[2][3] << "\n" <<
+			matrix.m_mat[3][0] << " " << matrix.m_mat[3][1] << " " << matrix.m_mat[3][2] << " " << matrix.m_mat[3][3] << "\n";*/
+			return out;
+
 	}
 
 	~Matrix4x4()

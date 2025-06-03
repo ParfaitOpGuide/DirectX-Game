@@ -46,6 +46,9 @@
     <Filter Include="GameEngine\GraphicsEngine\Shapes\Cube">
       <UniqueIdentifier>{7e2b6165-3997-4582-88e2-5ea7838c244d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Input">
+      <UniqueIdentifier>{12577a7a-35d1-425a-976d-9394e6eb1e14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -87,6 +90,10 @@
     <ClCompile Include="Cube.cpp">
       <Filter>GameEngine\GraphicsEngine\Shapes\Cube</Filter>
     </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>GameEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4x4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -130,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>GameEngine\GraphicsEngine\Shapes\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>GameEngine\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

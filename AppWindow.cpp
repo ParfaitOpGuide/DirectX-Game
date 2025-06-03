@@ -2,7 +2,8 @@
 #include <Windows.h>
 #include "Vector3D.h"
 #include "Matrix4x4.h"
-
+#include "DirectXMath.h"
+using namespace DirectX;
 AppWindow* AppWindow::sharedInstance;
 
 __declspec(align(16))
@@ -21,6 +22,7 @@ AppWindow::AppWindow()
 AppWindow::~AppWindow()
 {
 }
+
 
 void AppWindow::updateQuadPosition()
 {
@@ -43,20 +45,21 @@ void AppWindow::updateQuadPosition()
 	//temp.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
 	//cc.m_world *= temp;
 
+	cc.m_world.setTranslation(Vector3D(1, 1, 1));
 	cc.m_world.setScale(Vector3D(1, 1, 1));
-
+	/*
 	temp.setIdentity();
 	temp.setRotationZ(m_delta_scale);
 	cc.m_world *= temp;
-	
+
 	temp.setIdentity();
 	temp.setRotationY(m_delta_scale);
 	cc.m_world *= temp;
-	
+
 	temp.setIdentity();
 	temp.setRotationX(m_delta_scale);
 	cc.m_world *= temp;
-
+	*/
 
 
 	cc.m_view.setIdentity();
@@ -68,11 +71,49 @@ void AppWindow::updateQuadPosition()
 		4.f
 	);
 
+	//random bullshit go
+	/*Matrix4x4 inverseviewproj;
+	temp.setIdentity();
+	temp *= cc.m_view;
+	temp *= cc.m_proj;
+	inverseviewproj.getInverse(temp);*/
+
+	XMVECTOR orig = XMVector3Unproject(XMVectorSet(Mouse::get()->mouseX, Mouse::get()->mouseY, 0.0f, 1),
+		0,
+		0,
+		(this->getClientWindowRect().right - this->getClientWindowRect().left),
+		(this->getClientWindowRect().bottom - this->getClientWindowRect().top),
+		0,
+		1,
+		cc.m_proj.XMMatrixCopy(cc.m_proj),
+		cc.m_view.XMMatrixCopy(cc.m_view),
+		cc.m_world.XMMatrixCopy(cc.m_world));
+
+	XMVECTOR  dest = XMVector3Unproject(XMVectorSet(Mouse::get()->mouseX, Mouse::get()->mouseY, 1.0f, 1),
+		0,
+		0,
+		(this->getClientWindowRect().right - this->getClientWindowRect().left),
+		(this->getClientWindowRect().bottom - this->getClientWindowRect().top),
+		0,
+		1,
+		cc.m_proj.XMMatrixCopy(cc.m_proj),
+		cc.m_view.XMMatrixCopy(cc.m_view),
+		cc.m_world.XMMatrixCopy(cc.m_world));
+
+	XMVECTOR direction = dest - orig;
+	XMVector3Normalize(direction);
+	XMVECTOR loc = (1, 1, 1) * (direction);
+	std::cout << XMVectorGetByIndex(direction, 0) << " " << XMVectorGetByIndex(direction, 1) << " " << XMVectorGetByIndex(direction, 2) << "\n";;
+//	std::cout << XMVectorGetByIndex(loc, 0) << " " << XMVectorGetByIndex(loc, 1) << " " << XMVectorGetByIndex(loc, 2) << "\n";
+	cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, XMVectorGetByIndex(loc,0), XMVectorGetByIndex(loc, 1), XMVectorGetByIndex(loc, 2), colors, colors2));
+	//cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, 0,0,0, colors, colors2));
+	cubeList.back().createBuffer(&vshader_byte_code, &vsize_shader);
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 }
 
 void AppWindow::onCreate()
 {
+
 	//Window::onCreate();
 	GraphicsEngine::get()->init();
 
@@ -83,16 +124,14 @@ void AppWindow::onCreate()
 	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
 
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
-
 	
 
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
-	std::vector<Vector3D> colors;
-	std::vector<Vector3D> colors2;
+
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &vshader_byte_code, &vsize_shader);
+	m_vs = GraphicsEngine::get()->createVertexShader(vshader_byte_code, vsize_shader);
+
+
 	colors.push_back(Vector3D(1, 0, 0));
 	colors.push_back(Vector3D(0, 1, 0));
 	colors.push_back(Vector3D(0, 0, 1));
@@ -124,14 +163,15 @@ void AppWindow::onCreate()
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].createBuffer(&shader_byte_code, &size_shader);
 	}*/
-	
+
 	for (int i = 0; i < cubeList.size();i++) {
-		cubeList[i].createBuffer(&shader_byte_code, &size_shader);
+		cubeList[i].createBuffer(&vshader_byte_code, &vsize_shader);
 	}
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
-
+	void* shader_byte_code = nullptr;
+	size_t size_shader = 0;
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 
@@ -146,13 +186,14 @@ void AppWindow::onCreate()
 
 void AppWindow::onUpdate()
 {
+
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		.4, 0.4, 0, 1);
 
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
-
+	Mouse::get()->updateMousePosition(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 	updateQuadPosition();
 
 
@@ -167,7 +208,7 @@ void AppWindow::onUpdate()
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].draw();
 	}*/
-	
+
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw();
 	}

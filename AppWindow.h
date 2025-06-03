@@ -11,6 +11,8 @@
 #include <vector>
 #include "Quads.h"
 #include "Cube.h"
+#include "Mouse.h"
+
 
 class AppWindow : public Window
 {
@@ -51,5 +53,11 @@ private:
 
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};
+
+	std::vector<Vector3D> colors;
+	std::vector<Vector3D> colors2;
+
+	void* vshader_byte_code = nullptr;
+	size_t vsize_shader = 0;
 };
 
