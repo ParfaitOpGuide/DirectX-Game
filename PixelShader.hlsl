@@ -1,10 +1,11 @@
 struct PS_INPUT
 {
     float4 pos : SV_POSITION;
-    float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texcoord : TEXCOORD0;
 };
 
+Texture2D Texture : register(t0);
+SamplerState gTextureSampler : register(s0);
 
 cbuffer constant : register(b0)
 {
@@ -16,5 +17,6 @@ cbuffer constant : register(b0)
 
 float4 psmain(PS_INPUT input) : SV_TARGET
 {
-    return float4(lerp(input.color, input.color1, (sin(m_time / 1000.f) + 1.f) / 2.f), 1.0f);
+     float4 diffuse_texture = Texture.Sample(gTextureSampler, input.texcoord);
+    return diffuse_texture;
 }

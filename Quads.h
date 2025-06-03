@@ -4,6 +4,7 @@
 #include "GraphicsEngine.h"
 #include "DeviceContext.h"
 #include "Vector3D.h"
+#include "Vector2D.h"
 #include "Matrix4x4.h"
 #include "Cube.h"
 

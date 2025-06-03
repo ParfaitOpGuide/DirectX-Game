@@ -1,6 +1,7 @@
 #include "AppWindow.h"
 #include <Windows.h>
 #include "Vector3D.h"
+#include "Vector2D.h"
 #include "Matrix4x4.h"
 
 AppWindow* AppWindow::sharedInstance;
@@ -108,7 +109,8 @@ void AppWindow::onCreate()
 	//                         w     h     cx   cy    list
 	//quadList.push_back(Quads(0.3f, 0.3f, 0.6f, 0.6f,colors, colors2));
 	// //                       w     h     d     cx   cy     cz      list
-	cubeList.push_back(Cube(.3f, .3f, .3f, 0.f, 0.f, 0.f, colors, colors2));
+	//cubeList.push_back(Cube(.3f, .3f, .3f, 0.f, 0.f, 0.f, colors, colors2));
+	cubeList.push_back(Cube());
 	/*
 	quadList.push_back(Quads(0.4f, 0.2f, -0.6f, -0.3f, 0, 0, colors, colors2));
 	colors.clear();
@@ -146,7 +148,8 @@ void AppWindow::onCreate()
 	m_cb = GraphicsEngine::get()->createConstantBuffer();
 	m_cb->load(&cc, sizeof(constant));
 
-	cam.SetPosition(0.0f, .0f, -1.0f);
+	cam.SetPosition(-2.0f, .0f, -.1f);
+	cam.SetRotation(XMVectorSet(0,1.6,0,0));
 	cam.SetProjectionValues(90.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 }
 

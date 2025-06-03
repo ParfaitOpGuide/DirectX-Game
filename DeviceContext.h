@@ -25,6 +25,9 @@ public:
 	void setVertexShader(VertexShader* vertex_shader);
 	void setPixelShader(PixelShader* pixel_shader);
 
+	//void setTexture(VertexShader* vertex_shader, ConstantBuffer* buffer);
+//	void setTexture(PixelShader* pixel_shader, ConstantBuffer* buffer);
+
 	void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* buffer);
 	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* buffer);
 

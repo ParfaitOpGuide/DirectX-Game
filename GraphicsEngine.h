@@ -32,6 +32,8 @@ public:
 
 	//singleton
 	static GraphicsEngine* get();
+	ID3D11Device* getDevice();
+	ID3D11DeviceContext* getDeviceContext();
 
 private:
 	DeviceContext* m_imm_device_context;
