@@ -58,5 +58,5 @@ public:
 	};
 
 	void LoadTexture();
-	ComPtr<ID3D11ShaderResourceView> m_DiffuseTexture = nullptr;
+	ComPtr<ID3D11ShaderResourceView> diffTex = nullptr;
 };

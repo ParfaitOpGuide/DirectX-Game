@@ -4,8 +4,8 @@ struct PS_INPUT
     float2 texcoord : TEXCOORD0;
 };
 
-Texture2D Texture : register(t0);
-SamplerState gTextureSampler : register(s0);
+Texture2D tex : register(t0);
+SamplerState texsampler : register(s0);
 
 cbuffer constant : register(b0)
 {
@@ -17,6 +17,6 @@ cbuffer constant : register(b0)
 
 float4 psmain(PS_INPUT input) : SV_TARGET
 {
-     float4 diffuse_texture = Texture.Sample(gTextureSampler, input.texcoord);
+     float4 diffuse_texture = tex.Sample(texsampler, input.texcoord);
     return diffuse_texture;
 }

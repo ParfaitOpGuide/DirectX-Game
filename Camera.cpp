@@ -16,11 +16,6 @@ void Camera::SetProjectionValues(float fovDegrees, float aspectRatio, float near
 	this->projectionMatrix = XMMatrixPerspectiveFovLH(fovRadians, aspectRatio, nearZ, farZ);
 }
 
-const XMMATRIX& Camera::GetViewMatrix() const
-{
-	return this->viewMatrix;
-}
-
 const Matrix4x4& Camera::GetViewMatrix4()
 {
 
@@ -37,12 +32,6 @@ const Matrix4x4& Camera::GetViewMatrix4()
 	}
 	return out;
 }
-
-const XMMATRIX& Camera::GetProjectionMatrix() const
-{
-	return this->projectionMatrix;
-}
-
 const Matrix4x4& Camera::GetProjectionMatrix4()
 {
 	XMFLOAT4X4 tmp;
@@ -59,26 +48,6 @@ const Matrix4x4& Camera::GetProjectionMatrix4()
 	return out;
 }
 
-const XMVECTOR& Camera::GetPositionVector() const
-{
-	return this->posVector;
-}
-
-const XMFLOAT3& Camera::GetPositionFloat3() const
-{
-	return this->pos;
-}
-
-const XMVECTOR& Camera::GetRotationVector() const
-{
-	return this->rotVector;
-}
-
-const XMFLOAT3& Camera::GetRotationFloat3() const
-{
-	return this->rot;
-}
-
 void Camera::SetPosition(const XMVECTOR& pos)
 {
 	XMStoreFloat3(&this->pos, pos);
@@ -89,22 +58,6 @@ void Camera::SetPosition(const XMVECTOR& pos)
 void Camera::SetPosition(float x, float y, float z)
 {
 	this->pos = XMFLOAT3(x, y, z);
-	this->posVector = XMLoadFloat3(&this->pos);
-	this->UpdateViewMatrix();
-}
-
-void Camera::AdjustPosition(const XMVECTOR& pos)
-{
-	this->posVector += pos;
-	XMStoreFloat3(&this->pos, this->posVector);
-	this->UpdateViewMatrix();
-}
-
-void Camera::AdjustPosition(float x, float y, float z)
-{
-	this->pos.x += x;
-	this->pos.y += y;
-	this->pos.z += z;
 	this->posVector = XMLoadFloat3(&this->pos);
 	this->UpdateViewMatrix();
 }
@@ -123,27 +76,11 @@ void Camera::SetRotation(float x, float y, float z)
 	this->UpdateViewMatrix();
 }
 
-void Camera::AdjustRotation(const XMVECTOR& rot)
-{
-	this->rotVector += rot;
-	XMStoreFloat3(&this->rot, this->rotVector);
-	this->UpdateViewMatrix();
-}
-
-void Camera::AdjustRotation(float x, float y, float z)
-{
-	this->rot.x += x;
-	this->rot.y += y;
-	this->rot.z += z;
-	this->rotVector = XMLoadFloat3(&this->rot);
-	this->UpdateViewMatrix();
-}
-
 void Camera::UpdateViewMatrix()
 {
 	XMMATRIX camRotationMatrix = XMMatrixRotationRollPitchYaw(this->rot.x, this->rot.y, this->rot.z);
-	XMVECTOR camTarget = XMVector3TransformCoord(this->DEFAULT_FORWARD_VECTOR, camRotationMatrix);
+	XMVECTOR camTarget = XMVector3TransformCoord(this->FORWARD, camRotationMatrix);
 	camTarget += this->posVector;
-	XMVECTOR upDir = XMVector3TransformCoord(this->DEFAULT_UP_VECTOR, camRotationMatrix);
+	XMVECTOR upDir = XMVector3TransformCoord(this->UP, camRotationMatrix);
 	this->viewMatrix = XMMatrixLookAtLH(this->posVector, camTarget, upDir);
 }

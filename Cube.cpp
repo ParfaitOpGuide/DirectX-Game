@@ -10,6 +10,8 @@ Cube::Cube()
 	list[1] = { Vector3D(+0.5f, +0.5f, 0.0f), Vector2D(1.0f, 1.0f) }; // Top right vertex
 	list[2] = { Vector3D(+0.5f, -0.5f, 0.0f), Vector2D(1.0f, 0.0f) }; // Bottom Right vertex
 	list[3] = { Vector3D(-0.5f, -0.5f, 0.0f), Vector2D(0.0f, 0.0f) }; // Bottom left vertex
+
+	LoadTexture();
 }
 
 Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, std::vector<Vector3D> colors, std::vector<Vector3D> colors2)
@@ -82,7 +84,7 @@ void Cube::draw()
 
 void Cube::createBuffer(void** shader_byte_code, size_t* size_shader)
 {
-	std::cout << "a";
+	//std::cout << "a";
 
 
 
@@ -103,19 +105,19 @@ void Cube::destroy()
 void Cube::LoadTexture()
 {
 	std::wstring path = L"Wood_Crate_001_basecolor.jpg";
-	bool filepathExists = std::filesystem::is_directory(path);
+	bool filepathExists = std::filesystem::exists(path);
 	if (!filepathExists) {
 		{
 			std::cout << "Could not load file";
 			return;
 		}
 	}
-	// Load texture into a resource shader view
+	
 	ID3D11Device* device = GraphicsEngine::get()->getDevice();
 	ID3D11DeviceContext* context = GraphicsEngine::get()->getDeviceContext();
 
 	ComPtr<ID3D11Resource> resource = nullptr;
-	DirectX::CreateWICTextureFromFile(device, context, path.c_str(), resource.ReleaseAndGetAddressOf(), m_DiffuseTexture.ReleaseAndGetAddressOf());
+	DirectX::CreateWICTextureFromFile(device, context, path.c_str(), resource.ReleaseAndGetAddressOf(), diffTex.ReleaseAndGetAddressOf());
 	if (resource == nullptr) {
 		{
 			std::cout << "broken";
