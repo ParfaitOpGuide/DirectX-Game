@@ -77,7 +77,7 @@ void AppWindow::onCreate()
 	GraphicsEngine::get()->init();
 
 	m_swap_chain = GraphicsEngine::get()->createSwapChain();
-
+	
 	RECT rc = this->getClientWindowRect();
 
 	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
@@ -142,6 +142,10 @@ void AppWindow::onCreate()
 
 	m_cb = GraphicsEngine::get()->createConstantBuffer();
 	m_cb->load(&cc, sizeof(constant));
+
+	m_raster = GraphicsEngine::get()->createRasterState();
+
+	m_raster->Use();
 }
 
 void AppWindow::onUpdate()
@@ -155,7 +159,7 @@ void AppWindow::onUpdate()
 
 	updateQuadPosition();
 
-
+	
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 
