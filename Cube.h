@@ -67,4 +67,6 @@ public:
 	float animation_speed = 1000.0f;
 	float change_speed = 5.0f;
 	bool increasing;
+	float rotSpeed;
+
 };

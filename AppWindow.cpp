@@ -52,9 +52,10 @@ void AppWindow::onCreate()
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
 	srand(time(0));
+	float r = 0.0f;
 	for (int i = 0; i < 100; i++) {
 		// //                       w     h     d     cx   cy     cz      list
-		cubeList.push_back(Cube(0.3f, 0.3f, 0.3f, ((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1, 0.0f, colors, colors2, "cube"));
+		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors2, "cube"));
 	}
 
 
@@ -105,9 +106,11 @@ void AppWindow::onUpdate()
 
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime());
+	/* moving sample
 		Vector3D pos = cubeList[i].getLocalPosition();
 		pos.m_y += 0.001f;
 		cubeList[i].setPosition(pos);
+		*/
 	}
 
 	m_swap_chain->present(true);

@@ -16,7 +16,7 @@ void RasterState::Use()
 	ID3D11DeviceContext* context = GraphicsEngine::get()->m_imm_context;
 	
 	if (m_RenderWireframe)
-	{std::cout << "b\n";
+	{
 		context->RSSetState(m_RasterStateWireframe.Get());
 	}
 	else
@@ -75,5 +75,5 @@ void RasterState::CreateRasterStateWireframe()
 	{
 		std::cout << "failed to make raterizerstate\n";
 	}
-	std::cout << "rast\n";
+
 }

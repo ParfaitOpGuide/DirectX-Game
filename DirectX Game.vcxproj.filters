@@ -46,6 +46,12 @@
     <Filter Include="GameEngine\GraphicsEngine\Shapes\Cube">
       <UniqueIdentifier>{7e2b6165-3997-4582-88e2-5ea7838c244d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\EngineTime">
+      <UniqueIdentifier>{55185e04-d8ef-46ab-8274-89001ed20a73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RasterState">
+      <UniqueIdentifier>{f9f0ba28-295f-4135-8044-16a4c7c3de8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +92,15 @@
     </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>GameEngine\GraphicsEngine\Shapes\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="AGameObject.cpp">
+      <Filter>GameEngine\GraphicsEngine\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineTime.cpp">
+      <Filter>GameEngine\GraphicsEngine\EngineTime</Filter>
+    </ClCompile>
+    <ClCompile Include="RasterState.cpp">
+      <Filter>GameEngine\GraphicsEngine\RasterState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +145,15 @@
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>GameEngine\GraphicsEngine\Shapes\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="AGameObject.h">
+      <Filter>GameEngine\GraphicsEngine\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineTime.h">
+      <Filter>GameEngine\GraphicsEngine\EngineTime</Filter>
+    </ClInclude>
+    <ClInclude Include="RasterState.h">
+      <Filter>GameEngine\GraphicsEngine\RasterState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
