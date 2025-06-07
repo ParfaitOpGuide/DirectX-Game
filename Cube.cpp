@@ -1,16 +1,21 @@
 #include "Cube.h"
 #include <iostream>
 #include "IndexBuffer.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
+#include "EngineTime.h"
 
 
-Cube::Cube()
+Cube::Cube() :AGameObject("default")
 {
 }
 
-Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, std::vector<Vector3D> colors, std::vector<Vector3D> colors2)
+Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name) : AGameObject(name)
 {
 
-	//note for future use, just take a vec of vec3s
+
+	this->setPosition(centerx, centery, centerz);
+	this->setScale(width, height, depth);
 
 	//back bottom left
 	list[0] = { Vector3D(centerx - width / 2, centery - height / 2, centerz - depth / 2),  colors[0], colors2[0] };
@@ -31,20 +36,70 @@ Cube::Cube(float width, float height, float depth, float centerx, float centery,
 
 }
 
-void Cube::draw()
+void Cube::update(float deltaTime, float width, float height)
 {
+	constant cc;
+	cc.m_time = ::GetTickCount();
+
+	Matrix4x4 temp;
+
+	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
+	//cc.m_world.setScale(Vector3D::lerp(Vector3D(.5, .5, 0), Vector3D(2, 2, 0), (sin(m_delta_scale) + 1.f) / 2.f));
+
+	//temp.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
+	//cc.m_world *= temp;
+	cc.m_world.setTranslation(Vector3D(0, 0, 0));
+	cc.m_world.setScale(Vector3D(1, 1, 1));
+	/*
+	temp.setIdentity();
+	temp.setRotationZ(m_delta_scale);
+	cc.m_world *= temp;
+
+	temp.setIdentity();
+	temp.setRotationY(m_delta_scale);
+	cc.m_world *= temp;
+
+	temp.setIdentity();
+	temp.setRotationX(m_delta_scale);
+	cc.m_world *= temp;
+
+	*/
+
+	cc.m_view.setIdentity();
+	cc.m_proj.setOrthoLH
+	(
+		width / 400.f,
+		height / 400.f,
+		-4.f,
+		4.f
+	);
+
+	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
+}
+
+void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime)
+{
+	update(deltaTime, width, height);
+	m_time += animation_speed * deltaTime;
+	constant cc;
+	cc.m_time = m_time;
+
 	//handles drawing
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
 }
 
 void Cube::createBuffer(void** shader_byte_code, size_t* size_shader)
 {
 	std::cout << "a";
+	constant cc;
+	cc.m_time = 0;
 
-	
-	
+	m_cb = GraphicsEngine::get()->createConstantBuffer();
+	m_cb->load(&cc, sizeof(constant));
 
 	m_ib = GraphicsEngine::get()->createIndexBuffer();
 	m_ib->load(index_list, ARRAYSIZE(index_list));
@@ -57,4 +112,5 @@ void Cube::destroy()
 {
 	m_vb->release();
 	m_ib->release();
+	m_cb->release();
 }
