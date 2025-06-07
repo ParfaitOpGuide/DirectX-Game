@@ -4,11 +4,14 @@
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include <vector>
 #include "Quads.h"
+#include "Cube.h"
+#include "RasterState.h"
 
 class AppWindow : public Window
 {
@@ -37,15 +40,13 @@ private:
 	VertexShader* m_vs;
 	PixelShader* m_ps;
 
-	ConstantBuffer* m_cb;
+	
+	RasterState* m_raster;
 
-	float m_old_delta;
-	float m_new_delta;
-	float m_delta_time;
 
-	float m_delta_pos;
-	float m_delta_scale;
+
 
 	std::vector<Quads> quadList = {};
+	std::vector<Cube> cubeList = {};
 };
 
