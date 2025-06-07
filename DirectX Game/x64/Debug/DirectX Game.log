@@ -1,2 +1,9 @@
-﻿  VertexBuffer.cpp
+﻿  AppWindow.cpp
+E:\VSC\Y3T3 ENG03\DirectX Game\AppWindow.cpp(72,64): warning C4267: 'argument': conversion from 'size_t' to 'UINT', possible loss of data
+E:\VSC\Y3T3 ENG03\DirectX Game\AppWindow.cpp(95,7): warning C4305: 'argument': truncation from 'double' to 'float'
+E:\VSC\Y3T3 ENG03\DirectX Game\AppWindow.cpp(95,3): warning C4305: 'argument': truncation from 'double' to 'float'
+E:\VSC\Y3T3 ENG03\DirectX Game\AppWindow.cpp(114,28): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+E:\VSC\Y3T3 ENG03\DirectX Game\AppWindow.cpp(116,14): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+  main.cpp
+  Generating Code...
   DirectX Game.vcxproj -> E:\VSC\Y3T3 ENG03\DirectX Game\x64\Debug\DirectX Game.exe

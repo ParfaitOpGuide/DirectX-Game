@@ -2,6 +2,7 @@
 #define UNICODE
 #endif
 #include "Window.h"
+#include "EngineTime.h"
 #include <string>
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -78,6 +79,8 @@ bool Window::init() {
 
 bool Window::broadcast()
 {
+	EngineTime::LogFrameStart();
+
 	MSG msg;
 
 	this->onUpdate();
@@ -90,7 +93,7 @@ bool Window::broadcast()
 
 
 	Sleep(1);
-
+	EngineTime::LogFrameEnd();
 	return true;
 }
 

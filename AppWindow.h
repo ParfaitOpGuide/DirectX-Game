@@ -26,5 +26,10 @@ private:
 	PixelShader* m_ps;
 
 	ConstantBuffer* m_cb;
+
+	float m_time = 0;
+	float animation_speed = 1000.0f;
+	float change_speed = 5.0f;
+	bool increasing;
 };
 

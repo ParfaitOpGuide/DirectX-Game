@@ -1,4 +1,5 @@
 #include "AppWindow.h"
+#include "EngineTime.h"
 #include <Windows.h>
 
 struct vec3
@@ -15,7 +16,7 @@ struct vertex
 };
 
 __declspec(align(16))
-struct constant 
+struct constant
 {
 	unsigned int m_time;
 };
@@ -41,11 +42,11 @@ void AppWindow::onCreate()
 
 	vertex list[] =
 	{
-		{-0.8f, -0.5f, 0.0f, -0.32f, -0.11f, 0.0f, 1,0,0, 0,1,0},
-		{-0.8f, 0.5f, 0.0f,  -0.11f, 0.78f, 0.0f,  0,1,0, 0,0,1},
-		{0.8f, -0.5f, 0.0f,  0.75f, -0.73f, 0.0f,  0,0,1, 1,0,1},
-		{0.8f, 0.5f, 0.0f,   0.88f, 0.77f, 0.0f,   1,1,0, 0,1,1}
-	
+		{-0.7f, -0.9f, 0.0f, -0.22f, -0.11f, 0.0f, 1,0,0, 0,1,0},
+		{-0.9f, 0.2f, 0.0f,  -0.01f, 0.78f, 0.0f,  0,1,0, 0,0,1},
+		{0.8f, -0.3f, 0.0f,  0.0f, -0.73f, 0.0f,  0,0,1, 1,0,1},
+		{-0.7f, -0.9f, 0.0f,   0.88f, 0.77f, 0.0f,   1,1,0, 0,1,1}
+
 
 		/*
 		{-0.5f, -0.5f, 0.0f, 1,0,0},
@@ -67,7 +68,7 @@ void AppWindow::onCreate()
 	size_t size_shader = 0;
 
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs=GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
 
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -75,7 +76,7 @@ void AppWindow::onCreate()
 
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
-	
+
 	GraphicsEngine::get()->releaseCompiledShader();
 
 	constant cc;
@@ -83,6 +84,8 @@ void AppWindow::onCreate()
 
 	m_cb = GraphicsEngine::get()->createConstantBuffer();
 	m_cb->load(&cc, sizeof(constant));
+
+	EngineTime::initialize();
 }
 
 void AppWindow::onUpdate()
@@ -93,9 +96,25 @@ void AppWindow::onUpdate()
 
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+	/*
+	if (animation_speed > 6000)
+		increasing = false;
+
+	if (animation_speed < 100)
+		increasing = true;
 	
+
+	if (increasing)
+		animation_speed += change_speed;
+	else animation_speed -= change_speed;
+*/
+	
+
+
+	m_time += animation_speed * EngineTime::getDeltaTime();
 	constant cc;
-	cc.m_time = ::GetTickCount();
+	cc.m_time = m_time;
+
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
