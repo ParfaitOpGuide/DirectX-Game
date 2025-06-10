@@ -42,7 +42,7 @@ private:
 
 	
 	RasterState* m_raster;
-
+	Camera cam;
 
 
 

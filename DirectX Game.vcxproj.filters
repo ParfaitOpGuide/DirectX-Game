@@ -52,6 +52,9 @@
     <Filter Include="GameEngine\GraphicsEngine\RasterState">
       <UniqueIdentifier>{f9f0ba28-295f-4135-8044-16a4c7c3de8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Camera">
+      <UniqueIdentifier>{1a4708e3-2333-4b62-8366-f1fb902cc904}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="RasterState.cpp">
       <Filter>GameEngine\GraphicsEngine\RasterState</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameEngine\GraphicsEngine\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="RasterState.h">
       <Filter>GameEngine\GraphicsEngine\RasterState</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameEngine\GraphicsEngine\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

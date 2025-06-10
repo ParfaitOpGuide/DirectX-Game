@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3D.h"
+#include "Camera.h"
 #include<string>
 using namespace std;
 class VertexShader;
@@ -10,8 +11,8 @@ public:
 	AGameObject(string name);
 	~AGameObject();
 
-	virtual void update(float deltaTime, float width, float height) = 0;
-	virtual void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime)=0;
+	virtual void update(float deltaTime, float width, float height, Camera cam) = 0;
+	virtual void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, Camera cam)=0;
 
 	void setPosition(float x, float y, float z);
 	void setPosition(Vector3D pos);

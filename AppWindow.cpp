@@ -4,6 +4,7 @@
 #include "Matrix4x4.h"
 #include "EngineTime.h"
 #include <cstdlib>
+#include <DirectXMath.h>
 
 AppWindow* AppWindow::sharedInstance;
 
@@ -71,12 +72,17 @@ void AppWindow::onCreate()
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
-
-
+	/*
+	cam.SetPosition(-2.0f, .0f, -.1f);
+	cam.SetRotation(DirectX::XMVectorSet(0, 1.6, 0, 0));
+	*/
+	cam.SetPosition(0.0f, .0f, -1.0f);
+	cam.SetRotation(DirectX::XMVectorSet(0, 0, 0, 0));
+	cam.SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 
 
 	m_raster = GraphicsEngine::get()->createRasterState();
-	m_raster->Use();
+	m_raster->use();
 
 	EngineTime::initialize();
 }
@@ -90,12 +96,6 @@ void AppWindow::onUpdate()
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	//	updateQuadPosition();
-
-
-
-
-
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
@@ -105,7 +105,7 @@ void AppWindow::onUpdate()
 	}*/
 
 	for (int i = 0; i < cubeList.size();i++) {
-		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime());
+		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
 	/* moving sample
 		Vector3D pos = cubeList[i].getLocalPosition();
 		pos.m_y += 0.001f;

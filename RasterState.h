@@ -12,19 +12,16 @@ public:
 	RasterState();
 	~RasterState();
 
-	// Bind the raster state to the pipeline
-	void Use();
-
-	// Toggle between solid and wireframe
-	void ToggleWireframe();
+	void use();
+	void toggleWireframe();
 
 private:
-	bool m_RenderWireframe = false;
+	bool m_RenderWireframe = true;
 
 	ComPtr<ID3D11RasterizerState> m_RasterStateSolid = nullptr;
-	void CreateRasterStateSolid();
+	void createRasterStateSolid();
 
 	ComPtr<ID3D11RasterizerState> m_RasterStateWireframe = nullptr;
-	void CreateRasterStateWireframe();
+	void createRasterStateWireframe();
 };
 

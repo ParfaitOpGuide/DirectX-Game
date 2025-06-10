@@ -7,7 +7,7 @@
 #include "DeviceContext.h"
 #include "Vector3D.h"
 #include "Matrix4x4.h"
-
+#include "Camera.h"
 
 __declspec(align(16))
 struct constant
@@ -33,8 +33,8 @@ public:
 	//different class needed for triangles in the future
 	Cube(float width, float height, float depth, float centerx, float centery, float centerz, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name);
 
-	void update(float deltaTime, float width, float height);
-	void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime);
+	void update(float deltaTime, float width, float height, Camera cam);
+	void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, Camera cam);
 	void createBuffer(void** shader_byte_code, size_t* size_shader);
 	void destroy();
 

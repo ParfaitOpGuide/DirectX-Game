@@ -6,6 +6,7 @@
 #include "EngineTime.h"
 
 
+
 Cube::Cube() :AGameObject("default")
 {
 }
@@ -50,7 +51,7 @@ Cube::Cube(float width, float height, float depth, float centerx, float centery,
 	
 }
 
-void Cube::update(float deltaTime, float width, float height)
+void Cube::update(float deltaTime, float width, float height, Camera cam)
 {
 	constant cc;
 
@@ -82,7 +83,7 @@ void Cube::update(float deltaTime, float width, float height)
 	temp.setIdentity();
 	temp.setTranslation(Vector3D(this->getLocalPosition().m_x, this->getLocalPosition().m_y, this->getLocalPosition().m_z));
 	cc.m_world *= temp;
-
+	/*
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH
 	(
@@ -90,14 +91,17 @@ void Cube::update(float deltaTime, float width, float height)
 		height / 400.f,
 		-4.f,
 		4.f
-	);
+	);*/
+
+	cc.m_view = cam.GetViewMatrix4();
+	cc.m_proj = cam.GetProjectionMatrix4();
 
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 }
 
-void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime)
+void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, Camera cam)
 {
-	update(deltaTime, width, height);
+	update(deltaTime, width, height, cam);
 	m_time += animation_speed * deltaTime;
 	constant cc;
 	cc.m_time = m_time;
