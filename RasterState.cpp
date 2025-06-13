@@ -39,10 +39,6 @@ void RasterState::createRasterStateSolid()
 	rasterizerState.FillMode = D3D11_FILL_SOLID;
 	rasterizerState.DepthClipEnable = true;
 	rasterizerState.FrontCounterClockwise = true;
-	rasterizerState.MultisampleEnable = true;
-	rasterizerState.DepthBias = 0;
-	rasterizerState.DepthBiasClamp = 1.0f;
-	rasterizerState.SlopeScaledDepthBias = 1.0f;
 
 	ID3D11Device* device = GraphicsEngine::get()->m_d3d_device;
 	HRESULT res;
@@ -61,10 +57,6 @@ void RasterState::createRasterStateWireframe()
 	rasterizerState.FillMode = D3D11_FILL_WIREFRAME;
 	rasterizerState.DepthClipEnable = true;
 	rasterizerState.FrontCounterClockwise = true;
-	rasterizerState.MultisampleEnable = true;
-	rasterizerState.DepthBias = 0;
-	rasterizerState.DepthBiasClamp = 1.0f;
-	rasterizerState.SlopeScaledDepthBias = 1.0f;
 
 	ID3D11Device* device = GraphicsEngine::get()->m_d3d_device;
 	HRESULT res;
