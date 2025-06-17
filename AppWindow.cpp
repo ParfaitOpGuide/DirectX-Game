@@ -5,6 +5,9 @@
 #include "EngineTime.h"
 #include <cstdlib>
 #include <DirectXMath.h>
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_dx11.h"
 
 AppWindow* AppWindow::sharedInstance;
 
@@ -89,12 +92,28 @@ void AppWindow::onCreate()
 
 	m_raster = GraphicsEngine::get()->createRasterState();
 	m_raster->use();
-	
+
 	EngineTime::initialize();
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	ImGui_ImplWin32_Init(this->m_hwnd);
+	ImGui_ImplDX11_Init(GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getDeviceContext());
+
+
 }
 
 void AppWindow::onUpdate()
 {
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	ImGui::ShowDemoWindow();
+
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		.4, 0.4, 0, 1);
@@ -110,18 +129,21 @@ void AppWindow::onUpdate()
 
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
-	/* moving sample
+	
 		Vector3D pos = cubeList[i].getLocalPosition();
 		pos.m_y += 0.001f;
 		cubeList[i].setPosition(pos);
-		*/
+		
 	}
 for (int i = 0; i < quadList.size();i++) {
 		quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
 	}
 	m_swap_chain->present(true);
 
+	
 
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
 void AppWindow::onDestroy()
@@ -141,6 +163,10 @@ void AppWindow::onDestroy()
 	}
 
 	GraphicsEngine::get()->release();
+
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void AppWindow::initialize()
