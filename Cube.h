@@ -9,28 +9,12 @@
 #include "Matrix4x4.h"
 #include "Camera.h"
 
-__declspec(align(16))
-struct constant
-{
-	Matrix4x4 m_world;
-	Matrix4x4 m_view;
-	Matrix4x4 m_proj;
-	unsigned int m_time;
-};
 
-struct vertex
-{
-	Vector3D position;
-	Vector3D color;
-	Vector3D color1;
-};
 
 class Cube : public AGameObject
 {
 public:
 	Cube();
-	//constructor that makes it so we only need to give our center and size for recs and squares
-	//different class needed for triangles in the future
 	Cube(float width, float height, float depth, float centerx, float centery, float centerz, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name);
 
 	void update(float deltaTime, float width, float height, Camera cam);
