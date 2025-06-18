@@ -5,6 +5,7 @@
 #include "EngineTime.h"
 #include <cstdlib>
 #include <DirectXMath.h>
+#include"InputSystem.h"
 
 AppWindow* AppWindow::sharedInstance;
 
@@ -24,6 +25,10 @@ void AppWindow::updateQuadPosition()
 void AppWindow::onCreate()
 {
 	//Window::onCreate();
+
+	InputSystem::get()->addListener(this);
+
+
 	GraphicsEngine::get()->init();
 
 	m_swap_chain = GraphicsEngine::get()->createSwapChain();
@@ -32,11 +37,8 @@ void AppWindow::onCreate()
 
 	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
-
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
-
-
 
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
@@ -52,8 +54,7 @@ void AppWindow::onCreate()
 	colors2.push_back(Vector3D(1, 1, 0));
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
-	srand(time(0));
-	float r = 0.0f;
+
 	/*
 	for (int i = 0; i < 100; i++) {
 		// //                       w     h     d     cx   cy     cz      list
@@ -61,13 +62,17 @@ void AppWindow::onCreate()
 	}*/
 
 	quadList.push_back(Quads(0.6f, 0.6f, 0.6f, .0f, 0.0f, 0.f, colors, colors2, "quad"));
+	quadList[0].createBuffer(&shader_byte_code, &size_shader);
+
 	cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, .0f, 0.0f, 0.0f, colors, colors2, "cube"));
+	cubeList[0].createBuffer(&shader_byte_code, &size_shader);
 	//cubeList.push_back(Cube(0.6f, 0.01f, 0.6f, .0f, 0.0f, 0.0f, colors, colors2, "cube2"));
+	//std::cout<< cubeList.size() << "\n";
 	for (int i = 0; i < quadList.size();i++) {
-		quadList[i].createBuffer(&shader_byte_code, &size_shader);
+		quadList[i].createBuffer(quadList[0]);
 	}
 	for (int i = 0; i < cubeList.size();i++) {
-		cubeList[i].createBuffer(&shader_byte_code, &size_shader);
+		cubeList[i].createBuffer(cubeList[0]);
 	}
 
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -95,6 +100,8 @@ void AppWindow::onCreate()
 
 void AppWindow::onUpdate()
 {
+	InputSystem::get()->update();
+
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		.4, 0.4, 0, 1);
@@ -131,16 +138,39 @@ void AppWindow::onDestroy()
 	m_vs->release();
 	m_ps->release();
 
+		quadList[0].destroy();
+		cubeList[0].destroy();
 	
-	for (int i = 0; i < quadList.size();i++) {
-		quadList[i].destroy();
-	}
-
-	for (int i = 0; i < cubeList.size();i++) {
-		cubeList[i].destroy();
-	}
 
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::onKeyDown(int key)
+{
+	std::vector<Vector3D> colors;
+	std::vector<Vector3D> colors2;
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+
+	colors2.push_back(Vector3D(1, 0, 1));
+	colors2.push_back(Vector3D(1, 1, 0));
+	colors2.push_back(Vector3D(1, 0, 1));
+	colors2.push_back(Vector3D(0, 1, 0));
+	if (key == 'W')
+	{
+		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors, "cube"));
+		cubeList[cubeList.size() - 1].createBuffer(cubeList[0]);
+	}
+	else if (key == 'S')
+	{
+
+	}
+}
+
+void AppWindow::onKeyUp(int key)
+{
 }
 
 void AppWindow::initialize()

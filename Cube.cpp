@@ -116,7 +116,7 @@ void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps
 
 void Cube::createBuffer(void** shader_byte_code, size_t* size_shader)
 {
-	//std::cout << "a";
+	std::cout << "a";
 	constant cc;
 	cc.m_time = 0;
 
@@ -128,6 +128,19 @@ void Cube::createBuffer(void** shader_byte_code, size_t* size_shader)
 
 	m_vb = GraphicsEngine::get()->createVertexBuffer();
 	m_vb->load(list, sizeof(vertex), ARRAYSIZE(list), *shader_byte_code, *size_shader);
+}
+
+void Cube::createBuffer(Cube copy)
+{
+	//std::cout << "a";
+	constant cc;
+	cc.m_time = 0;
+
+	m_cb = copy.m_cb;
+
+	m_ib = copy.m_ib;
+
+	m_vb = copy.m_vb;
 }
 
 void Cube::destroy()

@@ -104,6 +104,19 @@ void Quads::createBuffer(void** shader_byte_code, size_t* size_shader)
 	m_vb->load(list, sizeof(vertex), ARRAYSIZE(list), *shader_byte_code, *size_shader);
 }
 
+void Quads::createBuffer(Quads copy)
+{
+	//std::cout << "a";
+	constant cc;
+	cc.m_time = 0;
+
+	m_cb = copy.m_cb;
+
+	m_ib = copy.m_ib;
+
+	m_vb = copy.m_vb;
+}
+
 void Quads::destroy()
 {
 	m_vb->release();

@@ -20,6 +20,7 @@ public:
 	void update(float deltaTime, float width, float height, Camera cam);
 	void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, Camera cam);
 	void createBuffer(void** shader_byte_code, size_t* size_shader);
+	void createBuffer(Cube copy);
 	void destroy();
 
 	vertex list[8];

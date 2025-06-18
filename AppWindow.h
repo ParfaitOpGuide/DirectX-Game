@@ -12,8 +12,9 @@
 #include "Quads.h"
 #include "Cube.h"
 #include "RasterState.h"
+#include "InputListener.h"
 
-class AppWindow : public Window
+class AppWindow : public Window, public InputListener
 {
 public:
 	AppWindow();
@@ -25,6 +26,10 @@ public:
 	void onCreate() override;
 	void onUpdate() override;
 	void onDestroy() override;
+
+
+	virtual void onKeyDown(int key) override;
+	virtual void onKeyUp(int key) override;
 
 	//singleton
 	static AppWindow* get();
@@ -44,9 +49,8 @@ private:
 	RasterState* m_raster;
 	Camera cam;
 
-
-
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};
+
 };
 
