@@ -52,5 +52,6 @@ private:
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};
 
+	Cube cloneCube;
 };
 

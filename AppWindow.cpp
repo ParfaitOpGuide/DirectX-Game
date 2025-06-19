@@ -61,18 +61,23 @@ void AppWindow::onCreate()
 		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors2, "cube"));
 	}*/
 
-	quadList.push_back(Quads(0.6f, 0.6f, 0.6f, .0f, 0.0f, 0.f, colors, colors2, "quad"));
-	quadList[0].createBuffer(&shader_byte_code, &size_shader);
+	//quadList.push_back(Quads(0.6f, 0.6f, 0.6f, .0f, 0.0f, 0.f, colors, colors2, "quad"));
+	//quadList[0].createBuffer(&shader_byte_code, &size_shader);
+	// 
+	//area bounds are 1.25 horizontally, 0.9 vertically
+	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "cube");
+	cloneCube.createBuffer(&shader_byte_code, &size_shader);
+	cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "cube"));
+	cubeList[0].createBuffer(cloneCube);
 
-	cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, .0f, 0.0f, 0.0f, colors, colors2, "cube"));
-	cubeList[0].createBuffer(&shader_byte_code, &size_shader);
+	
 	//cubeList.push_back(Cube(0.6f, 0.01f, 0.6f, .0f, 0.0f, 0.0f, colors, colors2, "cube2"));
 	//std::cout<< cubeList.size() << "\n";
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].createBuffer(quadList[0]);
 	}
 	for (int i = 0; i < cubeList.size();i++) {
-		cubeList[i].createBuffer(cubeList[0]);
+		cubeList[i].createBuffer(cloneCube);
 	}
 
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -94,7 +99,7 @@ void AppWindow::onCreate()
 
 	m_raster = GraphicsEngine::get()->createRasterState();
 	m_raster->use();
-	
+
 	EngineTime::initialize();
 }
 
@@ -112,18 +117,13 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-	
-	
+
+
 
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
-	/* moving sample
-		Vector3D pos = cubeList[i].getLocalPosition();
-		pos.m_y += 0.001f;
-		cubeList[i].setPosition(pos);
-		*/
 	}
-for (int i = 0; i < quadList.size();i++) {
+	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
 	}
 	m_swap_chain->present(true);
@@ -138,9 +138,11 @@ void AppWindow::onDestroy()
 	m_vs->release();
 	m_ps->release();
 
+	if (quadList.size() > 0)
 		quadList[0].destroy();
+	if (cubeList.size() > 0)
 		cubeList[0].destroy();
-	
+
 
 	GraphicsEngine::get()->release();
 }
@@ -160,12 +162,14 @@ void AppWindow::onKeyDown(int key)
 	colors2.push_back(Vector3D(0, 1, 0));
 	if (key == 'W')
 	{
-		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors, "cube"));
-		cubeList[cubeList.size() - 1].createBuffer(cubeList[0]);
+		//cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors, "cube"));
+		cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors, "cube"));
+		cubeList[cubeList.size() - 1].createBuffer(cloneCube);
 	}
 	else if (key == 'S')
 	{
-
+		if(cubeList.size()>0)
+		cubeList.pop_back();
 	}
 }
 

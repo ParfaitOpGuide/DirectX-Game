@@ -11,12 +11,13 @@ Cube::Cube() :AGameObject("default")
 {
 }
 
-Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name) : AGameObject(name)
+Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name) : AGameObject(name)
 {
 
 
 	this->setPosition(centerx, centery, centerz);
 	this->setScale(width, height, depth);
+	this->moveSpeed = speed;
 	/*
 	//back bottom left
 	list[0] = { Vector3D(centerx - width / 2, centery - height / 2, centerz - depth / 2),  colors[0], colors2[0] };
@@ -69,21 +70,36 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 	
 	m_time += EngineTime::getDeltaTime();
 	temp.setIdentity();
-	temp.setRotationZ(m_time* rotSpeed);
+	//temp.setRotationZ(m_time* rotSpeed);
+	temp.setRotationZ(0);
 	cc.m_world *= temp;
 
 	temp.setIdentity();
-	temp.setRotationY(m_time * rotSpeed);
+	temp.setRotationY(0);
 	cc.m_world *= temp;
 
 	temp.setIdentity();
-	temp.setRotationX(m_time *rotSpeed);
+	temp.setRotationX(0);
 	cc.m_world *= temp;
+
+	if (std::abs(this->getLocalPosition().m_x) + (this->getLocalScale().m_x / 2.0) >= 1.25f)
+		moveSpeed.m_x = -moveSpeed.m_x;
+	if (std::abs(this->getLocalPosition().m_y) + (this->getLocalScale().m_y / 2.0) >= 0.9f)
+		moveSpeed.m_y = -moveSpeed.m_y;
+//no check for z because no bounding box
+	Vector3D pos = this->getLocalPosition();
+	pos.m_x += moveSpeed.m_x;
+	pos.m_y += moveSpeed.m_y;
+	pos.m_z += moveSpeed.m_z;
+
+	
+
+	this->setPosition(pos);
 	
 	temp.setIdentity();
 	temp.setTranslation(Vector3D(this->getLocalPosition().m_x, this->getLocalPosition().m_y, this->getLocalPosition().m_z));
 	cc.m_world *= temp;
-	/*
+	
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH
 	(
@@ -91,10 +107,10 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 		height / 400.f,
 		-4.f,
 		4.f
-	);*/
+	);
 
-	cc.m_view = cam.GetViewMatrix4();
-	cc.m_proj = cam.GetProjectionMatrix4();
+	//cc.m_view = cam.GetViewMatrix4();
+	//cc.m_proj = cam.GetProjectionMatrix4();
 
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 }
