@@ -24,7 +24,8 @@ void AppWindow::updateQuadPosition()
 
 void AppWindow::onCreate()
 {
-	//Window::onCreate();
+	
+	std::srand(time(NULL));
 
 	InputSystem::get()->addListener(this);
 
@@ -48,30 +49,49 @@ void AppWindow::onCreate()
 	colors.push_back(Vector3D(1, 0, 0));
 	colors.push_back(Vector3D(0, 1, 0));
 	colors.push_back(Vector3D(0, 0, 1));
-	colors.push_back(Vector3D(1, 1, 0));
+	colors.push_back(Vector3D(1, 0, 0));
 
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(1, 1, 0));
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
 
+	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube");
+	cloneCube.createBuffer(&shader_byte_code, &size_shader);
+	cubeList.push_back(Cube(0.4f,.01f,0.4f, -0.052f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f,.01f,0.4f, 0.052f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f,.01f,0.4f, 0.16f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f,.01f,0.4f, 0.264f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));	
+	cubeList.push_back(Cube(0.4f,.01f,0.4f, -0.264f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f,.01f,0.4f, -0.16f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f,.01f,0.4f, -0.16f, 0.2f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer1Flat"));
+	cubeList.push_back(Cube(0.4f,.01f,0.4f, 0.16f, 0.2f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer1Flat"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.156f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer2"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.052f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer2"));	
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.052f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer2"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.156f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer2"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.0f, 0.6f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer2Flat"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.054f, 0.8f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer3"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.054f, 0.8f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer3"));
+	cubeList[0].createBuffer(cloneCube);
 	/*
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 50; i++) {
 		// //                       w     h     d     cx   cy     cz      list
-		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors2, "cube"));
+		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, Vector3D(0,0,0), colors, colors2, "cube"));
 	}*/
 
 	//quadList.push_back(Quads(0.6f, 0.6f, 0.6f, .0f, 0.0f, 0.f, colors, colors2, "quad"));
 	//quadList[0].createBuffer(&shader_byte_code, &size_shader);
 	// 
 	//area bounds are 1.25 horizontally, 0.9 vertically
-	cloneCircle = Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle");
+	/*cloneCircle = Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle");
 	cloneCircle.createBuffer(&shader_byte_code, &size_shader);
 	circleList.push_back(Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle"));
-	circleList[0].createBuffer(cloneCircle);
+	circleList[0].createBuffer(cloneCircle);*/
 
 
-	//cubeList.push_back(Cube(0.6f, 0.01f, 0.6f, .0f, 0.0f, 0.0f, colors, colors2, "cube2"));
+	
+
 	//std::cout<< cubeList.size() << "\n";
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].createBuffer(quadList[0]);
@@ -96,8 +116,8 @@ void AppWindow::onCreate()
 	cam.SetPosition(-2.0f, .0f, -.1f);
 	cam.SetRotation(DirectX::XMVectorSet(0, 1.6, 0, 0));
 	*/
-	cam.SetPosition(0.0f, .3f, -1.0f);
-	cam.SetRotation(DirectX::XMVectorSet(0, 0, 0, 0));
+	cam.SetPosition(1.0f, 1.f, -1.0f);
+	cam.SetRotation(DirectX::XMVectorSet(0.6, -0.785398, 0, 0));
 	cam.SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 
 
@@ -167,8 +187,8 @@ void AppWindow::onKeyDown(int key)
 	colors2.push_back(Vector3D(1, 1, 0));
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
-
-	std::cout << key << "\n";
+	/*
+	//std::cout << key << "\n";
 	if (key == 32)
 	{
 		if (!pressed) {
@@ -198,14 +218,15 @@ void AppWindow::onKeyDown(int key)
 	{
 		PostMessage(this->m_hwnd, WM_CLOSE, 0, 0);
 	}
+	*/
 }
 
 void AppWindow::onKeyUp(int key)
-{
+{/*
 	if (key == 32)
 	{
 		pressed = false;
-	} 
+	}
 	else if (key == 8)
 	{
 		pressed = false;
@@ -213,7 +234,7 @@ void AppWindow::onKeyUp(int key)
 	else if (key == 46)
 	{
 		pressed = false;
-	}
+	}*/
 }
 
 void AppWindow::initialize()

@@ -15,7 +15,7 @@ class Cube : public AGameObject
 {
 public:
 	Cube();
-	Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name);
+	Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, Vector3D rotation, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name);
 
 	void update(float deltaTime, float width, float height, Camera cam);
 	void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, Camera cam);
