@@ -167,6 +167,8 @@ void AppWindow::onKeyDown(int key)
 	colors2.push_back(Vector3D(1, 1, 0));
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
+
+	std::cout << key << "\n";
 	if (key == 32)
 	{
 		if (!pressed) {
@@ -191,6 +193,10 @@ void AppWindow::onKeyDown(int key)
 				circleList.clear();
 			pressed = true;
 		}
+	}
+	else if (key == 27)
+	{
+		PostMessage(this->m_hwnd, WM_CLOSE, 0, 0);
 	}
 }
 
