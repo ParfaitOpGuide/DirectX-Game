@@ -11,6 +11,7 @@
 #include <vector>
 #include "Quads.h"
 #include "Cube.h"
+#include "Circle.h"
 #include "RasterState.h"
 #include "InputListener.h"
 
@@ -51,7 +52,12 @@ private:
 
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};
+	std::vector<Circle> circleList = {};
 
 	Cube cloneCube;
+	Circle cloneCircle;
+
+
+	bool pressed = false;
 };
 

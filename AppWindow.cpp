@@ -65,12 +65,12 @@ void AppWindow::onCreate()
 	//quadList[0].createBuffer(&shader_byte_code, &size_shader);
 	// 
 	//area bounds are 1.25 horizontally, 0.9 vertically
-	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "cube");
-	cloneCube.createBuffer(&shader_byte_code, &size_shader);
-	cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "cube"));
-	cubeList[0].createBuffer(cloneCube);
+	cloneCircle = Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle");
+	cloneCircle.createBuffer(&shader_byte_code, &size_shader);
+	circleList.push_back(Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle"));
+	circleList[0].createBuffer(cloneCircle);
 
-	
+
 	//cubeList.push_back(Cube(0.6f, 0.01f, 0.6f, .0f, 0.0f, 0.0f, colors, colors2, "cube2"));
 	//std::cout<< cubeList.size() << "\n";
 	for (int i = 0; i < quadList.size();i++) {
@@ -78,6 +78,10 @@ void AppWindow::onCreate()
 	}
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].createBuffer(cloneCube);
+	}
+
+	for (int i = 0; i < circleList.size();i++) {
+		circleList[i].createBuffer(cloneCircle);
 	}
 
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -109,7 +113,7 @@ void AppWindow::onUpdate()
 
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
-		.4, 0.4, 0, 1);
+		.0, 0, 0, 1);
 
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
@@ -125,6 +129,9 @@ void AppWindow::onUpdate()
 	}
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
+	}
+	for (int i = 0; i < circleList.size();i++) {
+		circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
 	}
 	m_swap_chain->present(true);
 
@@ -160,21 +167,47 @@ void AppWindow::onKeyDown(int key)
 	colors2.push_back(Vector3D(1, 1, 0));
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
-	if (key == 'W')
+	if (key == 32)
 	{
-		//cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors, "cube"));
-		cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors, "cube"));
-		cubeList[cubeList.size() - 1].createBuffer(cloneCube);
+		if (!pressed) {
+			//cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors, "cube"));
+			circleList.push_back(Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors, "circle"));
+			circleList[circleList.size() - 1].createBuffer(cloneCircle);
+			pressed = true;
+		}
 	}
-	else if (key == 'S')
+	else if (key == 8)
 	{
-		if(cubeList.size()>0)
-		cubeList.pop_back();
+		if (!pressed) {
+			if (circleList.size() > 0)
+				circleList.pop_back();
+			pressed = true;
+		}
+	}
+	else if (key == 46)
+	{
+		if (!pressed) {
+			if (circleList.size() > 0)
+				circleList.clear();
+			pressed = true;
+		}
 	}
 }
 
 void AppWindow::onKeyUp(int key)
 {
+	if (key == 32)
+	{
+		pressed = false;
+	} 
+	else if (key == 8)
+	{
+		pressed = false;
+	}
+	else if (key == 46)
+	{
+		pressed = false;
+	}
 }
 
 void AppWindow::initialize()

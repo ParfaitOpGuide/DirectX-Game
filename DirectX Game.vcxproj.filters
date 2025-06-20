@@ -58,6 +58,9 @@
     <Filter Include="GameEngine\InputSystem">
       <UniqueIdentifier>{761cdc54-e9f9-4b88-a183-33ae82080fa5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Shapes\Circle">
+      <UniqueIdentifier>{99ad6a57-96c0-42e9-8518-925ac2c0c579}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>GameEngine\GraphicsEngine\Shapes\Circle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="InputListener.h">
       <Filter>GameEngine\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>GameEngine\GraphicsEngine\Shapes\Circle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
