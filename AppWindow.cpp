@@ -65,10 +65,29 @@ void AppWindow::onCreate()
 	//quadList[0].createBuffer(&shader_byte_code, &size_shader);
 	// 
 	//area bounds are 1.25 horizontally, 0.9 vertically
-	cloneCircle = Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle");
+	/*cloneCircle = Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle");
 	cloneCircle.createBuffer(&shader_byte_code, &size_shader);
 	circleList.push_back(Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle"));
-	circleList[0].createBuffer(cloneCircle);
+	circleList[0].createBuffer(cloneCircle);*/
+
+	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube");
+	cloneCube.createBuffer(&shader_byte_code, &size_shader);
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.052f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.052f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.16f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.264f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.264f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.16f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.16f, 0.2f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer1Flat"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.16f, 0.2f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer1Flat"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.156f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer2"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.052f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer2"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.052f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer2"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.156f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer2"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.0f, 0.6f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer2Flat"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.054f, 0.8f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer3"));
+	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.054f, 0.8f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer3"));
+	cubeList[0].createBuffer(cloneCube);
 
 
 	//cubeList.push_back(Cube(0.6f, 0.01f, 0.6f, .0f, 0.0f, 0.0f, colors, colors2, "cube2"));
@@ -96,10 +115,32 @@ void AppWindow::onCreate()
 	cam.SetPosition(-2.0f, .0f, -.1f);
 	cam.SetRotation(DirectX::XMVectorSet(0, 1.6, 0, 0));
 	*/
-	cam.SetPosition(0.0f, .3f, -1.0f);
-	cam.SetRotation(DirectX::XMVectorSet(0, 0, 0, 0));
-	cam.SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
-
+	//cam 1
+	camList.push_back(Camera());
+	camList[0].SetPosition(0.0f, .3f, -2.0f);
+	camList[0].SetRotation(DirectX::XMVectorSet(0, 0, 0, 0));
+	camList[0].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+	//cam 2
+	camList.push_back(Camera());
+	camList[1].SetPosition(1.0f, 1.3f, -1.0f);
+	camList[1].SetRotation(DirectX::XMVectorSet(0.6f, -0.8f, 0, 0));
+	camList[1].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
+	//cam 3
+	camList.push_back(Camera());
+	camList[2].SetPosition(-1.0f, 1.3f, -1.0f);
+	camList[2].SetRotation(DirectX::XMVectorSet(0.6f, 0.8f, 0, 0));
+	camList[2].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+	//cam 4
+	camList.push_back(Camera());
+	camList[3].SetPosition(-.8f, .3f, 0.3f);
+	camList[3].SetRotation(DirectX::XMVectorSet(0, 2, 0, 0));
+	camList[3].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+	//cam 5
+	camList.push_back(Camera());
+	camList[4].SetPosition(.8f, .3f, 0.3f);
+	camList[4].SetRotation(DirectX::XMVectorSet(0, -2, 0, 0));
+	camList[4].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+	currentCam = 0;
 
 	m_raster = GraphicsEngine::get()->createRasterState();
 	m_raster->use();
@@ -125,13 +166,13 @@ void AppWindow::onUpdate()
 
 
 	for (int i = 0; i < cubeList.size();i++) {
-		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
+		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList[currentCam]);
 	}
 	for (int i = 0; i < quadList.size();i++) {
-		quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
+		quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList[currentCam]);
 	}
 	for (int i = 0; i < circleList.size();i++) {
-		circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
+		circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList[currentCam]);
 	}
 	m_swap_chain->present(true);
 
@@ -189,14 +230,43 @@ void AppWindow::onKeyDown(int key)
 	else if (key == 46)
 	{
 		if (!pressed) {
+			/*
 			if (circleList.size() > 0)
 				circleList.clear();
-			pressed = true;
+			pressed = true;*/
+
+			if (!freeCam)
+				freeCam = true;
 		}
 	}
 	else if (key == 27)
 	{
 		PostMessage(this->m_hwnd, WM_CLOSE, 0, 0);
+	}
+	else if (key == 49) //1
+	{
+		currentCam = 0;
+		freeCam = false;
+	}
+	else if (key == 50) //2
+	{
+		currentCam = 1;
+		freeCam = false;
+	}
+	else if (key == 51) //3
+	{
+		currentCam = 2;
+		freeCam = false;
+	}
+	else if (key == 52) //4
+	{
+		currentCam = 3;
+		freeCam = false;
+	}
+	else if (key == 53) //5
+	{
+		currentCam = 4;
+		freeCam = false;
 	}
 }
 

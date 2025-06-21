@@ -48,7 +48,8 @@ private:
 
 	
 	RasterState* m_raster;
-	Camera cam;
+	std::vector<Camera> camList;
+	int currentCam;
 
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};
@@ -57,7 +58,7 @@ private:
 	Cube cloneCube;
 	Circle cloneCircle;
 
-
+	bool freeCam = false;
 	bool pressed = false;
 };
 

@@ -11,10 +11,10 @@ Cube::Cube() :AGameObject("default")
 {
 }
 
-Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name) : AGameObject(name)
+Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, Vector3D rotation, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name) : AGameObject(name)
 {
 
-
+	this->setRotation(rotation);
 	this->setPosition(centerx, centery, centerz);
 	this->setScale(width, height, depth);
 	this->moveSpeed = speed;
@@ -23,7 +23,7 @@ Cube::Cube(float width, float height, float depth, float centerx, float centery,
 	list[0] = { Vector3D(centerx - width / 2, centery - height / 2, centerz - depth / 2),  colors[0], colors2[0] };
 	//back top left
 	list[1] = { Vector3D(centerx - width / 2, centery + height / 2, centerz - depth / 2),  colors[1], colors2[1] };
-	//back top right 
+	//back top right
 	list[2] = { Vector3D(centerx + width / 2, centery + height / 2, centerz - depth / 2),  colors[2], colors2[2] };
 	//back bottom right
 	list[3] = { Vector3D(centerx + width / 2, centery - height / 2, centerz - depth / 2),  colors[3], colors2[3] };
@@ -39,17 +39,17 @@ Cube::Cube(float width, float height, float depth, float centerx, float centery,
 	list[0] = { Vector3D(-.5f,-.5f,-.5f),  colors[0], colors2[0] };
 	list[1] = { Vector3D(-.5f,.5f,-.5f),  colors[1], colors2[1] };
 	list[2] = { Vector3D(.5f,.5f,-.5f),  colors[2], colors2[2] };
-	list[3] = { Vector3D(.5f,-.5f,-.5f),  colors[3], colors2[3]};
+	list[3] = { Vector3D(.5f,-.5f,-.5f),  colors[3], colors2[3] };
 
 	list[4] = { Vector3D(.5f,-.5f,.5f),  colors[0], colors2[0] };
 	list[5] = { Vector3D(.5f,.5f,.5f),  colors[1], colors2[1] };
 	list[6] = { Vector3D(-.5f,.5f,.5f),  colors[2], colors2[2] };
 	list[7] = { Vector3D(-.5f,-.5f,.5f),  colors[3], colors2[3] };
-	
 
-	rotSpeed = 1.0f/(rand() % 700 + 300);
+
+	rotSpeed = 1.0f / (rand() % 700 + 300);
 	//std::cout << rotSpeed << "\n";
-	
+
 }
 
 void Cube::update(float deltaTime, float width, float height, Camera cam)
@@ -59,47 +59,42 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 
 	Matrix4x4 temp;
 
-	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
-	//cc.m_world.setScale(Vector3D::lerp(Vector3D(.5, .5, 0), Vector3D(2, 2, 0), (sin(m_delta_scale) + 1.f) / 2.f));
-
-	//temp.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0), Vector3D(2, 2, 0), m_delta_pos));
-	//cc.m_world *= temp;
-	
 	cc.m_world.setScale(Vector3D(this->getLocalScale().m_x, this->getLocalScale().m_y, this->getLocalScale().m_z));
+	//cc.m_world.setScale(Vector3D::lerp(Vector3D(1.6, .001, 1.6), Vector3D(.5, .5, .5), (sin(m_time * 0.0007f) + 1.f) / 2.f));
 
-	
 	m_time += EngineTime::getDeltaTime();
 	temp.setIdentity();
-	//temp.setRotationZ(m_time* rotSpeed);
-	temp.setRotationZ(0);
+	//temp.setRotationZ(m_time * rotSpeed);
+	temp.setRotationZ(this->getLocalRotation().m_z);
 	cc.m_world *= temp;
 
 	temp.setIdentity();
-	temp.setRotationY(0);
+	temp.setRotationY(this->getLocalRotation().m_y);
 	cc.m_world *= temp;
 
 	temp.setIdentity();
-	temp.setRotationX(0);
+	temp.setRotationX(this->getLocalRotation().m_x);
 	cc.m_world *= temp;
 
 	if (std::abs(this->getLocalPosition().m_x) + (this->getLocalScale().m_x / 2.0) >= 1.25f)
 		moveSpeed.m_x = -moveSpeed.m_x;
 	if (std::abs(this->getLocalPosition().m_y) + (this->getLocalScale().m_y / 2.0) >= 0.9f)
 		moveSpeed.m_y = -moveSpeed.m_y;
-//no check for z because no bounding box
+	//no check for z because no bounding box
 	Vector3D pos = this->getLocalPosition();
 	pos.m_x += moveSpeed.m_x;
 	pos.m_y += moveSpeed.m_y;
 	pos.m_z += moveSpeed.m_z;
 
-	
+
 
 	this->setPosition(pos);
-	
+
 	temp.setIdentity();
 	temp.setTranslation(Vector3D(this->getLocalPosition().m_x, this->getLocalPosition().m_y, this->getLocalPosition().m_z));
+	//temp.setTranslation(Vector3D::lerp(Vector3D(-1, -.6, 0), Vector3D(1, .6, 0), (sin(m_time * 0.001f) + 1.f) / 2.f));
 	cc.m_world *= temp;
-	
+	/*
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH
 	(
@@ -107,10 +102,10 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 		height / 400.f,
 		-4.f,
 		4.f
-	);
+	);*/
 
-	//cc.m_view = cam.GetViewMatrix4();
-	//cc.m_proj = cam.GetProjectionMatrix4();
+	cc.m_view = cam.GetViewMatrix4();
+	cc.m_proj = cam.GetProjectionMatrix4();
 
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 }
