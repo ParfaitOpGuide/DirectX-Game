@@ -195,6 +195,16 @@ void AppWindow::onDestroy()
 	GraphicsEngine::get()->release();
 }
 
+void AppWindow::onFocus()
+{
+	InputSystem::get()->addListener(this);
+}
+
+void AppWindow::onKillFocus()
+{
+	InputSystem::get()->removeListener(this);
+}
+
 void AppWindow::onKeyDown(int key)
 {
 	std::vector<Vector3D> colors;
@@ -284,6 +294,27 @@ void AppWindow::onKeyUp(int key)
 	{
 		pressed = false;
 	}
+}
+
+void AppWindow::onMouseMove(const Point& delta_mouse_pos)
+{
+}
+
+void AppWindow::onLeftMouseDown(const Point& mouse_pos)
+{
+	
+}
+
+void AppWindow::onLeftMouseUp(const Point& mouse_pos)
+{
+}
+
+void AppWindow::onRightMouseDown(const Point& mouse_pos)
+{
+}
+
+void AppWindow::onRightMouseUp(const Point& mouse_pos)
+{
 }
 
 void AppWindow::initialize()

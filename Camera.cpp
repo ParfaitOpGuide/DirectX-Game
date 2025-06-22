@@ -76,6 +76,24 @@ void Camera::SetRotation(float x, float y, float z)
 	this->UpdateViewMatrix();
 }
 
+void Camera::AdjustPosition(float x, float y, float z)
+{
+	this->pos.x += x;
+	this->pos.y += y;
+	this->pos.z += z;
+	this->posVector = XMLoadFloat3(&this->pos);
+	this->UpdateViewMatrix();
+}
+
+void Camera::AdjustRotation(float x, float y, float z)
+{
+	this->rot.x += x;
+	this->rot.y += y;
+	this->rot.z += z;
+	this->rotVector = XMLoadFloat3(&this->rot);
+	this->UpdateViewMatrix();
+}
+
 void Camera::UpdateViewMatrix()
 {
 	XMMATRIX camRotationMatrix = XMMatrixRotationRollPitchYaw(this->rot.x, this->rot.y, this->rot.z);
@@ -83,4 +101,11 @@ void Camera::UpdateViewMatrix()
 	camTarget += this->posVector;
 	XMVECTOR upDir = XMVector3TransformCoord(this->UP, camRotationMatrix);
 	this->viewMatrix = XMMatrixLookAtLH(this->posVector, camTarget, upDir);
+
+	//camera doohick
+	XMMATRIX vecRotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, this->rot.y, 0.0f);
+	this->vec_forward = XMVector3TransformCoord(this->FORWARD, vecRotationMatrix);
+	this->vec_backward = XMVector3TransformCoord(this->BACKWARD, vecRotationMatrix);
+	this->vec_left = XMVector3TransformCoord(this->LEFT, vecRotationMatrix);
+	this->vec_right = XMVector3TransformCoord(this->RIGHT, vecRotationMatrix);
 }

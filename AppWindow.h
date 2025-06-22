@@ -28,9 +28,19 @@ public:
 	void onUpdate() override;
 	void onDestroy() override;
 
+	void onFocus()override;
+	void onKillFocus()override;
+
 
 	virtual void onKeyDown(int key) override;
 	virtual void onKeyUp(int key) override;
+	
+	virtual void onMouseMove(const Point& delta_mouse_pos) override;
+	virtual void onLeftMouseDown(const Point& mouse_pos) override;
+	virtual void onLeftMouseUp(const Point& mouse_pos)  override;
+
+	virtual void onRightMouseDown(const Point& mouse_pos)  override;
+	virtual void onRightMouseUp(const Point& mouse_pos)  override;
 
 	//singleton
 	static AppWindow* get();
