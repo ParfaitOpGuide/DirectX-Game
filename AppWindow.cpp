@@ -235,26 +235,27 @@ void AppWindow::onKeyDown(int key)
 			pressed = true;
 		}
 	}
-	else if (key == 8)
-	{
-		/*if (!pressed) {
-			if (circleList.size() > 0)
-				circleList.pop_back();
-			pressed = true;
-		}*/
-		if (!freeCam)
-			freeCam = true;
-
-		camList[5].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
-		camList[5].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
-		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, camList[currentCam].getPosition().m_x,
-			camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "camCube"));
-		cubeList[cubeList.size() - 1].createBuffer(cloneCube);
-		
-		camPawn = true;
-		
-		currentCam = 5;
-	}
+	//else if (key == 8)
+	//{
+	//	/*if (!pressed) {
+	//		if (circleList.size() > 0)
+	//			circleList.pop_back();
+	//		pressed = true;
+	//	}*/
+	//	if (!freeCam)
+	//		freeCam = true;
+	//	
+	//	camList[5].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
+	//	camList[5].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
+	//	std::cout << "make cube" << std::endl;
+	//	cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, camList[currentCam].getPosition().m_x,
+	//		camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "camCube"));
+	//	cubeList[cubeList.size() - 1].createBuffer(cloneCube);
+	//	
+	//	camPawn = true;
+	//	
+	//	currentCam = 5;
+	//}
 	else if (key == 46)
 	{
 		if (!pressed) {
@@ -397,7 +398,40 @@ void AppWindow::onKeyDown(int key)
 
 void AppWindow::onKeyUp(int key)
 {
-	if (key == 32)
+	std::vector<Vector3D> colors;
+	std::vector<Vector3D> colors2;
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+
+	colors2.push_back(Vector3D(1, 0, 1));
+	colors2.push_back(Vector3D(1, 1, 0));
+	colors2.push_back(Vector3D(1, 0, 1));
+	colors2.push_back(Vector3D(0, 1, 0));
+
+	if (key == 8)
+	{
+		/*if (!pressed) {
+			if (circleList.size() > 0)
+				circleList.pop_back();
+			pressed = true;
+		}*/
+		if (!freeCam)
+			freeCam = true;
+
+		camList[5].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
+		camList[5].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
+		std::cout << "make cube" << std::endl;
+		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, camList[currentCam].getPosition().m_x,
+			camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "camCube"));
+		cubeList[cubeList.size() - 1].createBuffer(cloneCube);
+
+		camPawn = true;
+
+		currentCam = 5;
+	}
+	else if (key == 32)
 	{
 		pressed = false;
 	} 
