@@ -60,6 +60,7 @@ private:
 	RasterState* m_raster;
 	std::vector<Camera> camList;
 	int currentCam;
+	int prevCam;
 
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};

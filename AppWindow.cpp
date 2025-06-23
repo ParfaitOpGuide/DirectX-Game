@@ -142,6 +142,12 @@ void AppWindow::onCreate()
 	camList[4].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 	currentCam = 0;
 
+	//FREE CAM 6
+	camList.push_back(Camera());
+	/*camList[5].SetPosition(0.0f, 1.0f, -1.0f);
+	camList[5].SetRotation(DirectX::XMVectorSet(0, 0, 0, 0));*/
+	camList[5].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+
 	m_raster = GraphicsEngine::get()->createRasterState();
 	m_raster->use();
 
@@ -231,11 +237,17 @@ void AppWindow::onKeyDown(int key)
 	}
 	else if (key == 8)
 	{
-		if (!pressed) {
+		/*if (!pressed) {
 			if (circleList.size() > 0)
 				circleList.pop_back();
 			pressed = true;
-		}
+		}*/
+		if (!freeCam)
+			freeCam = true;
+
+		camList[5].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
+		camList[5].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
+		currentCam = 5;
 	}
 	else if (key == 46)
 	{
@@ -245,8 +257,9 @@ void AppWindow::onKeyDown(int key)
 				circleList.clear();
 			pressed = true;*/
 
-			if (!freeCam)
-				freeCam = true;
+			/*if (!freeCam)
+				freeCam = true;*/
+			    
 		}
 	}
 	else if (key == 27)
@@ -278,6 +291,67 @@ void AppWindow::onKeyDown(int key)
 		currentCam = 4;
 		freeCam = false;
 	}
+
+
+
+	const float camSpeed = 0.04;
+	if (key == 87) // W
+	{
+		if (freeCam) {
+			XMFLOAT3 forwardFloat3;
+			XMStoreFloat3(&forwardFloat3, camList[5].GetForwardVector());
+
+			float x = forwardFloat3.x * camSpeed;
+			float y = forwardFloat3.y * camSpeed;
+			float z = forwardFloat3.z * camSpeed;
+			if (freeCam) {
+				camList[5].AdjustPosition(x, y, z);
+			}
+		}
+		
+	}
+	else if (key == 65) // A
+	{
+		if (freeCam) {
+			XMFLOAT3 forwardFloat3;
+			XMStoreFloat3(&forwardFloat3, camList[5].GetLeftVector());
+
+			float x = forwardFloat3.x * camSpeed;
+			float y = forwardFloat3.y * camSpeed;
+			float z = forwardFloat3.z * camSpeed;
+			if (freeCam) {
+				camList[5].AdjustPosition(x, y, z);
+			}
+		}
+	}
+	else if (key == 83) // S
+	{
+		if (freeCam) {
+			XMFLOAT3 forwardFloat3;
+			XMStoreFloat3(&forwardFloat3, camList[5].GetBackwardVector());
+
+			float x = forwardFloat3.x * camSpeed;
+			float y = forwardFloat3.y * camSpeed;
+			float z = forwardFloat3.z * camSpeed;
+			if (freeCam) {
+				camList[5].AdjustPosition(x, y, z);
+			}
+		}
+	}
+	else if (key == 68) // D
+	{
+		if (freeCam) {
+			XMFLOAT3 forwardFloat3;
+			XMStoreFloat3(&forwardFloat3, camList[5].GetRightVector());
+
+			float x = forwardFloat3.x * camSpeed;
+			float y = forwardFloat3.y * camSpeed;
+			float z = forwardFloat3.z * camSpeed;
+			if (freeCam) {
+				camList[5].AdjustPosition(x, y, z);
+			}
+		}
+	}
 }
 
 void AppWindow::onKeyUp(int key)
@@ -298,6 +372,10 @@ void AppWindow::onKeyUp(int key)
 
 void AppWindow::onMouseMove(const Point& delta_mouse_pos)
 {
+	if (freeCam) {
+		camList[5].AdjustRotation(delta_mouse_pos.m_y *0.01, delta_mouse_pos.m_x* 0.01, 0);
+	}
+	
 }
 
 void AppWindow::onLeftMouseDown(const Point& mouse_pos)

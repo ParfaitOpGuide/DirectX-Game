@@ -62,6 +62,17 @@ void Camera::SetPosition(float x, float y, float z)
 	this->UpdateViewMatrix();
 }
 
+Vector3D Camera::getPosition()
+{
+	Vector3D out;
+	
+	out.m_x = this->pos.x;
+	out.m_y = this->pos.y;
+	out.m_z = this->pos.z;
+
+	return out;
+}
+
 void Camera::SetRotation(const XMVECTOR& rot)
 {
 	this->rotVector = rot;
@@ -74,6 +85,39 @@ void Camera::SetRotation(float x, float y, float z)
 	this->rot = XMFLOAT3(x, y, z);
 	this->rotVector = XMLoadFloat3(&this->rot);
 	this->UpdateViewMatrix();
+}
+
+Vector3D Camera::getRotation()
+{
+
+	Vector3D out;
+
+	out.m_x = this->rot.x;
+	out.m_y = this->rot.y;
+	out.m_z = this->rot.z;
+
+	return out;
+	
+}
+
+const XMVECTOR& Camera::GetForwardVector()
+{
+	return this->vec_forward;
+}
+
+const XMVECTOR& Camera::GetRightVector()
+{
+	return this->vec_right;
+}
+
+const XMVECTOR& Camera::GetBackwardVector()
+{
+	return this->vec_backward;
+}
+
+const XMVECTOR& Camera::GetLeftVector()
+{
+	return this->vec_left;
 }
 
 void Camera::AdjustPosition(float x, float y, float z)

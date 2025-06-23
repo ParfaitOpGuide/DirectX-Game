@@ -1,6 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
 #include "Matrix4x4.h"
+#include "Vector3D.h"
 using namespace DirectX;
 
 class Camera
@@ -14,12 +15,24 @@ public:
 
 	void SetPosition(const XMVECTOR& pos);
 	void SetPosition(float x, float y, float z);
+
+	Vector3D getPosition();
+
 	void SetRotation(const XMVECTOR& rot);
 	void SetRotation(float x, float y, float z);
+
+	Vector3D getRotation();
+
+	const XMVECTOR& GetForwardVector();
+	const XMVECTOR& GetRightVector();
+	const XMVECTOR& GetBackwardVector();
+	const XMVECTOR& GetLeftVector();
 
 
 	void AdjustPosition(float x, float y, float z);
 	void AdjustRotation(float x, float y, float z);
+
+
 
 private:
 	void UpdateViewMatrix();
