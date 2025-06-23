@@ -247,6 +247,12 @@ void AppWindow::onKeyDown(int key)
 
 		camList[5].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
 		camList[5].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
+		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, camList[currentCam].getPosition().m_x,
+			camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "camCube"));
+		cubeList[cubeList.size() - 1].createBuffer(cloneCube);
+		
+		camPawn = true;
+		
 		currentCam = 5;
 	}
 	else if (key == 46)
@@ -270,26 +276,56 @@ void AppWindow::onKeyDown(int key)
 	{
 		currentCam = 0;
 		freeCam = false;
+		if (camPawn) {
+			std::cout << "despawn" << std::endl;
+			camPawn = false;
+			cubeList.pop_back();
+		}
+		
 	}
 	else if (key == 50) //2
 	{
 		currentCam = 1;
 		freeCam = false;
+
+		if (camPawn) {
+			std::cout << "despawn" << std::endl;
+			camPawn = false;
+			cubeList.pop_back();
+		}
 	}
 	else if (key == 51) //3
 	{
 		currentCam = 2;
 		freeCam = false;
+
+		if (camPawn) {
+			std::cout << "despawn" << std::endl;
+			camPawn = false;
+			cubeList.pop_back();
+		}
 	}
 	else if (key == 52) //4
 	{
 		currentCam = 3;
 		freeCam = false;
+
+		if (camPawn) {
+			std::cout << "despawn" << std::endl;
+			camPawn = false;
+			cubeList.pop_back();
+		}
 	}
 	else if (key == 53) //5
 	{
 		currentCam = 4;
 		freeCam = false;
+
+		if (camPawn) {
+			std::cout << "despawn" << std::endl;
+			camPawn = false;
+			cubeList.pop_back();
+		}
 	}
 
 
@@ -352,6 +388,11 @@ void AppWindow::onKeyDown(int key)
 			}
 		}
 	}
+
+	//cube cam despawn
+
+		
+	
 }
 
 void AppWindow::onKeyUp(int key)

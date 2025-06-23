@@ -71,5 +71,6 @@ private:
 
 	bool freeCam = false;
 	bool pressed = false;
+	bool camPawn = false;
 };
 
