@@ -230,9 +230,9 @@ void AppWindow::onKeyDown(int key)
 	{
 		if (!pressed) {
 			//cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors, "cube"));
-			circleList.push_back(Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors, "circle"));
-			circleList[circleList.size() - 1].createBuffer(cloneCircle);
-			pressed = true;
+			//circleList.push_back(Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors, "circle"));
+			//circleList[circleList.size() - 1].createBuffer(cloneCircle);
+			//pressed = true;
 		}
 	}
 	//else if (key == 8)
