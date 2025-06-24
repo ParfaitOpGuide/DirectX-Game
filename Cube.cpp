@@ -127,7 +127,7 @@ void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps
 
 void Cube::createBuffer(void** shader_byte_code, size_t* size_shader)
 {
-	std::cout << "a";
+	//std::cout << "a";
 	constant cc;
 	cc.m_time = 0;
 
