@@ -120,6 +120,16 @@ const XMVECTOR& Camera::GetLeftVector()
 	return this->vec_left;
 }
 
+const XMVECTOR& Camera::GetUpVector()
+{
+	return this->vec_up;
+}
+
+const XMVECTOR& Camera::GetDownVector()
+{
+	return this->vec_down;
+}
+
 void Camera::AdjustPosition(float x, float y, float z)
 {
 	this->pos.x += x;
@@ -152,4 +162,6 @@ void Camera::UpdateViewMatrix()
 	this->vec_backward = XMVector3TransformCoord(this->BACKWARD, vecRotationMatrix);
 	this->vec_left = XMVector3TransformCoord(this->LEFT, vecRotationMatrix);
 	this->vec_right = XMVector3TransformCoord(this->RIGHT, vecRotationMatrix);
+	this->vec_up = XMVector3TransformCoord(this->UP, vecRotationMatrix);
+	this->vec_down = XMVector3TransformCoord(this->DOWN, vecRotationMatrix);
 }

@@ -27,6 +27,8 @@ public:
 	const XMVECTOR& GetRightVector();
 	const XMVECTOR& GetBackwardVector();
 	const XMVECTOR& GetLeftVector();
+	const XMVECTOR& GetUpVector();
+	const XMVECTOR& GetDownVector();
 
 
 	void AdjustPosition(float x, float y, float z);
@@ -45,6 +47,7 @@ private:
 
 	const XMVECTOR FORWARD = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	const XMVECTOR UP = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	const XMVECTOR DOWN = XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
 	const XMVECTOR BACKWARD = XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
 	const XMVECTOR LEFT = XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f);
 	const XMVECTOR RIGHT = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
@@ -52,4 +55,6 @@ private:
     XMVECTOR vec_left;
 	XMVECTOR vec_right;
 	XMVECTOR vec_backward;
+	XMVECTOR vec_up;
+	XMVECTOR vec_down;
 };

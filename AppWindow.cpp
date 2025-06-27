@@ -55,11 +55,8 @@ void AppWindow::onCreate()
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
 
-	/*
-	for (int i = 0; i < 100; i++) {
-		// //                       w     h     d     cx   cy     cz      list
-		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, colors, colors2, "cube"));
-	}*/
+
+
 
 	//quadList.push_back(Quads(0.6f, 0.6f, 0.6f, .0f, 0.0f, 0.f, colors, colors2, "quad"));
 	//quadList[0].createBuffer(&shader_byte_code, &size_shader);
@@ -72,23 +69,11 @@ void AppWindow::onCreate()
 
 	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube");
 	cloneCube.createBuffer(&shader_byte_code, &size_shader);
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.052f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.052f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.16f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.264f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.264f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer1"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.16f, 0.0f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer1"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.16f, 0.2f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer1Flat"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.16f, 0.2f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer1Flat"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.156f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer2"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.052f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer2"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.052f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer2"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.156f, 0.4f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer2"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.0f, 0.6f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -0), colors, colors2, "layer2Flat"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, -0.054f, 0.8f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "layer3"));
-	cubeList.push_back(Cube(0.4f, .01f, 0.4f, 0.054f, 0.8f, 0.0f, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, -1.3), colors, colors2, "layer3"));
-	cubeList[0].createBuffer(cloneCube);
-
+	
+	for (int i = 0; i < 10; i++) {
+		// //                       w     h     d     cx   cy     cz      list
+		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, Vector3D(0, 0, 0), Vector3D(((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1), colors, colors2, "cube"));
+	}
 
 	//cubeList.push_back(Cube(0.6f, 0.01f, 0.6f, .0f, 0.0f, 0.0f, colors, colors2, "cube2"));
 	//std::cout<< cubeList.size() << "\n";
@@ -124,7 +109,7 @@ void AppWindow::onCreate()
 	camList.push_back(Camera());
 	camList[1].SetPosition(1.0f, 1.3f, -1.0f);
 	camList[1].SetRotation(DirectX::XMVectorSet(0.6f, -0.8f, 0, 0));
-	camList[1].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
+	camList[1].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 	//cam 3
 	camList.push_back(Camera());
 	camList[2].SetPosition(-1.0f, 1.3f, -1.0f);
@@ -223,7 +208,7 @@ void AppWindow::onKeyDown(int key)
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
 
-	//std::cout << key << "\n";
+	std::cout << key << "\n";
 	if (key == 32)
 	{
 		if (!pressed) {
@@ -243,7 +228,7 @@ void AppWindow::onKeyDown(int key)
 
 			/*if (!freeCam)
 				freeCam = true;*/
-			    
+
 		}
 	}
 	else if (key == 27)
@@ -258,7 +243,7 @@ void AppWindow::onKeyDown(int key)
 			camPawn = false;
 			cubeList.pop_back();
 		}
-		
+
 	}
 	else if (key == 50) //2
 	{
@@ -316,8 +301,17 @@ void AppWindow::onKeyDown(int key)
 			if (freeCam) {
 				camList[5].AdjustPosition(x, y, z);
 			}
+
+			for (int i = 0; i < cubeList.size(); i++) {
+				std::cout << "a";
+				Vector3D r = cubeList[i].getLocalRotation();
+				r.m_x += 0.1;
+				r.m_y += 0.1;
+				r.m_z += 0.1;
+				cubeList[i].setRotation(r);
+			}
 		}
-		
+
 	}
 	else if (key == 65) // A
 	{
@@ -345,6 +339,14 @@ void AppWindow::onKeyDown(int key)
 			if (freeCam) {
 				camList[5].AdjustPosition(x, y, z);
 			}
+
+			for (int i = 0; i < cubeList.size(); i++) {
+				Vector3D r = cubeList[i].getLocalRotation();
+				r.m_x -= 0.1;
+				r.m_y -= 0.1;
+				r.m_z -= 0.1;
+				cubeList[i].setRotation(r);
+			}
 		}
 	}
 	else if (key == 68) // D
@@ -361,11 +363,39 @@ void AppWindow::onKeyDown(int key)
 			}
 		}
 	}
+	else if (key == 81) // Q
+	{
+		if (freeCam) {
+			XMFLOAT3 forwardFloat3;
+			XMStoreFloat3(&forwardFloat3, camList[5].GetUpVector());
+
+			float x = forwardFloat3.x * camSpeed;
+			float y = forwardFloat3.y * camSpeed;
+			float z = forwardFloat3.z * camSpeed;
+			if (freeCam) {
+				camList[5].AdjustPosition(x, y, z);
+			}
+		}
+	}
+	else if (key == 69) // E
+	{
+		if (freeCam) {
+			XMFLOAT3 forwardFloat3;
+			XMStoreFloat3(&forwardFloat3, camList[5].GetDownVector());
+
+			float x = forwardFloat3.x * camSpeed;
+			float y = forwardFloat3.y * camSpeed;
+			float z = forwardFloat3.z * camSpeed;
+			if (freeCam) {
+				camList[5].AdjustPosition(x, y, z);
+			}
+		}
+	}
 
 	//cube cam despawn
 
-		
-	
+
+
 }
 
 void AppWindow::onKeyUp(int key)
@@ -402,14 +432,14 @@ void AppWindow::onKeyUp(int key)
 void AppWindow::onMouseMove(const Point& delta_mouse_pos)
 {
 	if (freeCam) {
-		camList[5].AdjustRotation(delta_mouse_pos.m_y *0.01, delta_mouse_pos.m_x* 0.01, 0);
+		camList[5].AdjustRotation(delta_mouse_pos.m_y * 0.01, delta_mouse_pos.m_x * 0.01, 0);
 	}
-	
+
 }
 
 void AppWindow::onLeftMouseDown(const Point& mouse_pos)
 {
-	
+
 }
 
 void AppWindow::onLeftMouseUp(const Point& mouse_pos)
