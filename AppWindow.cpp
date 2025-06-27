@@ -241,7 +241,7 @@ void AppWindow::onKeyDown(int key)
 		freeCam = false;
 		if (camPawn) {
 			camPawn = false;
-			cubeList.pop_back();
+		//	cubeList.pop_back();
 		}
 
 	}
@@ -252,7 +252,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-			cubeList.pop_back();
+		//	cubeList.pop_back();
 		}
 	}
 	else if (key == 51) //3
@@ -262,7 +262,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-			cubeList.pop_back();
+		//	cubeList.pop_back();
 		}
 	}
 	else if (key == 52) //4
@@ -272,7 +272,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-			cubeList.pop_back();
+		//	cubeList.pop_back();
 		}
 	}
 	else if (key == 53) //5
@@ -282,7 +282,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-			cubeList.pop_back();
+			//cubeList.pop_back();
 		}
 	}
 
@@ -419,9 +419,10 @@ void AppWindow::onKeyUp(int key)
 
 		camList[5].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
 		camList[5].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
+		/*
 		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, camList[currentCam].getPosition().m_x,
 			camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "camCube"));
-		cubeList[cubeList.size() - 1].createBuffer(cloneCube);
+		cubeList[cubeList.size() - 1].createBuffer(cloneCube);*/
 
 		camPawn = true;
 
