@@ -18,8 +18,8 @@ public:
 	bool setIndexBuffer(IndexBuffer* index_buffer);
 
 	void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
-	void drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location);
-	void drawIndexedTriangleStrip(UINT index_count, UINT start_vertex_index, UINT start_index_location);
+	void drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location, int viewNum);
+	void drawIndexedTriangleStrip(UINT index_count, UINT start_vertex_index, UINT start_index_location, int viewNum);
 	void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index);
 
 	void setViewportSize(UINT width, UINT height);

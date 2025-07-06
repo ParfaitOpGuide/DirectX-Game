@@ -51,25 +51,17 @@ void DeviceContext::drawTriangleList(UINT vertex_count, UINT start_vertex_index)
 	m_device_context->Draw(vertex_count, start_vertex_index);
 }
 
-void DeviceContext::drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location)
+void DeviceContext::drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location, int viewNum)
 {
 	m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	m_device_context->RSSetViewports(1, &vps[0]);
-	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
-	m_device_context->RSSetViewports(1, &vps[1]);
-	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
-	m_device_context->RSSetViewports(1, &vps[2]);
+	m_device_context->RSSetViewports(1, &vps[viewNum]);
 	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
 }
 
-void DeviceContext::drawIndexedTriangleStrip(UINT index_count, UINT start_vertex_index, UINT start_index_location)
+void DeviceContext::drawIndexedTriangleStrip(UINT index_count, UINT start_vertex_index, UINT start_index_location, int viewNum)
 {
 	m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	m_device_context->RSSetViewports(1, &vps[0]);
-	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
-	m_device_context->RSSetViewports(1, &vps[1]);
-	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
-	m_device_context->RSSetViewports(1, &vps[2]);
+	m_device_context->RSSetViewports(1, &vps[viewNum]);
 	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
 }
 

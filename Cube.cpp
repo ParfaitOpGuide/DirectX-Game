@@ -75,11 +75,12 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 	temp.setIdentity();
 	temp.setRotationX(this->getLocalRotation().m_x);
 	cc.m_world *= temp;
-
-	if (std::abs(this->getLocalPosition().m_x) + (this->getLocalScale().m_x / 2.0) >= 1.25f)
-		moveSpeed.m_x = -moveSpeed.m_x;
-	if (std::abs(this->getLocalPosition().m_y) + (this->getLocalScale().m_y / 2.0) >= 0.9f)
-		moveSpeed.m_y = -moveSpeed.m_y;
+	if (!ticked) {
+		if (std::abs(this->getLocalPosition().m_x) + (this->getLocalScale().m_x / 2.0) >= 1.25f)
+			moveSpeed.m_x = -moveSpeed.m_x;
+		if (std::abs(this->getLocalPosition().m_y) + (this->getLocalScale().m_y / 2.0) >= 0.9f)
+			moveSpeed.m_y = -moveSpeed.m_y;
+	}
 	//no check for z because no bounding box
 	Vector3D pos = this->getLocalPosition();
 	pos.m_x += moveSpeed.m_x;
@@ -110,19 +111,27 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 }
 
-void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, Camera cam)
+void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, std::vector<Camera> camList, int currentCam)
 {
-	update(deltaTime, width, height, cam);
-	m_time += animation_speed * deltaTime;
-	constant cc;
-	cc.m_time = m_time;
+	ticked = false;
+	update(deltaTime, width, height, camList[0]);
+	ticked = true;
+	
 
 	//handles drawing
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 0);
+	update(deltaTime, width, height, camList[4]);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 1);
+	update(deltaTime, width, height, camList[currentCam]);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 2);
+	
+	m_time += animation_speed * deltaTime;
+	constant cc;
+	cc.m_time = m_time;
 }
 
 void Cube::createBuffer(void** shader_byte_code, size_t* size_shader)
