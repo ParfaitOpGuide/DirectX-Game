@@ -41,7 +41,7 @@ bool DeviceContext::setVertexBuffer(VertexBuffer* vertex_buffer)
 
 bool DeviceContext::setIndexBuffer(IndexBuffer* index_buffer)
 {
-	m_device_context->IASetIndexBuffer(index_buffer->m_buffer,DXGI_FORMAT_R32_UINT,0);
+	m_device_context->IASetIndexBuffer(index_buffer->m_buffer, DXGI_FORMAT_R32_UINT, 0);
 	return true;
 }
 
@@ -54,12 +54,22 @@ void DeviceContext::drawTriangleList(UINT vertex_count, UINT start_vertex_index)
 void DeviceContext::drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location)
 {
 	m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_device_context->RSSetViewports(1, &vps[0]);
+	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
+	m_device_context->RSSetViewports(1, &vps[1]);
+	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
+	m_device_context->RSSetViewports(1, &vps[2]);
 	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
 }
 
 void DeviceContext::drawIndexedTriangleStrip(UINT index_count, UINT start_vertex_index, UINT start_index_location)
 {
 	m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	m_device_context->RSSetViewports(1, &vps[0]);
+	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
+	m_device_context->RSSetViewports(1, &vps[1]);
+	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
+	m_device_context->RSSetViewports(1, &vps[2]);
 	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
 }
 
@@ -72,13 +82,29 @@ void DeviceContext::drawTriangleStrip(UINT vertex_count, UINT start_vertex_index
 
 void DeviceContext::setViewportSize(UINT width, UINT height)
 {
-	D3D11_VIEWPORT vp = {};
-	vp.Width = width;
-	vp.Height = height;
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
 
-	m_device_context->RSSetViewports(1, &vp);
+	vps[0].Width = width/2;
+	vps[0].Height = height/2;
+	vps[0].MinDepth = 0.0f;
+	vps[0].MaxDepth = 1.0f;
+	vps[0].TopLeftX = 0;
+	vps[0].TopLeftY = 0.0f;
+
+	vps[1].Width = width/2;
+	vps[1].Height = height/2;
+	vps[1].MinDepth = 0.0f;
+	vps[1].MaxDepth = 1.0f;
+	vps[1].TopLeftX = width / 2;
+	vps[1].TopLeftY = 0.0f;
+
+	vps[2].Width = width;
+	vps[2].Height = height/2;
+	vps[2].MinDepth = 0.0f;
+	vps[2].MaxDepth = 1.0f;
+	vps[2].TopLeftX = 0;
+	vps[2].TopLeftY = height / 2;
+
+
 }
 
 void DeviceContext::setVertexShader(VertexShader* vertex_shader)

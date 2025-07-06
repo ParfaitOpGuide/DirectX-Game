@@ -34,7 +34,7 @@ public:
 
 private:
 	ID3D11DeviceContext* m_device_context;
-
+	D3D11_VIEWPORT vps[3];
 	friend class ConstantBuffer;
 };
 
