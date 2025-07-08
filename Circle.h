@@ -34,5 +34,5 @@ public:
 	bool increasing;
 	float rotSpeed;
 	Vector3D moveSpeed;
-	bool ticked
+	bool ticked;
 };

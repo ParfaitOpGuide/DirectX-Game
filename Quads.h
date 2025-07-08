@@ -58,5 +58,5 @@ public:
 	float change_speed = 5.0f;
 	bool increasing;
 	float rotSpeed;
-	bool ticked
+	bool ticked;
 };
