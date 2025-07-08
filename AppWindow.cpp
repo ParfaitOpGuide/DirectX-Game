@@ -97,12 +97,11 @@ void AppWindow::onCreate()
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
 
 	ImGui_ImplWin32_Init(this->m_hwnd);
-	ImGui_ImplDX11_Init(GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getDeviceContext());
+	ImGui_ImplDX11_Init(GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getDeviceContext());
 
 
 }
@@ -112,7 +111,10 @@ void AppWindow::onUpdate()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	ImGui::ShowDemoWindow();
+
+	ImGui::Begin("Hello, world!");
+	ImGui::Text("aaaaaaaaaa");
+	ImGui::End();
 
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
@@ -124,26 +126,30 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-	
-	
+
+
 
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
-	
+
 		Vector3D pos = cubeList[i].getLocalPosition();
 		pos.m_y += 0.001f;
 		cubeList[i].setPosition(pos);
-		
+
 	}
-for (int i = 0; i < quadList.size();i++) {
+	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), cam);
 	}
-	m_swap_chain->present(true);
-
-	
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+
+	m_swap_chain->present(true);
+
+
+
+
 }
 
 void AppWindow::onDestroy()
@@ -153,7 +159,7 @@ void AppWindow::onDestroy()
 	m_vs->release();
 	m_ps->release();
 
-	
+
 	for (int i = 0; i < quadList.size();i++) {
 		quadList[i].destroy();
 	}
