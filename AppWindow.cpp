@@ -7,6 +7,10 @@
 #include <DirectXMath.h>
 #include"InputSystem.h"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_dx11.h"
+
 AppWindow* AppWindow::sharedInstance;
 
 AppWindow::AppWindow()
@@ -135,11 +139,27 @@ void AppWindow::onCreate()
 	m_raster->use();
 
 	EngineTime::initialize();
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplWin32_Init(this->m_hwnd);
+	ImGui_ImplDX11_Init(GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getDeviceContext());
 }
 
 void AppWindow::onUpdate()
 {
 	InputSystem::get()->update();
+
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::Begin("Hello, world!");
+	ImGui::Text("aaaaaaaaaa");
+	ImGui::End();
 
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
@@ -163,9 +183,11 @@ void AppWindow::onUpdate()
 	for (int i = 0; i < circleList.size();i++) {
 		circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
 	m_swap_chain->present(true);
-
-
 }
 
 void AppWindow::onDestroy()
