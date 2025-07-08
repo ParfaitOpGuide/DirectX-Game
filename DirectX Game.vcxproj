@@ -179,6 +179,7 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Quads.h" />
     <ClInclude Include="RasterState.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="VertexBuffer.h" />
