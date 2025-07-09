@@ -4,8 +4,15 @@
 #include "Window.h"
 #include "EngineTime.h"
 #include <string>
+#include "imgui/imgui.h"
+
+
+extern IMGUI_IMPL_API LRESULT CALLBACK ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM uparam, LPARAM lparam);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+		return true; // If ImGui is handling the message, return true to prevent further processing
 
 	switch (msg) {
 	case WM_CREATE:
