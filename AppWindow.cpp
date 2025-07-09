@@ -231,15 +231,34 @@ void AppWindow::onUpdate()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	//ImGui::SetNextWindowSize(ImVec2(300, 400));
+	ImGui::SetNextWindowSize(ImVec2(300, 400));
 
-	ImGui::Begin("Credits");
-	ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
-	
-	ImGui::Text("pointer = %p", my_texture);
-	ImGui::Text("size = %d x %d", my_image_width, my_image_height);
-	ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
+	ImGui::Begin("Main Window");
+	ImGui::Checkbox("Color Picker", &window);
+
+	if (ImGui::CollapsingHeader("Credits")) {
+		ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
+
+		ImGui::Text("pointer = %p", my_texture);
+		ImGui::Text("size = %d x %d", my_image_width, my_image_height);
+		ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
+	}
 	ImGui::End();
+	static bool alpha_preview = true;
+	static bool alpha_half_preview = false;
+	static bool drag_and_drop = true;
+	static bool options_menu = true;
+	static bool hdr = false;
+
+	static ImVec4 color = ImVec4(114.0f / 255.0f, 144.0f / 255.0f, 154.0f / 255.0f, 200.0f / 255.0f);
+	ImGuiColorEditFlags misc_flags = (hdr ? ImGuiColorEditFlags_HDR : 0) | (drag_and_drop ? 0 : ImGuiColorEditFlags_NoDragDrop) | (alpha_half_preview ? ImGuiColorEditFlags_AlphaPreviewHalf : (alpha_preview ? ImGuiColorEditFlags_AlphaPreview : 0)) | (options_menu ? 0 : ImGuiColorEditFlags_NoOptions);
+	if (window)
+	{
+		ImGui::SetNextWindowSize(ImVec2(250, 300));
+		ImGui::Begin("Jerma");
+		ImGui::ColorPicker4("##picker", (float*)&color, misc_flags | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoSmallPreview);
+		ImGui::End();
+	}
 
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
