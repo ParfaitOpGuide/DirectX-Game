@@ -244,19 +244,14 @@ void AppWindow::onUpdate()
 		ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
 	}
 	ImGui::End();
-	static bool alpha_preview = true;
-	static bool alpha_half_preview = false;
-	static bool drag_and_drop = true;
-	static bool options_menu = true;
-	static bool hdr = false;
+
 
 	static ImVec4 color = ImVec4(114.0f / 255.0f, 144.0f / 255.0f, 154.0f / 255.0f, 200.0f / 255.0f);
-	ImGuiColorEditFlags misc_flags = (hdr ? ImGuiColorEditFlags_HDR : 0) | (drag_and_drop ? 0 : ImGuiColorEditFlags_NoDragDrop) | (alpha_half_preview ? ImGuiColorEditFlags_AlphaPreviewHalf : (alpha_preview ? ImGuiColorEditFlags_AlphaPreview : 0)) | (options_menu ? 0 : ImGuiColorEditFlags_NoOptions);
 	if (window)
 	{
 		ImGui::SetNextWindowSize(ImVec2(250, 300));
 		ImGui::Begin("Jerma");
-		ImGui::ColorPicker4("##picker", (float*)&color, misc_flags | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoSmallPreview);
+		ImGui::ColorPicker4("##picker", (float*)&color, ImGuiColorEditFlags_PickerHueWheel,0);
 		ImGui::End();
 	}
 
