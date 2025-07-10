@@ -233,13 +233,36 @@ void AppWindow::onUpdate()
 	ImGui::NewFrame();
 	//ImGui::SetNextWindowSize(ImVec2(300, 400));
 
-	ImGui::Begin("Credits");
+	static bool truth = true;
+	ImGui::Begin("Viewport 0", &truth, ImGuiWindowFlags_AlwaysAutoResize);
+	if(currentCam == 5)
+	ImGui::Text("Current View: 5");
+	if (currentCam == 1)
+	ImGui::Text("Current View: 1");
+	if (currentCam == 2)
+	ImGui::Text("Current View: 2");
+	if (ImGui::Button("View 5"))
+	{
+		currentCam = 5;
+	}
+	if (ImGui::Button("View 1"))
+	{
+		currentCam = 1;
+	}
+	if (ImGui::Button("View 2"))
+	{
+		currentCam = 2;
+	}
+	ImGui::End();
+
+	/*	ImGui::Begin("Credits");
 	ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
 	
 	ImGui::Text("pointer = %p", my_texture);
 	ImGui::Text("size = %d x %d", my_image_width, my_image_height);
 	ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
-	ImGui::End();
+	ImGui::End();*/
+
 
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
@@ -255,13 +278,13 @@ void AppWindow::onUpdate()
 
 
 	for (int i = 0; i < cubeList.size();i++) {
-		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+		//cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 	for (int i = 0; i < quadList.size();i++) {
-		quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+		//quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 	for (int i = 0; i < circleList.size();i++) {
-		circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+		//circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 
 	ImGui::Render();
