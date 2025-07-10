@@ -8,8 +8,8 @@ public:
 			static CameraNumHolder sharedInstance;
 			return &sharedInstance;
 		}
-		int view1CameraNum = 1;
-		int view2CameraNum = 3;
+		int view1CameraNum = 0;
+		int view2CameraNum = 2;
 		int view3CameraNum = 5;
 
 private:
