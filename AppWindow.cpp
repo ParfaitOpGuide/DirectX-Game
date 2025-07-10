@@ -7,7 +7,8 @@
 #include "EngineTime.h"
 #include <cstdlib>
 #include <DirectXMath.h>
-#include"InputSystem.h"
+#include "InputSystem.h"
+#include "CameraNumHolder.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_win32.h"
@@ -174,14 +175,16 @@ void AppWindow::onCreate()
 	*/
 	//cam 1
 	camList.push_back(Camera());
-	camList[0].SetPosition(0.0f, .3f, -2.0f);
-	camList[0].SetRotation(DirectX::XMVectorSet(0, 0, 0, 0));
-	camList[0].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+	camList[0].SetPosition(1.0f, 1.3f, -1.0f);
+	camList[0].SetRotation(DirectX::XMVectorSet(0.6f, -0.8f, 0, 0));
+	camList[0].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
 	//cam 2
 	camList.push_back(Camera());
-	camList[1].SetPosition(1.0f, 1.3f, -1.0f);
-	camList[1].SetRotation(DirectX::XMVectorSet(0.6f, -0.8f, 0, 0));
+	camList[1].SetPosition(0.0f, 1.f, -.0f);
+	camList[1].SetRotation(DirectX::XMVectorSet(1.5708f, .0f, 0, 0));
 	camList[1].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+
+	//port 2
 	//cam 3
 	camList.push_back(Camera());
 	camList[2].SetPosition(-1.0f, 1.3f, -1.0f);
@@ -189,19 +192,27 @@ void AppWindow::onCreate()
 	camList[2].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 	//cam 4
 	camList.push_back(Camera());
-	camList[3].SetPosition(-.8f, .3f, 0.3f);
-	camList[3].SetRotation(DirectX::XMVectorSet(0, 2, 0, 0));
+	camList[3].SetPosition(0.0f, 1.f, -.0f);
+	camList[3].SetRotation(DirectX::XMVectorSet(1.5708f, .0f, 0, 0));
 	camList[3].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+
+	//port 3
 	//cam 5
 	camList.push_back(Camera());
 	camList[4].SetPosition(.8f, .3f, 0.3f);
 	camList[4].SetRotation(DirectX::XMVectorSet(0, -2, 0, 0));
 	camList[4].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
-	currentCam = 0;
-
-	//FREE CAM 6
+	//cam 6
 	camList.push_back(Camera());
-	camList[5].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+	camList[5].SetPosition(0.0f, 1.f, -.0f);
+	camList[5].SetRotation(DirectX::XMVectorSet(1.5708f, .0f, 0, 0));
+	camList[5].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
+	
+	//freecam
+	camList.push_back(Camera());
+	camList[6].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+
+
 
 	m_raster = GraphicsEngine::get()->createRasterState();
 	m_raster->use();
@@ -233,17 +244,116 @@ void AppWindow::onUpdate()
 	ImGui::NewFrame();
 	//ImGui::SetNextWindowSize(ImVec2(300, 400));
 
-	ImGui::Begin("Credits");
+	static bool menuOpen[3] = { false, false, false };
+	
+	if (ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("Viewports")) {
+			if (ImGui::MenuItem("Viewport 1")) menuOpen[0] = true;
+			if (ImGui::MenuItem("Viewport 2")) menuOpen[1] = true; //does nothing yet
+			if (ImGui::MenuItem("Viewport 3")) menuOpen[2] = true; //does nothing yet
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	};
+
+	static bool wireframe_1 = false;
+	if (menuOpen[0])
+	{
+		ImGui::Begin("Viewport 1", &menuOpen[0], ImGuiWindowFlags_AlwaysAutoResize);
+		if (CameraNumHolder::getInstance()->view1CameraNum == 0 && !wireframe_1)
+			ImGui::Text("Current View: Perspective View");
+		else if (CameraNumHolder::getInstance()->view1CameraNum == 1)
+			ImGui::Text("Current View: Top-Down");
+		else 
+			ImGui::Text("Current View: Wireframe View");
+
+		if (ImGui::Button("Perspective View"))
+		{
+			wireframe_1 = false;
+			CameraNumHolder::getInstance()->view1CameraNum = 0;
+		}
+		if (ImGui::Button("Top-Down View"))
+			CameraNumHolder::getInstance()->view1CameraNum = 1;
+		if (ImGui::Button("Wireframe View"))
+		{
+			wireframe_1 = true;
+			CameraNumHolder::getInstance()->view1CameraNum = 0;
+			//Add whatever is needed for wireframe.
+		}
+
+		ImGui::End();
+	}
+
+	static bool wireframe_2 = false;
+	if (menuOpen[1])
+	{
+		ImGui::Begin("Viewport 2", &menuOpen[1], ImGuiWindowFlags_AlwaysAutoResize);
+		if (CameraNumHolder::getInstance()->view2CameraNum == 2 && !wireframe_2)
+			ImGui::Text("Current View: Perspective View");
+		else if (CameraNumHolder::getInstance()->view2CameraNum == 3)
+			ImGui::Text("Current View: Top-Down");
+		else
+			ImGui::Text("Current View: Wireframe View");
+
+		if (ImGui::Button("Perspective View"))
+		{
+			wireframe_2 = false;
+			CameraNumHolder::getInstance()->view2CameraNum = 2;
+		}
+		if (ImGui::Button("Top-Down View"))
+			CameraNumHolder::getInstance()->view2CameraNum = 3;
+		if (ImGui::Button("Wireframe View"))
+		{
+			wireframe_2 = true;
+			CameraNumHolder::getInstance()->view2CameraNum = 2;
+			//Add whatever is needed for wireframe.
+		}
+
+		ImGui::End();
+	}
+
+
+	static bool wireframe_3 = false;
+	if (menuOpen[2])
+	{
+		ImGui::Begin("Viewport 3", &menuOpen[2], ImGuiWindowFlags_AlwaysAutoResize);
+		if (CameraNumHolder::getInstance()->view3CameraNum == 4 && !wireframe_3)
+			ImGui::Text("Current View: Perspective View");
+		else if (CameraNumHolder::getInstance()->view3CameraNum == 5)
+			ImGui::Text("Current View: Top-Down");
+		else
+			ImGui::Text("Current View: Wireframe View");
+
+		if (ImGui::Button("Perspective View"))
+		{
+			wireframe_3 = false;
+			CameraNumHolder::getInstance()->view3CameraNum = 4;
+		}
+		if (ImGui::Button("Top-Down View"))
+			CameraNumHolder::getInstance()->view3CameraNum = 5;
+		if (ImGui::Button("Wireframe View"))
+		{
+			wireframe_3 = true;
+			CameraNumHolder::getInstance()->view3CameraNum = 4;
+			//Add whatever is needed for wireframe.
+		}
+
+		ImGui::End();
+	}
+
+
+	/*	ImGui::Begin("Credits");
 	ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
 	
 	ImGui::Text("pointer = %p", my_texture);
 	ImGui::Text("size = %d x %d", my_image_width, my_image_height);
 	ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
-	ImGui::End();
+	ImGui::End();*/
+
 
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
-		.0, 0, 0, 1);
+		.3, 0.3, 0, 1);
 
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
@@ -258,10 +368,10 @@ void AppWindow::onUpdate()
 		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 	for (int i = 0; i < quadList.size();i++) {
-		quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+		//quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 	for (int i = 0; i < circleList.size();i++) {
-		circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+		//circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 
 	ImGui::Render();
@@ -310,7 +420,7 @@ void AppWindow::onKeyDown(int key)
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
 
-	std::cout << key << "\n";
+	//std::cout << key << "\n";
 	if (key == 32)
 	{
 		if (!pressed) {
@@ -401,7 +511,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 
 			for (int i = 0; i < cubeList.size(); i++) {
@@ -425,7 +535,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 		}
 	}
@@ -439,7 +549,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 
 			for (int i = 0; i < cubeList.size(); i++) {
@@ -461,7 +571,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 		}
 	}
@@ -475,7 +585,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 		}
 	}
@@ -489,7 +599,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 		}
 	}
@@ -519,8 +629,8 @@ void AppWindow::onKeyUp(int key)
 		if (!freeCam)
 			freeCam = true;
 
-		camList[5].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
-		camList[5].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
+		camList[freeCamNum].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
+		camList[freeCamNum].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
 		/*
 		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, camList[currentCam].getPosition().m_x,
 			camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "camCube"));
@@ -528,14 +638,14 @@ void AppWindow::onKeyUp(int key)
 
 		camPawn = true;
 
-		currentCam = 5;
+		currentCam = freeCamNum;
 	}
 }
 
 void AppWindow::onMouseMove(const Point& delta_mouse_pos)
 {
 	if (freeCam) {
-		camList[5].AdjustRotation(delta_mouse_pos.m_y * 0.01, delta_mouse_pos.m_x * 0.01, 0);
+		camList[freeCamNum].AdjustRotation(delta_mouse_pos.m_y * 0.01, delta_mouse_pos.m_x * 0.01, 0);
 	}
 
 }

@@ -16,12 +16,14 @@ public:
 	void toggleWireframe();
 
 private:
-	bool m_RenderWireframe = false;
+	bool m_RenderWireframe = true;
 
 	ComPtr<ID3D11RasterizerState> m_RasterStateSolid = nullptr;
 	void createRasterStateSolid();
 
 	ComPtr<ID3D11RasterizerState> m_RasterStateWireframe = nullptr;
 	void createRasterStateWireframe();
+
+	ID3D11DeviceContext* context;
 };
 

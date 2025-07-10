@@ -4,6 +4,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "EngineTime.h"
+#include "CameraNumHolder.h"
 
 
 
@@ -114,7 +115,7 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, std::vector<Camera> camList, int currentCam)
 {
 	ticked = false;
-	update(deltaTime, width, height, camList[0]);
+	update(deltaTime, width, height, camList[CameraNumHolder::getInstance()->view1CameraNum]);
 	ticked = true;
 	
 
@@ -124,9 +125,9 @@ void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 0);
-	update(deltaTime, width, height, camList[4]);
+	update(deltaTime, width, height, camList[CameraNumHolder::getInstance()->view2CameraNum]);
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 1);
-	update(deltaTime, width, height, camList[currentCam]);
+	update(deltaTime, width, height, camList[CameraNumHolder::getInstance()->view3CameraNum]);
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 2);
 	
 	m_time += animation_speed * deltaTime;
