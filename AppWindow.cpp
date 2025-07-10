@@ -7,7 +7,8 @@
 #include "EngineTime.h"
 #include <cstdlib>
 #include <DirectXMath.h>
-#include"InputSystem.h"
+#include "InputSystem.h"
+#include "CameraNumHolder.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_win32.h"
@@ -233,27 +234,36 @@ void AppWindow::onUpdate()
 	ImGui::NewFrame();
 	//ImGui::SetNextWindowSize(ImVec2(300, 400));
 
-	static bool truth = true;
-	ImGui::Begin("Viewport 0", &truth, ImGuiWindowFlags_AlwaysAutoResize);
-	if(currentCam == 5)
-	ImGui::Text("Current View: 5");
-	if (currentCam == 1)
-	ImGui::Text("Current View: 1");
-	if (currentCam == 2)
-	ImGui::Text("Current View: 2");
-	if (ImGui::Button("View 5"))
+	static bool menuOpen[3] = { false, false, false };
+	
+	if (ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("Viewports")) {
+			if (ImGui::MenuItem("Viewport 1")) menuOpen[0] = true;
+			if (ImGui::MenuItem("Viewport 2")) menuOpen[1] = true; //does nothing yet
+			if (ImGui::MenuItem("Viewport 3")) menuOpen[2] = true; //does nothing yet
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	};
+
+	if (menuOpen[0])
 	{
-		currentCam = 5;
+		ImGui::Begin("Viewport 1", &menuOpen[0], ImGuiWindowFlags_AlwaysAutoResize);
+		if (CameraNumHolder::getInstance()->view1CameraNum == 0)
+			ImGui::Text("Current View: 0");
+		if (CameraNumHolder::getInstance()->view1CameraNum == 1)
+			ImGui::Text("Current View: 1");
+		if (CameraNumHolder::getInstance()->view1CameraNum == 2)
+			ImGui::Text("Current View: 2");
+		if (ImGui::Button("View 0"))
+			CameraNumHolder::getInstance()->view1CameraNum = 0;
+		if (ImGui::Button("View 1"))
+			CameraNumHolder::getInstance()->view1CameraNum = 1;
+		if (ImGui::Button("View 2"))
+			CameraNumHolder::getInstance()->view1CameraNum = 2;
+		ImGui::End();
 	}
-	if (ImGui::Button("View 1"))
-	{
-		currentCam = 1;
-	}
-	if (ImGui::Button("View 2"))
-	{
-		currentCam = 2;
-	}
-	ImGui::End();
+
 
 	/*	ImGui::Begin("Credits");
 	ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");

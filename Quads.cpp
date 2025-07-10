@@ -1,5 +1,6 @@
 #include "Quads.h"
 #include "EngineTime.h"
+#include "CameraNumHolder.h"
 #include <iostream>
 
 
