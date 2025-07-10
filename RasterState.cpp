@@ -13,7 +13,7 @@ RasterState::~RasterState()
 
 void RasterState::use()
 {
-	ID3D11DeviceContext* context = GraphicsEngine::get()->m_imm_context;
+	context = GraphicsEngine::get()->m_imm_context;
 	
 	if (m_RenderWireframe)
 	{
@@ -28,6 +28,14 @@ void RasterState::use()
 void RasterState::toggleWireframe()
 {
 	m_RenderWireframe = !m_RenderWireframe;
+	if (m_RenderWireframe)
+	{
+		context->RSSetState(m_RasterStateWireframe.Get());
+	}
+	else
+	{
+		context->RSSetState(m_RasterStateSolid.Get());
+	}
 }
 
 void RasterState::createRasterStateSolid()

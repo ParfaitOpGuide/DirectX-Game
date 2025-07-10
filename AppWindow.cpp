@@ -175,14 +175,16 @@ void AppWindow::onCreate()
 	*/
 	//cam 1
 	camList.push_back(Camera());
-	camList[0].SetPosition(0.0f, .3f, -2.0f);
-	camList[0].SetRotation(DirectX::XMVectorSet(0, 0, 0, 0));
-	camList[0].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+	camList[0].SetPosition(1.0f, 1.3f, -1.0f);
+	camList[0].SetRotation(DirectX::XMVectorSet(0.6f, -0.8f, 0, 0));
+	camList[0].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
 	//cam 2
 	camList.push_back(Camera());
-	camList[1].SetPosition(1.0f, 1.3f, -1.0f);
-	camList[1].SetRotation(DirectX::XMVectorSet(0.6f, -0.8f, 0, 0));
+	camList[1].SetPosition(0.0f, 1.f, -.0f);
+	camList[1].SetRotation(DirectX::XMVectorSet(1.5708f, .0f, 0, 0));
 	camList[1].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+
+	//port 2
 	//cam 3
 	camList.push_back(Camera());
 	camList[2].SetPosition(-1.0f, 1.3f, -1.0f);
@@ -190,19 +192,23 @@ void AppWindow::onCreate()
 	camList[2].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 	//cam 4
 	camList.push_back(Camera());
-	camList[3].SetPosition(-.8f, .3f, 0.3f);
-	camList[3].SetRotation(DirectX::XMVectorSet(0, 2, 0, 0));
+	camList[3].SetPosition(0.0f, 1.f, -.0f);
+	camList[3].SetRotation(DirectX::XMVectorSet(1.5708f, .0f, 0, 0));
 	camList[3].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+
+	//port 3
 	//cam 5
 	camList.push_back(Camera());
 	camList[4].SetPosition(.8f, .3f, 0.3f);
 	camList[4].SetRotation(DirectX::XMVectorSet(0, -2, 0, 0));
 	camList[4].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
-	currentCam = 0;
-
-	//FREE CAM 6
+	//cam 6
 	camList.push_back(Camera());
+	camList[5].SetPosition(0.0f, 1.f, -.0f);
+	camList[5].SetRotation(DirectX::XMVectorSet(1.5708f, .0f, 0, 0));
 	camList[5].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+
+
 
 	m_raster = GraphicsEngine::get()->createRasterState();
 	m_raster->use();
@@ -288,7 +294,7 @@ void AppWindow::onUpdate()
 
 
 	for (int i = 0; i < cubeList.size();i++) {
-		//cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 	for (int i = 0; i < quadList.size();i++) {
 		//quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
