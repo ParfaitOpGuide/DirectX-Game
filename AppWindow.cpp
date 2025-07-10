@@ -240,6 +240,7 @@ void AppWindow::onUpdate()
 	ImGui::NewFrame();
 	//ImGui::SetNextWindowSize(ImVec2(300, 400));
 
+	static bool truth = true;
 	static bool menuOpen[3] = { false, false, false };
 	
 	if (ImGui::BeginMainMenuBar()) {
@@ -251,6 +252,25 @@ void AppWindow::onUpdate()
 		}
 		ImGui::EndMainMenuBar();
 	};
+
+	ImGuiWindowFlags flags = 0;
+	flags |= ImGuiWindowFlags_NoTitleBar; 
+	flags |= ImGuiWindowFlags_NoMove;
+	flags |= ImGuiWindowFlags_NoResize;
+
+	RECT rc = this->getClientWindowRect();
+	auto width = rc.right - rc.left;
+	auto height = rc.bottom - rc.top;
+
+	ImGui::SetNextWindowSize(ImVec2(1, height/2 - 20));
+	ImGui::SetNextWindowPos(ImVec2(width/2, 20));
+	ImGui::Begin("Divider", &truth, flags);
+	ImGui::End();
+
+	ImGui::SetNextWindowSize(ImVec2(width, 0));
+	ImGui::SetNextWindowPos(ImVec2(0, height / 2));
+	ImGui::Begin("Divider2", &truth, flags);
+	ImGui::End();
 
 	static bool wireframe_1 = false;
 	if (menuOpen[0])
@@ -351,13 +371,13 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		.0, 0, 0, 1);
 
-	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-
+	std::cout << rc.right - rc.left << '\n';
+	std::cout << rc.right - rc.left << '\n';
 
 
 	for (int i = 0; i < cubeList.size();i++) {
