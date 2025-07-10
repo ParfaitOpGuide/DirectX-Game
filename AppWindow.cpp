@@ -252,21 +252,88 @@ void AppWindow::onUpdate()
 		ImGui::EndMainMenuBar();
 	};
 
+	static bool wireframe_1 = false;
 	if (menuOpen[0])
 	{
 		ImGui::Begin("Viewport 1", &menuOpen[0], ImGuiWindowFlags_AlwaysAutoResize);
-		if (CameraNumHolder::getInstance()->view1CameraNum == 0)
-			ImGui::Text("Current View: 0");
-		if (CameraNumHolder::getInstance()->view1CameraNum == 1)
-			ImGui::Text("Current View: 1");
-		if (CameraNumHolder::getInstance()->view1CameraNum == 2)
-			ImGui::Text("Current View: 2");
-		if (ImGui::Button("View 0"))
+		if (CameraNumHolder::getInstance()->view1CameraNum == 0 && !wireframe_1)
+			ImGui::Text("Current View: Perspective View");
+		else if (CameraNumHolder::getInstance()->view1CameraNum == 1)
+			ImGui::Text("Current View: Top-Down");
+		else 
+			ImGui::Text("Current View: Wireframe View");
+
+		if (ImGui::Button("Perspective View"))
+		{
+			wireframe_1 = false;
 			CameraNumHolder::getInstance()->view1CameraNum = 0;
-		if (ImGui::Button("View 1"))
+		}
+		if (ImGui::Button("Top-Down View"))
 			CameraNumHolder::getInstance()->view1CameraNum = 1;
-		if (ImGui::Button("View 2"))
-			CameraNumHolder::getInstance()->view1CameraNum = 2;
+		if (ImGui::Button("Wireframe View"))
+		{
+			wireframe_1 = true;
+			CameraNumHolder::getInstance()->view1CameraNum = 0;
+			//Add whatever is needed for wireframe.
+		}
+
+		ImGui::End();
+	}
+
+	static bool wireframe_2 = false;
+	if (menuOpen[1])
+	{
+		ImGui::Begin("Viewport 2", &menuOpen[1], ImGuiWindowFlags_AlwaysAutoResize);
+		if (CameraNumHolder::getInstance()->view2CameraNum == 2 && !wireframe_2)
+			ImGui::Text("Current View: Perspective View");
+		else if (CameraNumHolder::getInstance()->view2CameraNum == 3)
+			ImGui::Text("Current View: Top-Down");
+		else
+			ImGui::Text("Current View: Wireframe View");
+
+		if (ImGui::Button("Perspective View"))
+		{
+			wireframe_2 = false;
+			CameraNumHolder::getInstance()->view2CameraNum = 2;
+		}
+		if (ImGui::Button("Top-Down View"))
+			CameraNumHolder::getInstance()->view2CameraNum = 3;
+		if (ImGui::Button("Wireframe View"))
+		{
+			wireframe_2 = true;
+			CameraNumHolder::getInstance()->view2CameraNum = 2;
+			//Add whatever is needed for wireframe.
+		}
+
+		ImGui::End();
+	}
+
+
+	static bool wireframe_3 = false;
+	if (menuOpen[2])
+	{
+		ImGui::Begin("Viewport 3", &menuOpen[2], ImGuiWindowFlags_AlwaysAutoResize);
+		if (CameraNumHolder::getInstance()->view3CameraNum == 4 && !wireframe_3)
+			ImGui::Text("Current View: Perspective View");
+		else if (CameraNumHolder::getInstance()->view3CameraNum == 5)
+			ImGui::Text("Current View: Top-Down");
+		else
+			ImGui::Text("Current View: Wireframe View");
+
+		if (ImGui::Button("Perspective View"))
+		{
+			wireframe_3 = false;
+			CameraNumHolder::getInstance()->view3CameraNum = 4;
+		}
+		if (ImGui::Button("Top-Down View"))
+			CameraNumHolder::getInstance()->view3CameraNum = 5;
+		if (ImGui::Button("Wireframe View"))
+		{
+			wireframe_3 = true;
+			CameraNumHolder::getInstance()->view3CameraNum = 4;
+			//Add whatever is needed for wireframe.
+		}
+
 		ImGui::End();
 	}
 
@@ -294,7 +361,7 @@ void AppWindow::onUpdate()
 
 
 	for (int i = 0; i < cubeList.size();i++) {
-		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+		//cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 	for (int i = 0; i < quadList.size();i++) {
 		//quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
