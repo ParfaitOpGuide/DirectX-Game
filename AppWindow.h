@@ -28,9 +28,19 @@ public:
 	void onUpdate() override;
 	void onDestroy() override;
 
+	void onFocus()override;
+	void onKillFocus()override;
+
 
 	virtual void onKeyDown(int key) override;
 	virtual void onKeyUp(int key) override;
+	
+	virtual void onMouseMove(const Point& delta_mouse_pos) override;
+	virtual void onLeftMouseDown(const Point& mouse_pos) override;
+	virtual void onLeftMouseUp(const Point& mouse_pos)  override;
+
+	virtual void onRightMouseDown(const Point& mouse_pos)  override;
+	virtual void onRightMouseUp(const Point& mouse_pos)  override;
 
 	//singleton
 	static AppWindow* get();
@@ -50,6 +60,7 @@ private:
 	RasterState* m_raster;
 	std::vector<Camera> camList;
 	int currentCam;
+	int prevCam;
 
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};
@@ -58,7 +69,14 @@ private:
 	Cube cloneCube;
 	Circle cloneCircle;
 
+	int freeCamNum = 6;
 	bool freeCam = false;
 	bool pressed = false;
+	bool camPawn = false;
+
+	bool window = false;
+	int my_image_width = 0;
+	int my_image_height = 0;
+	ID3D11ShaderResourceView* my_texture = NULL;
 };
 

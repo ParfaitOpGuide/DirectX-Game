@@ -4,8 +4,15 @@
 #include "Window.h"
 #include "EngineTime.h"
 #include <string>
+#include "imgui/imgui.h"
+
+
+extern IMGUI_IMPL_API LRESULT CALLBACK ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM uparam, LPARAM lparam);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+		return true; // If ImGui is handling the message, return true to prevent further processing
 
 	switch (msg) {
 	case WM_CREATE:
@@ -27,6 +34,22 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		window->onDestroy();
 		::PostQuitMessage(0);
+		break;
+	}
+
+	case WM_SETFOCUS:
+	{
+		// Event fired when the window is destroyed
+		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		window->onFocus();
+		break;
+	}
+
+	case WM_KILLFOCUS:
+	{
+		// Event fired when the window is destroyed
+		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		window->onKillFocus();
 		break;
 	}
 
@@ -130,4 +153,12 @@ Window::~Window()
 void Window::onDestroy()
 {
 	m_is_run = false;
+}
+
+void Window::onFocus()
+{
+}
+
+void Window::onKillFocus()
+{
 }

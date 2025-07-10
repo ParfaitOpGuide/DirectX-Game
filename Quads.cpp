@@ -1,5 +1,6 @@
 #include "Quads.h"
 #include "EngineTime.h"
+#include "CameraNumHolder.h"
 #include <iostream>
 
 
@@ -73,19 +74,27 @@ void Quads::update(float deltaTime, float width, float height, Camera cam)
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 }
 
-void Quads::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, Camera cam)
+void Quads::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, std::vector<Camera> camList, int currentCam)
 {
-	update(deltaTime, width, height, cam);
-	m_time += animation_speed * deltaTime;
-	constant cc;
-	cc.m_time = m_time;
+	ticked = false;
+	update(deltaTime, width, height, camList[0]);
+	ticked = true;
+
 
 	//handles drawing
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 0);
+	update(deltaTime, width, height, camList[4]);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 1);
+	update(deltaTime, width, height, camList[currentCam]);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 2);
+
+	m_time += animation_speed * deltaTime;
+	constant cc;
+	cc.m_time = m_time;
 }
 
 void Quads::createBuffer(void** shader_byte_code, size_t* size_shader)

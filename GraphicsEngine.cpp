@@ -128,6 +128,16 @@ GraphicsEngine* GraphicsEngine::get()
 	return &engine;
 }
 
+ID3D11Device* GraphicsEngine::getDevice()
+{
+	return this->m_d3d_device;
+}
+
+ID3D11DeviceContext* GraphicsEngine::getDeviceContext()
+{
+	return this->m_imm_context;
+}
+
 VertexBuffer* GraphicsEngine::createVertexBuffer()
 {
 	return new VertexBuffer();
