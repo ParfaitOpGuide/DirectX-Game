@@ -206,7 +206,11 @@ void AppWindow::onCreate()
 	camList.push_back(Camera());
 	camList[5].SetPosition(0.0f, 1.f, -.0f);
 	camList[5].SetRotation(DirectX::XMVectorSet(1.5708f, .0f, 0, 0));
-	camList[5].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+	camList[5].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
+	
+	//freecam
+	camList.push_back(Camera());
+	camList[6].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 
 
 
@@ -369,7 +373,7 @@ void AppWindow::onUpdate()
 
 	//set color here
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
-		.0, 0, 0, 1);
+		.3, 0.3, 0, 1);
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
@@ -381,7 +385,7 @@ void AppWindow::onUpdate()
 
 
 	for (int i = 0; i < cubeList.size();i++) {
-		//cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 	for (int i = 0; i < quadList.size();i++) {
 		//quadList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
@@ -436,7 +440,7 @@ void AppWindow::onKeyDown(int key)
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
 
-	std::cout << key << "\n";
+	//std::cout << key << "\n";
 	if (key == 32)
 	{
 		if (!pressed) {
@@ -527,7 +531,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 
 			for (int i = 0; i < cubeList.size(); i++) {
@@ -551,7 +555,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 		}
 	}
@@ -565,7 +569,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 
 			for (int i = 0; i < cubeList.size(); i++) {
@@ -587,7 +591,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 		}
 	}
@@ -601,7 +605,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 		}
 	}
@@ -615,7 +619,7 @@ void AppWindow::onKeyDown(int key)
 			float y = forwardFloat3.y * camSpeed;
 			float z = forwardFloat3.z * camSpeed;
 			if (freeCam) {
-				camList[5].AdjustPosition(x, y, z);
+				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 		}
 	}
@@ -645,8 +649,8 @@ void AppWindow::onKeyUp(int key)
 		if (!freeCam)
 			freeCam = true;
 
-		camList[5].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
-		camList[5].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
+		camList[freeCamNum].SetPosition(camList[currentCam].getPosition().m_x, camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z);
+		camList[freeCamNum].SetRotation(camList[currentCam].getRotation().m_x, camList[currentCam].getRotation().m_y, camList[currentCam].getRotation().m_z);
 		/*
 		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, camList[currentCam].getPosition().m_x,
 			camList[currentCam].getPosition().m_y, camList[currentCam].getPosition().m_z, Vector3D(0.0, -0.0, 0), Vector3D(0, 0.0, 1.3), colors, colors2, "camCube"));
@@ -654,14 +658,14 @@ void AppWindow::onKeyUp(int key)
 
 		camPawn = true;
 
-		currentCam = 5;
+		currentCam = freeCamNum;
 	}
 }
 
 void AppWindow::onMouseMove(const Point& delta_mouse_pos)
 {
 	if (freeCam) {
-		camList[5].AdjustRotation(delta_mouse_pos.m_y * 0.01, delta_mouse_pos.m_x * 0.01, 0);
+		camList[freeCamNum].AdjustRotation(delta_mouse_pos.m_y * 0.01, delta_mouse_pos.m_x * 0.01, 0);
 	}
 
 }
