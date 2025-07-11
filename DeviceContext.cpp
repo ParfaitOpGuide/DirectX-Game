@@ -75,13 +75,13 @@ void DeviceContext::drawTriangleStrip(UINT vertex_count, UINT start_vertex_index
 void DeviceContext::setViewportSize(UINT width, UINT height)
 {
 
-	vps[0].Width = width/2;
-	vps[0].Height = height/2;
+	vps[0].Width = width;
+	vps[0].Height = height;
 	vps[0].MinDepth = 0.0f;
 	vps[0].MaxDepth = 1.0f;
 	vps[0].TopLeftX = 0;
 	vps[0].TopLeftY = 0.0f;
-
+/*
 	vps[1].Width = width/2;
 	vps[1].Height = height/2;
 	vps[1].MinDepth = 0.0f;
@@ -94,7 +94,7 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 	vps[2].MinDepth = 0.0f;
 	vps[2].MaxDepth = 1.0f;
 	vps[2].TopLeftX = 0;
-	vps[2].TopLeftY = height / 2;
+	vps[2].TopLeftY = height / 2;*/
 
 
 }

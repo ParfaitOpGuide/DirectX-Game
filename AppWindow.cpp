@@ -241,37 +241,35 @@ void AppWindow::onUpdate()
 		this->colWindow = !colWindow;
 		ImGui::EndMenu();
 	}
-	if (ImGui::BeginMenu("Credits", credWindow))
+	if (ImGui::BeginMenu("About"))
 	{
-		this->credWindow = !credWindow;
+		if (ImGui::MenuItem("Credits", "", credWindow)) {
+			this->credWindow = !credWindow;
+		}
 		ImGui::EndMenu();
 	}
 	ImGui::EndMainMenuBar();
 
 	if (!colWindow)
 	{
-		ImGui::SetNextWindowSize(ImVec2(250, 300));
+		ImGui::SetNextWindowSize(ImVec2(230, 260));
 		ImGui::Begin("Jerma");
-		ImGui::ColorPicker4("##picker", (float*)&color, ImGuiColorEditFlags_PickerHueWheel, 0);
+
 		if (ImGui::Button("Close")) {
 			this->colWindow = !colWindow;
 		}
+
+		ImGui::ColorPicker4("##picker", (float*)&color, ImGuiColorEditFlags_PickerHueWheel, 0);
+
 		ImGui::End();
 	}
 
-	if (!credWindow)
+	if (credWindow)
 	{
-		ImGui::SetNextWindowSize(ImVec2(300, 400));
+		ImGui::SetNextWindowSize(ImVec2(330, 430));
 		ImGui::Begin("Credits");
 
-		if (ImGui::Button("Close")) {
-			this->credWindow = !credWindow;
-		}
-		
 		ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
-
-		ImGui::Text("pointer = %p", my_texture);
-		ImGui::Text("size = %d x %d", my_image_width, my_image_height);
 		ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
 
 		ImGui::End();
@@ -346,7 +344,7 @@ void AppWindow::onKeyDown(int key)
 	colors2.push_back(Vector3D(1, 0, 1));
 	colors2.push_back(Vector3D(0, 1, 0));
 
-	std::cout << key << "\n";
+
 	if (key == 32)
 	{
 		if (!pressed) {
