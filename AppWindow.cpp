@@ -141,7 +141,7 @@ void AppWindow::onCreate()
 
 	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube");
 	cloneCube.createBuffer(&shader_byte_code, &size_shader);
-	
+
 	for (int i = 0; i < 10; i++) {
 		// //                       w     h     d     cx   cy     cz      list
 		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, Vector3D(0, 0, 0), Vector3D(((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1), colors, colors2, "cube"));
@@ -218,8 +218,8 @@ void AppWindow::onCreate()
 	ImGui_ImplWin32_Init(this->m_hwnd);
 	ImGui_ImplDX11_Init(GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getDeviceContext());
 
-	
-	
+
+
 	bool ret = LoadTextureFromFile("DLSU_Logo-green.png", &my_texture, &my_image_width, &my_image_height);
 	IM_ASSERT(ret);
 }
@@ -231,27 +231,49 @@ void AppWindow::onUpdate()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	ImGui::SetNextWindowSize(ImVec2(300, 400));
 
-	ImGui::Begin("Main Window");
-	ImGui::Checkbox("Color Picker", &window);
 
-	if (ImGui::CollapsingHeader("Credits")) {
+
+	static ImVec4 color = ImVec4(114.0f / 255.0f, 144.0f / 255.0f, 154.0f / 255.0f, 200.0f / 255.0f);
+	ImGui::BeginMainMenuBar();
+	if (ImGui::BeginMenu("Color Picker", colWindow))
+	{
+		this->colWindow = !colWindow;
+		ImGui::EndMenu();
+	}
+	if (ImGui::BeginMenu("Credits", credWindow))
+	{
+		this->credWindow = !credWindow;
+		ImGui::EndMenu();
+	}
+	ImGui::EndMainMenuBar();
+
+	if (!colWindow)
+	{
+		ImGui::SetNextWindowSize(ImVec2(250, 300));
+		ImGui::Begin("Jerma");
+		ImGui::ColorPicker4("##picker", (float*)&color, ImGuiColorEditFlags_PickerHueWheel, 0);
+		if (ImGui::Button("Close")) {
+			this->colWindow = !colWindow;
+		}
+		ImGui::End();
+	}
+
+	if (!credWindow)
+	{
+		ImGui::SetNextWindowSize(ImVec2(300, 400));
+		ImGui::Begin("Credits");
+
+		if (ImGui::Button("Close")) {
+			this->credWindow = !credWindow;
+		}
+		
 		ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
 
 		ImGui::Text("pointer = %p", my_texture);
 		ImGui::Text("size = %d x %d", my_image_width, my_image_height);
 		ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
-	}
-	ImGui::End();
 
-
-	static ImVec4 color = ImVec4(114.0f / 255.0f, 144.0f / 255.0f, 154.0f / 255.0f, 200.0f / 255.0f);
-	if (window)
-	{
-		ImGui::SetNextWindowSize(ImVec2(250, 300));
-		ImGui::Begin("Jerma");
-		ImGui::ColorPicker4("##picker", (float*)&color, ImGuiColorEditFlags_PickerHueWheel,0);
 		ImGui::End();
 	}
 
@@ -357,7 +379,7 @@ void AppWindow::onKeyDown(int key)
 		freeCam = false;
 		if (camPawn) {
 			camPawn = false;
-		//	cubeList.pop_back();
+			//	cubeList.pop_back();
 		}
 
 	}
@@ -368,7 +390,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-		//	cubeList.pop_back();
+			//	cubeList.pop_back();
 		}
 	}
 	else if (key == 51) //3
@@ -378,7 +400,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-		//	cubeList.pop_back();
+			//	cubeList.pop_back();
 		}
 	}
 	else if (key == 52) //4
@@ -388,7 +410,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-		//	cubeList.pop_back();
+			//	cubeList.pop_back();
 		}
 	}
 	else if (key == 53) //5
