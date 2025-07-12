@@ -426,7 +426,6 @@ void AppWindow::onKeyDown(int key)
 	if (key == 87) // W
 	{	
 		for (int i = 0; i < cubeList.size(); i++) {
-				std::cout << "a";
 				Vector3D r = cubeList[i].getLocalRotation();
 				r.m_x += 0.1;
 				r.m_y += 0.1;
