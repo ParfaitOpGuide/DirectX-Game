@@ -424,7 +424,14 @@ void AppWindow::onKeyDown(int key)
 
 	const float camSpeed = 0.04;
 	if (key == 87) // W
-	{
+	{	
+		for (int i = 0; i < cubeList.size(); i++) {
+				std::cout << "a";
+				Vector3D r = cubeList[i].getLocalRotation();
+				r.m_x += 0.1;
+				r.m_y += 0.1;
+				r.m_z += 0.1;
+				cubeList[i].setRotation(r);
 		if (freeCam) {
 			XMFLOAT3 forwardFloat3;
 			XMStoreFloat3(&forwardFloat3, camList[5].GetForwardVector());
@@ -436,13 +443,7 @@ void AppWindow::onKeyDown(int key)
 				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
 
-			for (int i = 0; i < cubeList.size(); i++) {
-				std::cout << "a";
-				Vector3D r = cubeList[i].getLocalRotation();
-				r.m_x += 0.1;
-				r.m_y += 0.1;
-				r.m_z += 0.1;
-				cubeList[i].setRotation(r);
+		
 			}
 		}
 
