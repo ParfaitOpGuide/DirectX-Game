@@ -17,7 +17,7 @@ public:
 	Circle();
 	Circle(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name);
 
-	void update(float deltaTime, float width, float height, Camera cam);
+	void update(float deltaTime, float width, float height, Camera cam, bool isPers);
 	void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, std::vector<Camera> camList, int currentCam);;
 	void createBuffer(void** shader_byte_code, size_t* size_shader);
 	void createBuffer(Circle copy);

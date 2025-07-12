@@ -14,6 +14,7 @@ public:
 
 	void use();
 	void toggleWireframe();
+	void toggleWireframe(bool b);
 
 private:
 	bool m_RenderWireframe = true;

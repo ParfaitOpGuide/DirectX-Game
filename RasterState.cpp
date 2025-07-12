@@ -38,6 +38,19 @@ void RasterState::toggleWireframe()
 	}
 }
 
+void RasterState::toggleWireframe(bool b)
+{
+	context = GraphicsEngine::get()->m_imm_context;
+	if (b)
+	{
+		context->RSSetState(m_RasterStateWireframe.Get());
+	}
+	else
+	{
+		context->RSSetState(m_RasterStateSolid.Get());
+	}
+}
+
 void RasterState::createRasterStateSolid()
 {
 
