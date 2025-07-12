@@ -66,7 +66,7 @@ void ViewportUIManager::OnUpdate()
 		if (ImGui::Button("Wireframe View"))
 		{
 			view1CameraNum = 0;
-			perspectiveCameraView[0] = false;
+			perspectiveCameraView[0] = true;
 			wireframeCameraView[0] = true;
 		}
 		if (ImGui::Button("Top-Down View"))
@@ -79,12 +79,12 @@ void ViewportUIManager::OnUpdate()
 		ImGui::Begin("Viewport 2", &menuOpen[1], ImGuiWindowFlags_AlwaysAutoResize);
 		if (view2CameraNum == 3)
 			ImGui::Text("Current View: Top-Down");
-		else if (!wireframeCameraView[1] && !perspectiveCameraView[1])
-			ImGui::Text("Current View: Lit View");
+		else if (wireframeCameraView[1] && perspectiveCameraView[1])
+			ImGui::Text("Current View: Wireframe View");
 		else if (perspectiveCameraView[1])
 			ImGui::Text("Current View: Perspective View");
 		else
-			ImGui::Text("Current View: Wireframe View");
+			ImGui::Text("Current View: Lit View");
 
 		if (ImGui::Button("Lit View"))
 		{
@@ -101,7 +101,7 @@ void ViewportUIManager::OnUpdate()
 		if (ImGui::Button("Wireframe View"))
 		{
 			view2CameraNum = 2;
-			perspectiveCameraView[1] = false;
+			perspectiveCameraView[1] = true;
 			wireframeCameraView[1] = true;
 		}
 		if (ImGui::Button("Top-Down View"))
@@ -135,7 +135,7 @@ void ViewportUIManager::OnUpdate()
 		if (ImGui::Button("Wireframe View"))
 		{
 			view3CameraNum = 4;
-			perspectiveCameraView[2] = false;
+			perspectiveCameraView[2] = true;
 			wireframeCameraView[2] = true;
 		}
 		if (ImGui::Button("Top-Down View"))

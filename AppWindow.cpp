@@ -139,13 +139,14 @@ void AppWindow::onCreate()
 	cloneCircle.createBuffer(&shader_byte_code, &size_shader);
 	circleList.push_back(Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle"));
 	circleList[0].createBuffer(cloneCircle);*/
-
-	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube");
+	m_raster = GraphicsEngine::get()->createRasterState();
+	m_raster->use();
+	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube", m_raster);
 	cloneCube.createBuffer(&shader_byte_code, &size_shader);
 	
 	for (int i = 0; i < 10; i++) {
 		// //                       w     h     d     cx   cy     cz      list
-		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, Vector3D(0, 0, 0), Vector3D(((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1), colors, colors2, "cube"));
+		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, Vector3D(0, 0, 0), Vector3D(((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1), colors, colors2, "cube", m_raster));
 	}
 
 	//cubeList.push_back(Cube(0.6f, 0.01f, 0.6f, .0f, 0.0f, 0.0f, colors, colors2, "cube2"));
@@ -214,8 +215,7 @@ void AppWindow::onCreate()
 
 
 
-	m_raster = GraphicsEngine::get()->createRasterState();
-	m_raster->use();
+
 
 	EngineTime::initialize();
 

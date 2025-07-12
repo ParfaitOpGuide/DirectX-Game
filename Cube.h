@@ -15,18 +15,16 @@ class Cube : public AGameObject
 {
 public:
 	Cube();
-	Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, Vector3D rotation, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name);
+	Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, Vector3D rotation, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name, RasterState* m_raster);
 
-	void update(float deltaTime, float width, float height, Camera cam);
+	void update(float deltaTime, float width, float height, Camera cam, bool isPers);
 	void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, std::vector<Camera> camList, int currentCam);
 	void createBuffer(void** shader_byte_code, size_t* size_shader);
 	void createBuffer(Cube copy);
 	void destroy();
 
 	vertex list[8];
-	VertexBuffer* m_vb;
-	IndexBuffer* m_ib;
-	ConstantBuffer* m_cb;
+
 	int index_list[36] =
 	{
 		//front
