@@ -9,7 +9,7 @@ class ConstantBuffer
 public:
 	ConstantBuffer(RenderSystem* system, void* buffer, UINT size_buffer);
 
-	void update(DeviceContext* context, void* buffer);
+	void update(DeviceContextPtr context, void* buffer);
 
 
 	~ConstantBuffer();

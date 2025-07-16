@@ -85,6 +85,7 @@ bool LoadTextureFromFile(const char* file_name, ID3D11ShaderResourceView** out_s
 
 AppWindow::AppWindow()
 {
+
 }
 
 AppWindow::~AppWindow()
@@ -103,7 +104,6 @@ void AppWindow::onCreate()
 	InputSystem::get()->addListener(this);
 
 
-	GraphicsEngine::get()->init();
 	RECT rc = this->getClientWindowRect();
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
@@ -311,8 +311,6 @@ void AppWindow::onDestroy()
 	if (cubeList.size() > 0)
 		cubeList[0].destroy();
 
-
-	GraphicsEngine::get()->release();
 }
 
 void AppWindow::onFocus()
@@ -589,13 +587,13 @@ void AppWindow::onRightMouseUp(const Point& mouse_pos)
 void AppWindow::initialize()
 {
 	sharedInstance = new AppWindow();
-	sharedInstance->init();
+	//sharedInstance->init();
 }
 
 void AppWindow::destroy()
 {
 	if (sharedInstance != NULL) {
-		sharedInstance->release();
+		  //sharedInstance->release();
 	}
 }
 

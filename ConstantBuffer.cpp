@@ -6,8 +6,6 @@
 
 ConstantBuffer::ConstantBuffer(RenderSystem* system, void* buffer, UINT size_buffer) : m_system(system)
 {
-	if (m_buffer)m_buffer->Release();
-
 	D3D11_BUFFER_DESC buff_desc = {};
 	buff_desc.Usage = D3D11_USAGE_DEFAULT;
 	buff_desc.ByteWidth = size_buffer;
@@ -27,7 +25,7 @@ ConstantBuffer::ConstantBuffer(RenderSystem* system, void* buffer, UINT size_buf
 }
 
 
-void ConstantBuffer::update(DeviceContext* context, void* buffer)
+void ConstantBuffer::update(DeviceContextPtr context, void* buffer)
 {
 	context->m_device_context->UpdateSubresource(this->m_buffer, NULL, NULL, buffer, NULL, NULL);
 }

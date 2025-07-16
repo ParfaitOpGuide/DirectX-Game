@@ -33,7 +33,7 @@ public:
 	~AGameObject();
 
 	virtual void update(float deltaTime, float width, float height, Camera cam, bool isPers) = 0;
-	virtual void draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, std::vector<Camera> camList, int currentCam) =0;
+	virtual void draw(float width, float height, VertexShaderPtr m_vs, PixelShaderPtr m_ps, float deltaTime, std::vector<Camera> camList, int currentCam) =0;
 	virtual void createBuffer(void** shader_byte_code, size_t* size_shader) = 0;
 	virtual void destroy() = 0;
 
@@ -55,8 +55,8 @@ public:
 	Vector3D localScale;
 
 	RasterState* m_raster;
-	VertexBuffer* m_vb;
-	IndexBuffer* m_ib;
-	ConstantBuffer* m_cb;
+	VertexBufferPtr m_vb;
+	IndexBufferPtr m_ib;
+	ConstantBufferPtr m_cb;
 };
 

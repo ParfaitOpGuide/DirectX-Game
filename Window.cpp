@@ -5,6 +5,8 @@
 #include "EngineTime.h"
 #include <string>
 #include "imgui/imgui.h"
+#include <exception>
+
 
 
 extern IMGUI_IMPL_API LRESULT CALLBACK ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM uparam, LPARAM lparam);
@@ -19,20 +21,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	{
 		// Event fired when the window is created
 		// collected here..
-		Window* window = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
-		// .. and then stored for later lookup
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
-		window->setHWND(hwnd);
-	//	window->onCreate();
-		break;
-	}
 
+	}
 
 	case WM_DESTROY:
 	{
 		// Event fired when the window is destroyed
 		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		window->onDestroy();
+		if (window)
+			window->onDestroy();
 		::PostQuitMessage(0);
 		break;
 	}
@@ -41,7 +38,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	{
 		// Event fired when the window is destroyed
 		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		window->onFocus();
+		if (window)
+			window->onFocus();
 		break;
 	}
 
@@ -62,9 +60,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 
 Window::Window()
 {
-}
-
-bool Window::init() {
 	WNDCLASSEX wc;
 	wc.cbClsExtra = NULL;
 	wc.cbSize = sizeof(WNDCLASSEX);
@@ -82,14 +77,14 @@ bool Window::init() {
 
 
 	if (!::RegisterClassEx(&wc))
-		return false;
+		throw std::exception("Window failed to start");
 
 
 	m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768,
-		NULL, NULL, NULL, this);
+		NULL, NULL, NULL, NULL);
 
 	if (!m_hwnd)
-		return false;
+		throw std::exception("Window failed to start");
 
 	::ShowWindow(m_hwnd, SW_SHOW);
 	::UpdateWindow(m_hwnd);
@@ -97,7 +92,6 @@ bool Window::init() {
 
 
 	m_is_run = true;
-	return true;
 }
 
 bool Window::broadcast()
@@ -105,6 +99,14 @@ bool Window::broadcast()
 	EngineTime::LogFrameStart();
 
 	MSG msg;
+
+	if (!m_is_init)
+	{
+		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+		//	window->onCreate();
+
+		this->m_is_init = true;
+	}
 
 	this->onUpdate();
 
@@ -120,16 +122,10 @@ bool Window::broadcast()
 	return true;
 }
 
-bool Window::release() {
-	if (!::DestroyWindow(m_hwnd))
-		return false;
-
-
-	return true;
-}
-
 bool Window::isRun()
 {
+	if (m_is_run)
+		broadcast();
 	return m_is_run;
 }
 
@@ -141,13 +137,11 @@ RECT Window::getClientWindowRect()
 	return rc;
 }
 
-void Window::setHWND(HWND hwnd)
-{
-	this->m_hwnd = hwnd;
-}
-
 Window::~Window()
 {
+	if (!::DestroyWindow(m_hwnd))
+		throw std::exception("Window failed to start");
+
 }
 
 void Window::onDestroy()

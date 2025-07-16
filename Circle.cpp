@@ -93,7 +93,7 @@ void Circle::update(float deltaTime, float width, float height, Camera cam, bool
 	m_cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &cc);
 }
 
-void Circle::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, std::vector<Camera> camList, int currentCam)
+void Circle::draw(float width, float height, VertexShaderPtr m_vs, PixelShaderPtr m_ps, float deltaTime, std::vector<Camera> camList, int currentCam)
 {
 	ticked = false;
 	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(1));

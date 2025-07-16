@@ -1,15 +1,26 @@
 #include "InputSystem.h"
 #include <Windows.h>
 
+InputSystem* InputSystem::m_system = nullptr;
+
 InputSystem* InputSystem::get()
 {
-	static InputSystem system;
-	return &system;
+	return m_system;
 }
 
-InputSystem::~InputSystem()
+void InputSystem::create()
 {
+	if (InputSystem::m_system) throw std::exception("Graphics Engine already exists");
+	InputSystem::m_system = new InputSystem();
 }
+
+void InputSystem::release()
+{
+	if (!InputSystem::m_system) return;
+	delete InputSystem::m_system;
+}
+
+
 
 void InputSystem::update()
 {
@@ -101,6 +112,10 @@ InputSystem::InputSystem()
 {
 }
 
+InputSystem::~InputSystem()
+{
+	InputSystem::m_system = nullptr;
+}
 
 
 

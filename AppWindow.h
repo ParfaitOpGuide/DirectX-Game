@@ -52,9 +52,9 @@ public:
 	static AppWindow* sharedInstance;
 
 private:
-	SwapChain* m_swap_chain;
-	VertexShader* m_vs;
-	PixelShader* m_ps;
+	SwapChainPtr m_swap_chain;
+	VertexShaderPtr m_vs;
+	PixelShaderPtr m_ps;
 
 	
 	RasterState* m_raster;
