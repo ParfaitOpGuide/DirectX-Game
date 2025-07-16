@@ -9,6 +9,7 @@
 #include <DirectXMath.h>
 #include "InputSystem.h"
 #include "ViewportUIManager.h"
+#include "RenderSystem.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_win32.h"
@@ -44,7 +45,7 @@ bool LoadTextureFromMemory(const void* data, size_t data_size, ID3D11ShaderResou
 	subResource.pSysMem = image_data;
 	subResource.SysMemPitch = desc.Width * 4;
 	subResource.SysMemSlicePitch = 0;
-	GraphicsEngine::get()->getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
+	GraphicsEngine::get()->getRenderSystem()->getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
 
 	// Create texture view
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -53,7 +54,7 @@ bool LoadTextureFromMemory(const void* data, size_t data_size, ID3D11ShaderResou
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = desc.MipLevels;
 	srvDesc.Texture2D.MostDetailedMip = 0;
-	GraphicsEngine::get()->getDevice()->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
+	GraphicsEngine::get()->getRenderSystem()->getDevice()->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
 	pTexture->Release();
 
 	*out_width = image_width;
@@ -103,18 +104,15 @@ void AppWindow::onCreate()
 
 
 	GraphicsEngine::get()->init();
-
-	m_swap_chain = GraphicsEngine::get()->createSwapChain();
-
 	RECT rc = this->getClientWindowRect();
+	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
-	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	m_vs = GraphicsEngine::get()->getRenderSystem()->createVertexShader(shader_byte_code, size_shader);
 
 	std::vector<Vector3D> colors;
 	std::vector<Vector3D> colors2;
@@ -139,7 +137,7 @@ void AppWindow::onCreate()
 	cloneCircle.createBuffer(&shader_byte_code, &size_shader);
 	circleList.push_back(Circle(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(((rand() % 20) - 10) / 1000.f, ((rand() % 20) - 10) / 1000.f, 0), colors, colors2, "circle"));
 	circleList[0].createBuffer(cloneCircle);*/
-	m_raster = GraphicsEngine::get()->createRasterState();
+	m_raster = GraphicsEngine::get()->getRenderSystem()->createRasterState();
 	m_raster->use();
 	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube", m_raster);
 	cloneCube.createBuffer(&shader_byte_code, &size_shader);
@@ -162,13 +160,13 @@ void AppWindow::onCreate()
 		circleList[i].createBuffer(cloneCircle);
 	}
 
-	GraphicsEngine::get()->releaseCompiledShader();
+	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 
 
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
+	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(shader_byte_code, size_shader);
 
-	GraphicsEngine::get()->releaseCompiledShader();
+	GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 
 	/*
 	cam.SetPosition(-2.0f, .0f, -.1f);
@@ -227,7 +225,7 @@ void AppWindow::onCreate()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
 	ImGui_ImplWin32_Init(this->m_hwnd);
-	ImGui_ImplDX11_Init(GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getDeviceContext());
+	ImGui_ImplDX11_Init(GraphicsEngine::get()->getRenderSystem()->getDevice(), GraphicsEngine::get()->getRenderSystem()->getDeviceContext());
 
 	
 	
@@ -238,7 +236,7 @@ void AppWindow::onCreate()
 void AppWindow::onUpdate()
 {
 	InputSystem::get()->update();
-
+	/**
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -250,12 +248,12 @@ void AppWindow::onUpdate()
 	flags |= ImGuiWindowFlags_NoTitleBar; 
 	flags |= ImGuiWindowFlags_NoMove;
 	flags |= ImGuiWindowFlags_NoResize;
-
+	*/
 	RECT rc = this->getClientWindowRect();
 	auto width = rc.right - rc.left;
 	auto height = rc.bottom - rc.top;
 
-	ImGui::SetNextWindowSize(ImVec2(1, height/2 - 20));
+/*	ImGui::SetNextWindowSize(ImVec2(1, height / 2 - 20));
 	ImGui::SetNextWindowPos(ImVec2(width/2, 20));
 	ImGui::Begin("Divider", &truth, flags);
 	ImGui::End();
@@ -264,8 +262,10 @@ void AppWindow::onUpdate()
 	ImGui::SetNextWindowPos(ImVec2(0, height / 2));
 	ImGui::Begin("Divider2", &truth, flags);
 	ImGui::End();
-
-	ViewportUIManager::getInstance()->OnUpdate();
+	*/
+	
+	
+	//ViewportUIManager::getInstance()->OnUpdate();
 
 
 	/*	ImGui::Begin("Credits");
@@ -278,13 +278,13 @@ void AppWindow::onUpdate()
 
 
 	//set color here
-	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		.3, 0.3, 0, 1);
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
@@ -296,8 +296,8 @@ void AppWindow::onUpdate()
 		//circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	//ImGui::Render();
+	//ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	m_swap_chain->present(true);
 }
@@ -305,9 +305,6 @@ void AppWindow::onUpdate()
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-	m_swap_chain->release();
-	m_vs->release();
-	m_ps->release();
 
 	if (quadList.size() > 0)
 		quadList[0].destroy();

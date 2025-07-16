@@ -127,6 +127,7 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="ViewportUIManager.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -202,5 +203,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="ViewportUIManager.h" />
+    <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Prerequisites.h" />
   </ItemGroup>
 </Project>

@@ -1,9 +1,11 @@
 #include "SwapChain.h"
 #include "GraphicsEngine.h"
+#include "RenderSystem.h"
+#include <exception>
 
-bool SwapChain::init(HWND hwnd, UINT width, UINT height)
+SwapChain::SwapChain(RenderSystem* system, HWND hwnd, UINT width, UINT height) : m_system(system)
 {
-	ID3D11Device* device = GraphicsEngine::get()->m_d3d_device;
+	ID3D11Device* device = m_system->m_d3d_device;
 
 	DXGI_SWAP_CHAIN_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
@@ -19,24 +21,24 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 	desc.SampleDesc.Quality = 0;
 	desc.Windowed = TRUE;
 
-	HRESULT hr = GraphicsEngine::get()->m_dxgi_factory->CreateSwapChain(device, &desc, &m_swap_chain);
+	HRESULT hr = m_system->m_dxgi_factory->CreateSwapChain(device, &desc, &m_swap_chain);
 
 	if (FAILED(hr)) {
-		return false;
+		throw std::exception("SwapChain not made");
 	}
 
 	ID3D11Texture2D* buffer = NULL;
 	hr = m_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
-	
+
 	if (FAILED(hr)) {
-		return false;
+		throw std::exception("SwapChain not made");
 	}
 
 	hr = device->CreateRenderTargetView(buffer, NULL, &m_rtv);
 	buffer->Release();
 
-	if (FAILED(hr)) { 
-		return false;
+	if (FAILED(hr)) {
+		throw std::exception("SwapChain not made");
 	}
 
 	D3D11_TEXTURE2D_DESC texDesc = {};
@@ -54,15 +56,15 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 
 	hr = device->CreateTexture2D(&texDesc, NULL, &buffer);
 	if (FAILED(hr)) {
-		return false;
+		throw std::exception("SwapChain not made");
 	}
 
 	hr = device->CreateDepthStencilView(buffer, NULL, &m_dsv);
 	if (FAILED(hr)) {
-		return false;
+		throw std::exception("SwapChain not made");
 	}
 	buffer->Release();
-	return true;
+
 }
 
 bool SwapChain::present(bool vsync)
@@ -81,10 +83,7 @@ ID3D11DepthStencilView* SwapChain::getDepthStencilView()
 	return m_dsv;
 }
 
-bool SwapChain::release()
+SwapChain::~SwapChain()
 {
-
 	m_swap_chain->Release();
-	delete this;
-	return true;
 }

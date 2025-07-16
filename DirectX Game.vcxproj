@@ -149,6 +149,7 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Quads.cpp" />
     <ClCompile Include="RasterState.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
@@ -178,8 +179,10 @@
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="Quads.h" />
     <ClInclude Include="RasterState.h" />
+    <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Vector3D.h" />

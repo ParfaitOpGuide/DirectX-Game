@@ -1,5 +1,6 @@
 #include "RasterState.h"
 #include <iostream>;
+#include "RenderSystem.h"
 
 RasterState::RasterState()
 {
@@ -13,7 +14,7 @@ RasterState::~RasterState()
 
 void RasterState::use()
 {
-	context = GraphicsEngine::get()->m_imm_context;
+	context = GraphicsEngine::get()->getRenderSystem()->m_imm_context;
 	
 	if (m_RenderWireframe)
 	{
@@ -40,7 +41,7 @@ void RasterState::toggleWireframe()
 
 void RasterState::toggleWireframe(bool b)
 {
-	context = GraphicsEngine::get()->m_imm_context;
+	context = GraphicsEngine::get()->getRenderSystem()->m_imm_context;
 	if (b)
 	{
 		context->RSSetState(m_RasterStateWireframe.Get());
@@ -61,7 +62,7 @@ void RasterState::createRasterStateSolid()
 	rasterizerState.DepthClipEnable = true;
 	rasterizerState.FrontCounterClockwise = true;
 
-	ID3D11Device* device = GraphicsEngine::get()->m_d3d_device;
+	ID3D11Device* device = GraphicsEngine::get()->getRenderSystem()->m_d3d_device;
 	HRESULT res;
 	res = device->CreateRasterizerState(&rasterizerState, m_RasterStateWireframe.ReleaseAndGetAddressOf());
 	if (FAILED(res))
@@ -79,7 +80,7 @@ void RasterState::createRasterStateWireframe()
 	rasterizerState.DepthClipEnable = true;
 	rasterizerState.FrontCounterClockwise = true;
 
-	ID3D11Device* device = GraphicsEngine::get()->m_d3d_device;
+	ID3D11Device* device = GraphicsEngine::get()->getRenderSystem()->m_d3d_device;
 	HRESULT res;
 	res = device->CreateRasterizerState(&rasterizerState, m_RasterStateWireframe.ReleaseAndGetAddressOf());
 	if (FAILED(res))

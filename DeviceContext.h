@@ -1,17 +1,12 @@
 #pragma once
 #include <d3d11.h>
 #pragma comment(lib, "d3d11.lib")
-class SwapChain;
-class VertexBuffer;
-class ConstantBuffer;
-class IndexBuffer;
-class VertexShader;
-class PixelShader;
+#include "Prerequisites.h"
 
 class DeviceContext
 {
 public:
-	DeviceContext(ID3D11DeviceContext* device_context);
+	DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* system);
 	~DeviceContext();
 	bool clearRenderTargetColor(SwapChain* swap_chain, float red, float green, float blue, float alpha);
 	bool setVertexBuffer(VertexBuffer* vertex_buffer);
@@ -29,11 +24,11 @@ public:
 	void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* buffer);
 	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* buffer);
 
-	bool release();
 	
 
 private:
 	ID3D11DeviceContext* m_device_context;
+	RenderSystem* m_system = nullptr;
 	D3D11_VIEWPORT vps[3];
 	friend class ConstantBuffer;
 };

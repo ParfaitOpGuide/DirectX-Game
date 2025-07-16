@@ -4,6 +4,7 @@
 #include<string>
 #include <vector>
 #include "RasterState.h"
+#include "RenderSystem.h"
 
 using namespace std;
 class VertexShader;
