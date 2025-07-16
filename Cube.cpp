@@ -4,7 +4,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "EngineTime.h"
-#include "CameraNumHolder.h"
+#include "ViewportUIManager.h"
 
 
 
@@ -12,13 +12,14 @@ Cube::Cube() :AGameObject("default")
 {
 }
 
-Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, Vector3D rotation, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name) : AGameObject(name)
+Cube::Cube(float width, float height, float depth, float centerx, float centery, float centerz, Vector3D speed, Vector3D rotation, std::vector<Vector3D> colors, std::vector<Vector3D> colors2, string name, RasterState* m_raster) : AGameObject(name)
 {
 
 	this->setRotation(rotation);
 	this->setPosition(centerx, centery, centerz);
 	this->setScale(width, height, depth);
 	this->moveSpeed = speed;
+	this->m_raster = m_raster;
 	/*
 	//back bottom left
 	list[0] = { Vector3D(centerx - width / 2, centery - height / 2, centerz - depth / 2),  colors[0], colors2[0] };
@@ -53,7 +54,7 @@ Cube::Cube(float width, float height, float depth, float centerx, float centery,
 
 }
 
-void Cube::update(float deltaTime, float width, float height, Camera cam)
+void Cube::update(float deltaTime, float width, float height, Camera cam, bool isPers)
 {
 	constant cc;
 
@@ -92,22 +93,27 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 
 	this->setPosition(pos);
 
+
 	temp.setIdentity();
 	temp.setTranslation(Vector3D(this->getLocalPosition().m_x, this->getLocalPosition().m_y, this->getLocalPosition().m_z));
 	//temp.setTranslation(Vector3D::lerp(Vector3D(-1, -.6, 0), Vector3D(1, .6, 0), (sin(m_time * 0.001f) + 1.f) / 2.f));
 	cc.m_world *= temp;
-	/*
-	cc.m_view.setIdentity();
-	cc.m_proj.setOrthoLH
-	(
-		width / 400.f,
-		height / 400.f,
-		-4.f,
-		4.f
-	);*/
+	if (!isPers) {
+		cc.m_view.setIdentity();
+		cc.m_proj.setOrthoLH
+		(
+			width / 400.f,
+			height / 400.f,
+			-2.f,
+			2.f
+		);
 
-	cc.m_view = cam.GetViewMatrix4();
-	cc.m_proj = cam.GetProjectionMatrix4();
+	}
+	else
+	{
+		cc.m_view = cam.GetViewMatrix4();
+		cc.m_proj = cam.GetProjectionMatrix4();
+	}
 
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 }
@@ -115,9 +121,10 @@ void Cube::update(float deltaTime, float width, float height, Camera cam)
 void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps, float deltaTime, std::vector<Camera> camList, int currentCam)
 {
 	ticked = false;
-	update(deltaTime, width, height, camList[CameraNumHolder::getInstance()->view1CameraNum]);
+	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(1));
+	update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(1)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(1));
 	ticked = true;
-	
+
 
 	//handles drawing
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
@@ -125,11 +132,13 @@ void Cube::draw(float width, float height, VertexShader* m_vs, PixelShader* m_ps
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 0);
-	update(deltaTime, width, height, camList[CameraNumHolder::getInstance()->view2CameraNum]);
+	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(2));
+	update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(2)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(2));
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 1);
-	update(deltaTime, width, height, camList[CameraNumHolder::getInstance()->view3CameraNum]);
+	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(3));
+	update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(3)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(3));
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 2);
-	
+
 	m_time += animation_speed * deltaTime;
 	constant cc;
 	cc.m_time = m_time;
