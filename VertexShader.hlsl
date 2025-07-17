@@ -1,6 +1,6 @@
 struct VS_INPUT
 {
-    float4 position : POSITION;
+    float4 position : POSITION0;
     float2 texcoord : TEXCOORD0;
 };
 

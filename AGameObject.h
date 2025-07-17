@@ -6,6 +6,7 @@
 #include <vector>
 #include "RasterState.h"
 #include "RenderSystem.h"
+#include "Mesh.h"
 
 using namespace std;
 class VertexShader;

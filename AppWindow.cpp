@@ -94,7 +94,7 @@ AppWindow::~AppWindow()
 
 void AppWindow::updateQuadPosition()
 {
-
+	std::cout << "b";
 }
 
 void AppWindow::onCreate()
@@ -102,12 +102,11 @@ void AppWindow::onCreate()
 	//Window::onCreate();
 
 	InputSystem::get()->addListener(this);
-	std::cout << m_wood_tex;
-	m_wood_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"wood.jpg");
-	std::cout << m_wood_tex;
+	
+	m_wood_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\wood.jpg");
 
-
-
+	m_mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
+ 	//std::cout << m_mesh;
 	RECT rc = this->getClientWindowRect();
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
@@ -145,7 +144,10 @@ void AppWindow::onCreate()
 	m_raster->use();
 	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube", m_raster);
 	cloneCube.createBuffer(&shader_byte_code, &size_shader);
-	
+
+	meshList.push_back(MeshObject(0.5f,  0.5f, 0.5f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh));
+	meshList[0].createBuffer(&shader_byte_code, &size_shader);
+
 	for (int i = 0; i < 10; i++) {
 		// //                       w     h     d     cx   cy     cz      list
 		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, Vector3D(0, 0, 0), Vector3D(((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1), colors, colors2, "cube", m_raster));
@@ -178,8 +180,8 @@ void AppWindow::onCreate()
 	*/
 	//cam 1
 	camList.push_back(Camera());
-	camList[0].SetPosition(1.0f, 1.3f, -1.0f);
-	camList[0].SetRotation(DirectX::XMVectorSet(0.6f, -0.8f, 0, 0));
+	camList[0].SetPosition(-0.0f, .0f, -1.0f);
+	camList[0].SetRotation(DirectX::XMVectorSet(0.f, 0.f, 0, 0));
 	camList[0].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
 	//cam 2
 	camList.push_back(Camera());
@@ -303,6 +305,9 @@ void AppWindow::onUpdate()
 	}
 	for (int i = 0; i < circleList.size();i++) {
 		//circleList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
+	}
+	for (int i = 0; i < meshList.size();i++) {
+		meshList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 
 	//ImGui::Render();
