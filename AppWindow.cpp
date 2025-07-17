@@ -94,7 +94,7 @@ AppWindow::~AppWindow()
 
 void AppWindow::updateQuadPosition()
 {
-
+	std::cout << "b";
 }
 
 void AppWindow::onCreate()
@@ -145,7 +145,7 @@ void AppWindow::onCreate()
 	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube", m_raster);
 	cloneCube.createBuffer(&shader_byte_code, &size_shader);
 
-	meshList.push_back(MeshObject(0.01f, 0.01f, 0.01f, 0, -2, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh));
+	meshList.push_back(MeshObject(0.5f,  0.5f, 0.5f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh));
 	meshList[0].createBuffer(&shader_byte_code, &size_shader);
 
 	for (int i = 0; i < 10; i++) {
