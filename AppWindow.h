@@ -14,6 +14,8 @@
 #include "Circle.h"
 #include "RasterState.h"
 #include "InputListener.h"
+#include "MeshObject.h"
+
 
 class AppWindow : public Window, public InputListener
 {
@@ -56,6 +58,7 @@ private:
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
 	TexturePtr m_wood_tex;
+	MeshPtr m_mesh;
 	
 	RasterState* m_raster;
 	std::vector<Camera> camList;
@@ -65,6 +68,7 @@ private:
 	std::vector<Quads> quadList = {};
 	std::vector<Cube> cubeList = {};
 	std::vector<Circle> circleList = {};
+	std::vector<MeshObject> meshList = {};
 
 	Cube cloneCube;
 	Circle cloneCircle;

@@ -30,5 +30,6 @@ Texture::Texture(const wchar_t* full_path) : Resource(full_path)
 
 Texture::~Texture()
 {
+	m_shader_res_view->Release();
 	m_texture->Release();
 }
