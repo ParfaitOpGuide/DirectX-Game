@@ -73,8 +73,8 @@ private:
 	Cube cloneCube;
 	Circle cloneCircle;
 
-	int freeCamNum = 6;
-	bool freeCam = false;
+	int freeCamNum = 0;
+	bool freeCam = true;
 	bool pressed = false;
 	bool camPawn = false;
 

@@ -14,7 +14,7 @@ private:
 	int view2CameraNum = 2;
 	int view3CameraNum = 4;
 
-	bool perspectiveCameraView[3] = { false, true, false };
+	bool perspectiveCameraView[3] = { true, true, false };
 	bool wireframeCameraView[3] = { false, false, true };
 	static ViewportUIManager *sharedInstance;
 	ViewportUIManager();

@@ -103,7 +103,7 @@ void AppWindow::onCreate()
 
 	InputSystem::get()->addListener(this);
 	
-	m_wood_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\wood.jpg");
+	m_wood_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
 
 	m_mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
  	//std::cout << m_mesh;
@@ -242,7 +242,7 @@ void AppWindow::onCreate()
 void AppWindow::onUpdate()
 {
 	InputSystem::get()->update();
-	/**
+	
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -254,12 +254,12 @@ void AppWindow::onUpdate()
 	flags |= ImGuiWindowFlags_NoTitleBar; 
 	flags |= ImGuiWindowFlags_NoMove;
 	flags |= ImGuiWindowFlags_NoResize;
-	*/
+	
 	RECT rc = this->getClientWindowRect();
 	auto width = rc.right - rc.left;
 	auto height = rc.bottom - rc.top;
-
-/*	ImGui::SetNextWindowSize(ImVec2(1, height / 2 - 20));
+	/*
+	ImGui::SetNextWindowSize(ImVec2(1, height / 2 - 20));
 	ImGui::SetNextWindowPos(ImVec2(width/2, 20));
 	ImGui::Begin("Divider", &truth, flags);
 	ImGui::End();
@@ -271,16 +271,16 @@ void AppWindow::onUpdate()
 	*/
 	
 	
-	//ViewportUIManager::getInstance()->OnUpdate();
+	ViewportUIManager::getInstance()->OnUpdate();
 
 
-	/*	ImGui::Begin("Credits");
+		ImGui::Begin("Credits");
 	ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
 	
 	ImGui::Text("pointer = %p", my_texture);
 	ImGui::Text("size = %d x %d", my_image_width, my_image_height);
 	ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
-	ImGui::End();*/
+	ImGui::End();
 
 
 	//set color here
@@ -310,8 +310,8 @@ void AppWindow::onUpdate()
 		meshList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
 	}
 
-	//ImGui::Render();
-	//ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	m_swap_chain->present(true);
 }
@@ -442,11 +442,11 @@ void AppWindow::onKeyDown(int key)
 				cubeList[i].setRotation(r);
 		if (freeCam) {
 			XMFLOAT3 forwardFloat3;
-			XMStoreFloat3(&forwardFloat3, camList[5].GetForwardVector());
+			XMStoreFloat3(&forwardFloat3, camList[freeCamNum].GetForwardVector());
 
-			float x = forwardFloat3.x * camSpeed;
-			float y = forwardFloat3.y * camSpeed;
-			float z = forwardFloat3.z * camSpeed;
+			float x = forwardFloat3.x * camSpeed * .1;
+			float y = forwardFloat3.y * camSpeed * .1;
+			float z = forwardFloat3.z * camSpeed * .1;
 			if (freeCam) {
 				camList[freeCamNum].AdjustPosition(x, y, z);
 			}
@@ -460,7 +460,7 @@ void AppWindow::onKeyDown(int key)
 	{
 		if (freeCam) {
 			XMFLOAT3 forwardFloat3;
-			XMStoreFloat3(&forwardFloat3, camList[5].GetLeftVector());
+			XMStoreFloat3(&forwardFloat3, camList[freeCamNum].GetLeftVector());
 
 			float x = forwardFloat3.x * camSpeed;
 			float y = forwardFloat3.y * camSpeed;
@@ -474,7 +474,7 @@ void AppWindow::onKeyDown(int key)
 	{
 		if (freeCam) {
 			XMFLOAT3 forwardFloat3;
-			XMStoreFloat3(&forwardFloat3, camList[5].GetBackwardVector());
+			XMStoreFloat3(&forwardFloat3, camList[freeCamNum].GetBackwardVector());
 
 			float x = forwardFloat3.x * camSpeed;
 			float y = forwardFloat3.y * camSpeed;
@@ -496,7 +496,7 @@ void AppWindow::onKeyDown(int key)
 	{
 		if (freeCam) {
 			XMFLOAT3 forwardFloat3;
-			XMStoreFloat3(&forwardFloat3, camList[5].GetRightVector());
+			XMStoreFloat3(&forwardFloat3, camList[freeCamNum].GetRightVector());
 
 			float x = forwardFloat3.x * camSpeed;
 			float y = forwardFloat3.y * camSpeed;
@@ -510,7 +510,7 @@ void AppWindow::onKeyDown(int key)
 	{
 		if (freeCam) {
 			XMFLOAT3 forwardFloat3;
-			XMStoreFloat3(&forwardFloat3, camList[5].GetUpVector());
+			XMStoreFloat3(&forwardFloat3, camList[freeCamNum].GetUpVector());
 
 			float x = forwardFloat3.x * camSpeed;
 			float y = forwardFloat3.y * camSpeed;
@@ -524,7 +524,7 @@ void AppWindow::onKeyDown(int key)
 	{
 		if (freeCam) {
 			XMFLOAT3 forwardFloat3;
-			XMStoreFloat3(&forwardFloat3, camList[5].GetDownVector());
+			XMStoreFloat3(&forwardFloat3, camList[freeCamNum].GetDownVector());
 
 			float x = forwardFloat3.x * camSpeed;
 			float y = forwardFloat3.y * camSpeed;
