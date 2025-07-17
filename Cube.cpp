@@ -148,13 +148,13 @@ void Cube::draw(float width, float height, VertexShaderPtr m_vs, PixelShaderPtr 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 0);
-	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(2));
+/*	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(2));
 	update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(2)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(2));
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 1);
 	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(3));
 	update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(3)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(3));
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 2);
-
+	*/
 	m_time += animation_speed * deltaTime;
 	constant cc;
 	cc.m_time = m_time;

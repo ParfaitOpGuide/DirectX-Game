@@ -20,5 +20,5 @@ float4 psmain(PS_INPUT input) : SV_TARGET
 {
    // return float4(lerp(input.color, input.color1, (sin(m_time / 1000.f) + 1.f) / 2.f), 1.0f);
    //return float4(1,1,1, 1.0f);
-   return Texture.Sample(TextureSampler, input.texcoord);
+   return Texture.Sample(TextureSampler, input.texcoord*.5f);
 }
