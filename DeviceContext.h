@@ -3,6 +3,7 @@
 #pragma comment(lib, "d3d11.lib")
 #include "Prerequisites.h"
 
+
 class DeviceContext
 {
 public:
@@ -21,10 +22,11 @@ public:
 	void setVertexShader(VertexShaderPtr vertex_shader);
 	void setPixelShader(PixelShaderPtr pixel_shader);
 
+	void setTexture(VertexShaderPtr vertex_shader, TexturePtr texture);
+	void setTexture(PixelShaderPtr pixel_shader, TexturePtr texture);
+
 	void setConstantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr buffer);
 	void setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr buffer);
-
-	
 
 private:
 	ID3D11DeviceContext* m_device_context;

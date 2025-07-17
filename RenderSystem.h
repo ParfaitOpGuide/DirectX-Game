@@ -59,5 +59,6 @@ private:
 	friend class ConstantBuffer;
 	friend class IndexBuffer;
 	friend class RasterState;
+	friend class Texture;
 };
 

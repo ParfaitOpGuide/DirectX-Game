@@ -15,10 +15,10 @@ Quads::Quads(float width, float height, float depth, float centerx, float center
 	this->setPosition(centerx, centery, centerz);
 	this->setScale(width, height, depth);
 
-	list[0] = { Vector3D(-.5f,-.5f,0.f),  colors[0], colors2[0] };
-	list[1] = { Vector3D(-.5f,.5f,0.f),  colors[1], colors2[1] };
-	list[2] = { Vector3D(.5f,.5f,0.f),  colors[2], colors2[2] };
-	list[3] = { Vector3D(.5f,-.5f,0.f),  colors[3], colors2[3] };
+	list[0] = { Vector3D(-.5f,-.5f,0.f) };
+	list[1] = { Vector3D(-.5f,.5f,0.f)};
+	list[2] = { Vector3D(.5f,.5f,0.f)};
+	list[3] = { Vector3D(.5f,-.5f,0.f)};
 
 
 	rotSpeed = 0;

@@ -19,34 +19,51 @@ Cube::Cube(float width, float height, float depth, float centerx, float centery,
 	this->setScale(width, height, depth);
 	this->moveSpeed = speed;
 	this->m_raster = m_raster;
-	/*
-	//back bottom left
-	list[0] = { Vector3D(centerx - width / 2, centery - height / 2, centerz - depth / 2),  colors[0], colors2[0] };
-	//back top left
-	list[1] = { Vector3D(centerx - width / 2, centery + height / 2, centerz - depth / 2),  colors[1], colors2[1] };
-	//back top right
-	list[2] = { Vector3D(centerx + width / 2, centery + height / 2, centerz - depth / 2),  colors[2], colors2[2] };
-	//back bottom right
-	list[3] = { Vector3D(centerx + width / 2, centery - height / 2, centerz - depth / 2),  colors[3], colors2[3] };
-	//front bottom right
-	list[4] = { Vector3D(centerx + width / 2, centery - height / 2, centerz + depth / 2),  colors[0], colors2[0] };
-	//front top right
-	list[5] = { Vector3D(centerx + width / 2, centery + height / 2, centerz + depth / 2),  colors[1], colors2[1] };
-	//front top left
-	list[6] = { Vector3D(centerx - width / 2, centery + height / 2, centerz + depth / 2),  colors[2], colors2[2] };
-	//front bottom left
-	list[7] = { Vector3D(centerx - width / 2, centery - height / 2, centerz + depth / 2),  colors[3], colors2[3] };
-	*/
-	list[0] = { Vector3D(-.5f,-.5f,-.5f),  colors[0], colors2[0] };
-	list[1] = { Vector3D(-.5f,.5f,-.5f),  colors[1], colors2[1] };
-	list[2] = { Vector3D(.5f,.5f,-.5f),  colors[2], colors2[2] };
-	list[3] = { Vector3D(.5f,-.5f,-.5f),  colors[3], colors2[3] };
 
-	list[4] = { Vector3D(.5f,-.5f,.5f),  colors[0], colors2[0] };
-	list[5] = { Vector3D(.5f,.5f,.5f),  colors[1], colors2[1] };
-	list[6] = { Vector3D(-.5f,.5f,.5f),  colors[2], colors2[2] };
-	list[7] = { Vector3D(-.5f,-.5f,.5f),  colors[3], colors2[3] };
+	list[0] = { Vector3D(-.5f,-.5f,-.5f) };
+	list[1] = { Vector3D(-.5f,.5f,-.5f) };
+	list[2] = { Vector3D(.5f,.5f,-.5f) };
+	list[3] = { Vector3D(.5f,-.5f,-.5f) };
 
+	list[4] = { Vector3D(.5f,-.5f,.5f) };
+	list[5] = { Vector3D(.5f,.5f,.5f) };
+	list[6] = { Vector3D(-.5f,.5f,.5f) };
+	list[7] = { Vector3D(-.5f,-.5f,.5f) };
+
+	texlist[0] = { Vector2D(0.0f,0.0f) };
+	texlist[1] = { Vector2D(0.0f,1.0f) };
+	texlist[2] = { Vector2D(1.0f,0.0f) };
+	texlist[3] = { Vector2D(1.0f,1.0f) };
+
+	finlist[0] = { list[0], texlist[1] };
+	finlist[1] = { list[1], texlist[0] };
+	finlist[2] = { list[2], texlist[2] };
+	finlist[3] = { list[3], texlist[3] };	
+	
+	finlist[4] = { list[4], texlist[1] };
+	finlist[5] = { list[5], texlist[0] };
+	finlist[6] = { list[6], texlist[2] };
+	finlist[7] = { list[7], texlist[3] };
+	
+	finlist[8] = { list[1], texlist[1] };
+	finlist[9] = { list[6], texlist[0] };
+	finlist[10] = { list[5], texlist[2] };
+	finlist[11] = { list[2], texlist[3] };	
+	
+	finlist[12] = { list[7], texlist[1] };
+	finlist[13] = { list[0], texlist[0] };
+	finlist[14] = { list[3], texlist[2] };
+	finlist[15] = { list[4], texlist[3] };	
+
+	finlist[16] = { list[3], texlist[1] };
+	finlist[17] = { list[2], texlist[0] };
+	finlist[18] = { list[5], texlist[2] };
+	finlist[19] = { list[4], texlist[3] };	
+	
+	finlist[20] = { list[7], texlist[1] };
+	finlist[21] = { list[6], texlist[0] };
+	finlist[22] = { list[1], texlist[2] };
+	finlist[23] = { list[0], texlist[3] };
 
 	rotSpeed = 1.0f / (rand() % 700 + 300);
 	//std::cout << rotSpeed << "\n";

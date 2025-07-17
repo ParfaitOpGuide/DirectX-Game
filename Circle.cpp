@@ -21,7 +21,7 @@ Circle::Circle(float width, float height, float depth, float centerx, float cent
 	this->moveSpeed = speed;
 
 	for (int i = 0; i < 40; i++) {
-		this->list[i] = { Vector3D(std::cos(i / 39.0f * (2.0*3.1415f)) * .5f,std::sin(i / 39.0f * (2.0 * 3.1415f)) * .5f,.0f),  colors[0], colors2[0] };
+		this->list[i] = { Vector3D(std::cos(i / 39.0f * (2.0*3.1415f)) * .5f,std::sin(i / 39.0f * (2.0 * 3.1415f)) * .5f,.0f)};
 	}
 
 

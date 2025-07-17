@@ -23,7 +23,9 @@ public:
 	void createBuffer(Cube copy);
 	void destroy();
 
-	vertex list[8];
+	Vector3D list[8];
+	Vector2D texlist[4];
+	vertex finlist[24];
 
 	int index_list[36] =
 	{
@@ -34,17 +36,17 @@ public:
 		4,5,6, // third tri
 		6,7,4, //fourth tri
 		//top
-		1,6,5,
-		5,2,1,
+		8,9,10,
+		10,11,8,
 		//bottom
-		7,0,3,
-		3,4,7,
+		12,13,14,
+		14,15,12,
 		//right
-		3,2,5,
-		5,4,3,
+		16,17,18,
+		18,19,16,
 		//left
-		7,6,1,
-		1,0,7
+		20,21,22,
+		22,23,20
 	};
 	float m_time = 0;
 	float animation_speed = 1000.0f;

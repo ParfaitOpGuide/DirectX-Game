@@ -102,6 +102,10 @@ void AppWindow::onCreate()
 	//Window::onCreate();
 
 	InputSystem::get()->addListener(this);
+	std::cout << m_wood_tex;
+	m_wood_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"wood.jpg");
+	std::cout << m_wood_tex;
+
 
 
 	RECT rc = this->getClientWindowRect();
@@ -285,6 +289,11 @@ void AppWindow::onUpdate()
 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
+
+
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setTexture(m_ps, m_wood_tex);
+
+
 
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);

@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3D.h"
+#include "Vector2D.h"
 #include "Camera.h"
 #include<string>
 #include <vector>
@@ -22,8 +23,7 @@ struct constant
 struct vertex
 {
 	Vector3D position;
-	Vector3D color;
-	Vector3D color1;
+	Vector2D texcoord;
 };
 
 class AGameObject

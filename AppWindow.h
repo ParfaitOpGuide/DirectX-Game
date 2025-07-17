@@ -55,7 +55,7 @@ private:
 	SwapChainPtr m_swap_chain;
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
-
+	TexturePtr m_wood_tex;
 	
 	RasterState* m_raster;
 	std::vector<Camera> camList;

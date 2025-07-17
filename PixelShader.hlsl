@@ -1,8 +1,10 @@
+Texture2D Texture : register(t0);
+sampler TextureSampler : register(s0);
+
 struct PS_INPUT
 {
     float4 pos : SV_POSITION;
-    float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float2 texcoord : TEXCOORD0;
 };
 
 
@@ -17,5 +19,6 @@ cbuffer constant : register(b0)
 float4 psmain(PS_INPUT input) : SV_TARGET
 {
    // return float4(lerp(input.color, input.color1, (sin(m_time / 1000.f) + 1.f) / 2.f), 1.0f);
-    return float4(input.color, 1.0f);
+   //return float4(input.color, 1.0f);
+    return Texture.Sample(TextureSampler, input.texcoord);
 }
