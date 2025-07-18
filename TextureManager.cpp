@@ -31,3 +31,19 @@ Resource* TextureManager::createResourceFromFileConcrete(const wchar_t* file_pat
 
 	return tex;
 }
+
+Resource* TextureManager::createResourceFromFileConcrete(const wchar_t* file_path, bool hastc, bool hasn)
+{
+
+	Texture* tex = nullptr;
+	try
+	{
+		tex = new Texture(file_path);
+	}
+	catch (...)
+	{
+
+	}
+
+	return tex;
+}

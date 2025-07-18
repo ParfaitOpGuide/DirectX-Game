@@ -25,6 +25,7 @@ struct vertex
 {
 	Vector3D position;
 	Vector2D texcoord;
+	Vector3D normcoord;
 };
 
 class AGameObject

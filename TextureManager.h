@@ -10,5 +10,6 @@ public:
 
 protected:
 	virtual Resource* createResourceFromFileConcrete(const wchar_t* file_path);
+	virtual Resource* createResourceFromFileConcrete(const wchar_t* file_path, bool hastc, bool hasn);
 };
 

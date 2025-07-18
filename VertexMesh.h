@@ -7,17 +7,32 @@
 class VertexMesh
 {
 public:
-	VertexMesh() :m_position(), m_texcoord()
+	VertexMesh() :m_position(), m_texcoord(), m_normal()
 	{
 
 	}
 
-	VertexMesh(Vector3D position, Vector2D tex) : m_position(position), m_texcoord(tex)
+	VertexMesh(Vector3D position) : m_position(position), m_texcoord(), m_normal()
+	{
+
+	}
+	
+	VertexMesh(Vector3D position, Vector2D tex) : m_position(position), m_texcoord(tex), m_normal()
+	{
+
+	}
+	
+	VertexMesh(Vector3D position, Vector3D nor) : m_position(position), m_texcoord(), m_normal(nor)
+	{
+
+	}
+	
+	VertexMesh(Vector3D position, Vector2D tex, Vector3D nor) : m_position(position), m_texcoord(tex), m_normal(nor)
 	{
 
 	}
 
-	VertexMesh(const VertexMesh& vertex) :m_position(vertex.m_position), m_texcoord(vertex.m_texcoord)
+	VertexMesh(const VertexMesh& vertex) :m_position(vertex.m_position), m_texcoord(vertex.m_texcoord), m_normal(vertex.m_normal)
 	{
 
 	}
@@ -29,4 +44,5 @@ public:
 
 	Vector3D m_position;
 	Vector2D m_texcoord;
+	Vector3D m_normal;
 };

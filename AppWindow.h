@@ -59,6 +59,9 @@ private:
 	PixelShaderPtr m_ps;
 	TexturePtr m_wood_tex;
 	MeshPtr m_mesh;
+	MeshPtr m_mesh1;
+	MeshPtr m_mesh2;
+	float size = 0.5f;
 	
 	RasterState* m_raster;
 	std::vector<Camera> camList;

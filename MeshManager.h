@@ -7,8 +7,10 @@ public:
 	MeshManager();
 	~MeshManager();
 	MeshPtr createMeshFromFile(const wchar_t* file_path);
+	MeshPtr createMeshFromFile(const wchar_t* file_path, bool hastc, bool hasn);
 
 protected:
 	virtual Resource* createResourceFromFileConcrete(const wchar_t* file_path);
+	virtual Resource* createResourceFromFileConcrete(const wchar_t* file_path, bool hastc, bool hasn);
 };
 

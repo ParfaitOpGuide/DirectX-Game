@@ -102,11 +102,13 @@ void AppWindow::onCreate()
 	//Window::onCreate();
 
 	InputSystem::get()->addListener(this);
-	
+
 	m_wood_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
 
-	m_mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
- 	//std::cout << m_mesh;
+	m_mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj", true, false);
+	m_mesh1 = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\bunny.obj", false, false);
+	m_mesh2 = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\armadillo.obj", false, true);
+	//std::cout << m_mesh;
 	RECT rc = this->getClientWindowRect();
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
@@ -145,13 +147,19 @@ void AppWindow::onCreate()
 	cloneCube = Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "basecube", m_raster);
 	cloneCube.createBuffer(&shader_byte_code, &size_shader);
 
-	meshList.push_back(MeshObject(0.5f,  0.5f, 0.5f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh));
+	meshList.push_back(MeshObject(size, size, size, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh));
 	meshList[0].createBuffer(&shader_byte_code, &size_shader);
 
+	meshList.push_back(MeshObject(2.5f, 2.5f, 2.5f, -1.3f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh1));
+	meshList[1].createBuffer(&shader_byte_code, &size_shader);
+
+	meshList.push_back(MeshObject(0.5f, 0.5f, 0.5f, 1.3f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh2));
+	meshList[2].createBuffer(&shader_byte_code, &size_shader);
+	/*
 	for (int i = 0; i < 10; i++) {
 		// //                       w     h     d     cx   cy     cz      list
 		cubeList.push_back(Cube(0.1f, 0.1f, 0.1f, ((rand() % 200) / 100.0f) - 1, ((rand() % 150 + 25) / 100.0f) - 1, 0.0f, Vector3D(0, 0, 0), Vector3D(((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1, ((rand() % 200) / 100.0f) - 1), colors, colors2, "cube", m_raster));
-	}
+	}*/
 
 	//cubeList.push_back(Cube(0.6f, 0.01f, 0.6f, .0f, 0.0f, 0.0f, colors, colors2, "cube2"));
 	//std::cout<< cubeList.size() << "\n";
@@ -182,7 +190,7 @@ void AppWindow::onCreate()
 	camList.push_back(Camera());
 	camList[0].SetPosition(-0.0f, .0f, -1.0f);
 	camList[0].SetRotation(DirectX::XMVectorSet(0.f, 0.f, 0, 0));
-	camList[0].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
+	camList[0].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
 	//cam 2
 	camList.push_back(Camera());
 	camList[1].SetPosition(0.0f, 1.f, -.0f);
@@ -211,8 +219,8 @@ void AppWindow::onCreate()
 	camList.push_back(Camera());
 	camList[5].SetPosition(0.0f, 1.f, -.0f);
 	camList[5].SetRotation(DirectX::XMVectorSet(1.5708f, .0f, 0, 0));
-	camList[5].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);	
-	
+	camList[5].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
+
 	//freecam
 	camList.push_back(Camera());
 	camList[6].SetProjectionValues(100.f, (rc.right - rc.left) / (rc.bottom - rc.top), 0.1f, 1000.f);
@@ -233,8 +241,8 @@ void AppWindow::onCreate()
 	ImGui_ImplWin32_Init(this->m_hwnd);
 	ImGui_ImplDX11_Init(GraphicsEngine::get()->getRenderSystem()->getDevice(), GraphicsEngine::get()->getRenderSystem()->getDeviceContext());
 
-	
-	
+
+
 	bool ret = LoadTextureFromFile("DLSU_Logo-green.png", &my_texture, &my_image_width, &my_image_height);
 	IM_ASSERT(ret);
 }
@@ -242,7 +250,7 @@ void AppWindow::onCreate()
 void AppWindow::onUpdate()
 {
 	InputSystem::get()->update();
-	
+
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -251,10 +259,10 @@ void AppWindow::onUpdate()
 	static bool truth = true;
 
 	ImGuiWindowFlags flags = 0;
-	flags |= ImGuiWindowFlags_NoTitleBar; 
+	flags |= ImGuiWindowFlags_NoTitleBar;
 	flags |= ImGuiWindowFlags_NoMove;
 	flags |= ImGuiWindowFlags_NoResize;
-	
+
 	RECT rc = this->getClientWindowRect();
 	auto width = rc.right - rc.left;
 	auto height = rc.bottom - rc.top;
@@ -269,14 +277,15 @@ void AppWindow::onUpdate()
 	ImGui::Begin("Divider2", &truth, flags);
 	ImGui::End();
 	*/
-	
-	
+
+
 	ViewportUIManager::getInstance()->OnUpdate();
 
 
-		ImGui::Begin("Credits");
+	ImGui::Begin("Credits");
+	ImGui::InputFloat("Teapot Size", &size, 0.1f, 1.0f, "%.1f");
 	ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
-	
+
 	ImGui::Text("pointer = %p", my_texture);
 	ImGui::Text("size = %d x %d", my_image_width, my_image_height);
 	ImGui::Image((ImTextureID)(intptr_t)my_texture, ImVec2(300, 300));
@@ -295,7 +304,7 @@ void AppWindow::onUpdate()
 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setTexture(m_ps, m_wood_tex);
 
-
+	meshList[0].setScale(Vector3D(size, size, size));
 
 	for (int i = 0; i < cubeList.size();i++) {
 		cubeList[i].draw((this->getClientWindowRect().right - this->getClientWindowRect().left), (this->getClientWindowRect().bottom - this->getClientWindowRect().top), m_vs, m_ps, EngineTime::getDeltaTime(), camList, currentCam);
@@ -384,7 +393,7 @@ void AppWindow::onKeyDown(int key)
 		freeCam = false;
 		if (camPawn) {
 			camPawn = false;
-		//	cubeList.pop_back();
+			//	cubeList.pop_back();
 		}
 
 	}
@@ -395,7 +404,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-		//	cubeList.pop_back();
+			//	cubeList.pop_back();
 		}
 	}
 	else if (key == 51) //3
@@ -405,7 +414,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-		//	cubeList.pop_back();
+			//	cubeList.pop_back();
 		}
 	}
 	else if (key == 52) //4
@@ -415,7 +424,7 @@ void AppWindow::onKeyDown(int key)
 
 		if (camPawn) {
 			camPawn = false;
-		//	cubeList.pop_back();
+			//	cubeList.pop_back();
 		}
 	}
 	else if (key == 53) //5
@@ -433,25 +442,25 @@ void AppWindow::onKeyDown(int key)
 
 	const float camSpeed = 0.04;
 	if (key == 87) // W
-	{	
+	{
 		for (int i = 0; i < cubeList.size(); i++) {
-				Vector3D r = cubeList[i].getLocalRotation();
-				r.m_x += 0.1;
-				r.m_y += 0.1;
-				r.m_z += 0.1;
-				cubeList[i].setRotation(r);
-		if (freeCam) {
-			XMFLOAT3 forwardFloat3;
-			XMStoreFloat3(&forwardFloat3, camList[freeCamNum].GetForwardVector());
-
-			float x = forwardFloat3.x * camSpeed * .1;
-			float y = forwardFloat3.y * camSpeed * .1;
-			float z = forwardFloat3.z * camSpeed * .1;
+			Vector3D r = cubeList[i].getLocalRotation();
+			r.m_x += 0.1;
+			r.m_y += 0.1;
+			r.m_z += 0.1;
+			cubeList[i].setRotation(r);
 			if (freeCam) {
-				camList[freeCamNum].AdjustPosition(x, y, z);
-			}
+				XMFLOAT3 forwardFloat3;
+				XMStoreFloat3(&forwardFloat3, camList[freeCamNum].GetForwardVector());
 
-		
+				float x = forwardFloat3.x * camSpeed * .1;
+				float y = forwardFloat3.y * camSpeed * .1;
+				float z = forwardFloat3.z * camSpeed * .1;
+				if (freeCam) {
+					camList[freeCamNum].AdjustPosition(x, y, z);
+				}
+
+
 			}
 		}
 
@@ -575,9 +584,9 @@ void AppWindow::onKeyUp(int key)
 
 void AppWindow::onMouseMove(const Point& delta_mouse_pos)
 {
-	if (freeCam) {
+	/*if (freeCam) {
 		camList[freeCamNum].AdjustRotation(delta_mouse_pos.m_y * 0.01, delta_mouse_pos.m_x * 0.01, 0);
-	}
+	}*/
 
 }
 
@@ -607,7 +616,7 @@ void AppWindow::initialize()
 void AppWindow::destroy()
 {
 	if (sharedInstance != NULL) {
-		  //sharedInstance->release();
+		//sharedInstance->release();
 	}
 }
 

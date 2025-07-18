@@ -8,6 +8,7 @@ class Mesh : public Resource
 {
 public:
 	Mesh(const wchar_t* full_path);
+	Mesh(const wchar_t* full_path, bool hastc, bool hasn);
 	~Mesh();
 
 	const VertexBufferPtr& getVertexBuffer();
