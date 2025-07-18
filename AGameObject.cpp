@@ -56,3 +56,43 @@ Vector3D AGameObject::getLocalRotation()
 {
 	return this->localRotation;
 }
+
+void AGameObject::attachComponent(AComponent* component, PhysicsSystem* phys)
+{
+}
+
+void AGameObject::detachComponent(AComponent* component, PhysicsSystem* phys)
+{
+}
+
+bool AGameObject::getComponentsOfTypeExists(AComponent::ComponentType type)
+{
+	bool b = false;
+	int index = -1;
+	for (int i = 0; i < this->componentList.size(); i++) {
+		if (componentList[i]->getType() == (AComponent::ComponentType)3)
+		{
+			b = true;
+			index = i;
+
+			break;
+		}
+	}
+
+	if (index != -1)
+		return true;
+	else
+		return false;
+}
+
+void AGameObject::setLocalMatrix(float mat[16])
+{
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			currMat.m_mat[i][j] = mat[i];
+		}
+	}
+}

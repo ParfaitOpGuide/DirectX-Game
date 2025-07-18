@@ -135,6 +135,10 @@
     <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshObject.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="BaseComponentSystem.cpp" />
+    <ClCompile Include="AComponent.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -226,6 +230,10 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="VertexMesh.h" />
     <ClInclude Include="MeshObject.h" />
+    <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="BaseComponentSystem.h" />
+    <ClInclude Include="AComponent.h" />
+    <ClInclude Include="PhysicsComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libs\DirectXTex\include\DirectXTex.inl" />

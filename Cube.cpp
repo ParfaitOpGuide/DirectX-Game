@@ -38,28 +38,28 @@ Cube::Cube(float width, float height, float depth, float centerx, float centery,
 	finlist[0] = { list[0], texlist[1] };
 	finlist[1] = { list[1], texlist[0] };
 	finlist[2] = { list[2], texlist[2] };
-	finlist[3] = { list[3], texlist[3] };	
-	
+	finlist[3] = { list[3], texlist[3] };
+
 	finlist[4] = { list[4], texlist[1] };
 	finlist[5] = { list[5], texlist[0] };
 	finlist[6] = { list[6], texlist[2] };
 	finlist[7] = { list[7], texlist[3] };
-	
+
 	finlist[8] = { list[1], texlist[1] };
 	finlist[9] = { list[6], texlist[0] };
 	finlist[10] = { list[5], texlist[2] };
-	finlist[11] = { list[2], texlist[3] };	
-	
+	finlist[11] = { list[2], texlist[3] };
+
 	finlist[12] = { list[7], texlist[1] };
 	finlist[13] = { list[0], texlist[0] };
 	finlist[14] = { list[3], texlist[2] };
-	finlist[15] = { list[4], texlist[3] };	
+	finlist[15] = { list[4], texlist[3] };
 
 	finlist[16] = { list[3], texlist[1] };
 	finlist[17] = { list[2], texlist[0] };
 	finlist[18] = { list[5], texlist[2] };
-	finlist[19] = { list[4], texlist[3] };	
-	
+	finlist[19] = { list[4], texlist[3] };
+
 	finlist[20] = { list[7], texlist[1] };
 	finlist[21] = { list[6], texlist[0] };
 	finlist[22] = { list[1], texlist[2] };
@@ -114,6 +114,15 @@ void Cube::update(float deltaTime, float width, float height, Camera cam, bool i
 	temp.setTranslation(Vector3D(this->getLocalPosition().m_x, this->getLocalPosition().m_y, this->getLocalPosition().m_z));
 	//temp.setTranslation(Vector3D::lerp(Vector3D(-1, -.6, 0), Vector3D(1, .6, 0), (sin(m_time * 0.001f) + 1.f) / 2.f));
 	cc.m_world *= temp;
+
+	if (!matset) {
+		currMat = cc.m_world;
+		matset = true;
+	}
+	if (matset && getComponentsOfTypeExists((AComponent::ComponentType)3)) {
+		cc.m_world = currMat;
+	}
+
 	if (!isPers) {
 		cc.m_view.setIdentity();
 		cc.m_proj.setOrthoLH
@@ -148,13 +157,13 @@ void Cube::draw(float width, float height, VertexShaderPtr m_vs, PixelShaderPtr 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 0);
-/*	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(2));
-	update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(2)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(2));
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 1);
-	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(3));
-	update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(3)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(3));
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 2);
-	*/
+	/*	m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(2));
+		update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(2)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(2));
+		GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 1);
+		m_raster->toggleWireframe(ViewportUIManager::getInstance()->getWireframeCameraBool(3));
+		update(deltaTime, width, height, camList[ViewportUIManager::getInstance()->getViewCameraNum(3)], ViewportUIManager::getInstance()->getPerspectiveCameraBool(3));
+		GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0, 2);
+		*/
 	m_time += animation_speed * deltaTime;
 	constant cc;
 	cc.m_time = m_time;

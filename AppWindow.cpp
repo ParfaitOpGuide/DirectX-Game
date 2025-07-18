@@ -10,6 +10,7 @@
 #include "InputSystem.h"
 #include "ViewportUIManager.h"
 #include "RenderSystem.h"
+#include "PhysicsComponent.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_win32.h"
@@ -100,6 +101,7 @@ void AppWindow::updateQuadPosition()
 void AppWindow::onCreate()
 {
 	//Window::onCreate();
+	phys = new PhysicsSystem();
 
 	InputSystem::get()->addListener(this);
 
@@ -251,7 +253,7 @@ void AppWindow::onCreate()
 void AppWindow::onUpdate()
 {
 	InputSystem::get()->update();
-
+	phys->updateAllComponents();
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -637,6 +639,7 @@ void AppWindow::spawnCube()
 
 	cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors, "spawnedCube", m_raster));
 	cubeList[cubeList.size() - 1].createBuffer(cloneCube);
+	cubeList[cubeList.size() - 1].attachComponent(new PhysicsComponent("a", ), phys);
 }
 
 AppWindow* AppWindow::get()

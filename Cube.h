@@ -8,6 +8,8 @@
 #include "Vector3D.h"
 #include "Matrix4x4.h"
 #include "Camera.h"
+#include "AComponent.h"
+#include "PhysicsSystem.h"
 
 
 

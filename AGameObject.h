@@ -7,6 +7,8 @@
 #include "RasterState.h"
 #include "RenderSystem.h"
 #include "Mesh.h"
+#include "AComponent.h"
+#include "PhysicsSystem.h"
 
 using namespace std;
 class VertexShader;
@@ -51,6 +53,14 @@ public:
 	void setRotation(Vector3D rot);
 	Vector3D getLocalRotation();
 
+	void attachComponent(AComponent* component, PhysicsSystem* phys);
+	void detachComponent(AComponent* component, PhysicsSystem* phys);
+	bool getComponentsOfTypeExists(AComponent::ComponentType type);
+
+	void setLocalMatrix(float mat[16]);
+
+	PhysicsSystem::ComponentList componentList;
+
 	string name;
 	Vector3D localRotation;
 	Vector3D localPosition;
@@ -60,5 +70,8 @@ public:
 	VertexBufferPtr m_vb;
 	IndexBufferPtr m_ib;
 	ConstantBufferPtr m_cb;
+
+	bool matset;
+	Matrix4x4 currMat;
 };
 
