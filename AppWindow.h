@@ -53,6 +53,8 @@ public:
 	AppWindow& operator=(AppWindow const&) {};
 	static AppWindow* sharedInstance;
 
+	void spawnCube();
+
 private:
 	SwapChainPtr m_swap_chain;
 	VertexShaderPtr m_vs;

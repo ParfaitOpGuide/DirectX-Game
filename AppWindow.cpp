@@ -149,12 +149,13 @@ void AppWindow::onCreate()
 
 	meshList.push_back(MeshObject(size, size, size, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh));
 	meshList[0].createBuffer(&shader_byte_code, &size_shader);
-
+	
 	meshList.push_back(MeshObject(2.5f, 2.5f, 2.5f, -1.3f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh1));
 	meshList[1].createBuffer(&shader_byte_code, &size_shader);
-
+	
 	meshList.push_back(MeshObject(0.5f, 0.5f, 0.5f, 1.3f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors2, "cube", m_raster, m_mesh2));
 	meshList[2].createBuffer(&shader_byte_code, &size_shader);
+
 	/*
 	for (int i = 0; i < 10; i++) {
 		// //                       w     h     d     cx   cy     cz      list
@@ -618,6 +619,24 @@ void AppWindow::destroy()
 	if (sharedInstance != NULL) {
 		//sharedInstance->release();
 	}
+}
+
+void AppWindow::spawnCube()
+{
+	std::vector<Vector3D> colors;
+	std::vector<Vector3D> colors2;
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+	colors.push_back(Vector3D(1, 1, 1));
+
+	colors2.push_back(Vector3D(1, 0, 1));
+	colors2.push_back(Vector3D(1, 1, 0));
+	colors2.push_back(Vector3D(1, 0, 1));
+	colors2.push_back(Vector3D(0, 1, 0));
+
+	cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors, "spawnedCube", m_raster));
+	cubeList[cubeList.size() - 1].createBuffer(cloneCube);
 }
 
 AppWindow* AppWindow::get()
