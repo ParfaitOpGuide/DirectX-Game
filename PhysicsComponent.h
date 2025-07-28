@@ -1,7 +1,8 @@
 #pragma once
-#include "AComponent.h"
 #include <reactphysics3d/reactphysics3d.h>
 #include "BaseComponentSystem.h"
+#include "AComponent.h"
+#include "AGameObject.h"
 
 using namespace reactphysics3d;
 

@@ -639,7 +639,7 @@ void AppWindow::spawnCube()
 
 	cubeList.push_back(Cube(0.2f, 0.2f, 0.2f, 0.0f, 0.0f, 0.0f, Vector3D(0, 0, 0), Vector3D(0, 0, 0), colors, colors, "spawnedCube", m_raster));
 	cubeList[cubeList.size() - 1].createBuffer(cloneCube);
-	cubeList[cubeList.size() - 1].attachComponent(new PhysicsComponent("a", ), phys);
+	cubeList[cubeList.size() - 1].attachComponent(new PhysicsComponent("a", &cubeList[cubeList.size() - 1]));
 }
 
 AppWindow* AppWindow::get()

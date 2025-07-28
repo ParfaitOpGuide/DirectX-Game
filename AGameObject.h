@@ -9,6 +9,7 @@
 #include "Mesh.h"
 #include "AComponent.h"
 #include "PhysicsSystem.h"
+#include <unordered_map>
 
 using namespace std;
 class VertexShader;
@@ -33,6 +34,10 @@ struct vertex
 class AGameObject
 {
 public:
+	typedef std::string String;
+	typedef std::unordered_map<String, AComponent*> ComponentTable;
+	typedef std::vector<AComponent*> ComponentList;
+
 	AGameObject(string name);
 	~AGameObject();
 
@@ -53,18 +58,20 @@ public:
 	void setRotation(Vector3D rot);
 	Vector3D getLocalRotation();
 
-	void attachComponent(AComponent* component, PhysicsSystem* phys);
-	void detachComponent(AComponent* component, PhysicsSystem* phys);
+	void attachComponent(AComponent* component);
+	void detachComponent(AComponent* component);
 	bool getComponentsOfTypeExists(AComponent::ComponentType type);
 
 	void setLocalMatrix(float mat[16]);
+	float* getPhysicsLocalMatrix();
 
-	PhysicsSystem::ComponentList componentList;
+	ComponentList componentList;
 
 	string name;
 	Vector3D localRotation;
 	Vector3D localPosition;
 	Vector3D localScale;
+	Matrix4x4 localMatrix;
 
 	RasterState* m_raster;
 	VertexBufferPtr m_vb;
