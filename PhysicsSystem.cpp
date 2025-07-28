@@ -20,29 +20,33 @@ PhysicsSystem::~PhysicsSystem()
 
 void PhysicsSystem::registerComponent(PhysicsComponent* component)
 {
-	this->componentTable[component->getName()] = component;
-	this->componentList.push_back(component);
+	if (component) {
+		this->componentTable[component->getName()] = component;
+		this->componentList.push_back(component);
+	}
 }
 
 void PhysicsSystem::unregisterComponent(PhysicsComponent* component)
 {
-	if (this->componentTable[component->getName()] != NULL) {
-		this->componentTable.erase(component->getName());
-		int index = -1;
-		for (int i = 0; i < this->componentList.size(); i++) {
-			if (this->componentList[i] == component) {
-				index = i;
-				break;
+	if (component) {
+		if (this->componentTable[component->getName()] != NULL) {
+			this->componentTable.erase(component->getName());
+			int index = -1;
+			for (int i = 0; i < this->componentList.size(); i++) {
+				if (this->componentList[i] == component) {
+					index = i;
+					break;
+				}
+			}
+
+			if (index != -1) {
+				this->componentList.erase(this->componentList.begin() + index);
 			}
 		}
-
-		if (index != -1) {
-			this->componentList.erase(this->componentList.begin() + index);
+		else
+		{
+			throw std::exception("Component not registered");
 		}
-	}
-	else
-	{
-		throw std::exception("Component not registered");
 	}
 }
 

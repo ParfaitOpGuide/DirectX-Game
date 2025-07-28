@@ -61,6 +61,7 @@ void AGameObject::attachComponent(AComponent* component)
 {
 	if (component)
 	{
+		std::cout << "attach";
 		componentList.push_back(component);
 		component->attachOwner(this);
 	}
@@ -110,6 +111,25 @@ void AGameObject::setLocalMatrix(float mat[16])
 			currMat.m_mat[i][j] = mat[i];
 		}
 	}
+}
+
+void AGameObject::reconstructMatrix()
+{
+	Matrix4x4 matrix, temp;
+
+	matrix.setScale(this->getLocalScale());
+
+	temp.setRotationZ(this->getLocalRotation().m_z);
+	matrix *= temp;
+	temp.setRotationY(this->getLocalRotation().m_y);
+	matrix *= temp;
+	temp.setRotationX(this->getLocalRotation().m_x);
+	matrix *= temp;
+
+	temp.setTranslation(this->getLocalPosition());
+	matrix *= temp;
+
+	this->localMatrix = matrix;
 }
 
 float* AGameObject::getPhysicsLocalMatrix()

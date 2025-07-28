@@ -8,7 +8,8 @@ PhysicsComponent::PhysicsComponent(String name, AGameObject* owner): AComponent(
 
     Vector3D scale = this->getOwner()->getLocalScale();
     Transform transform;
-    transform.setFromOpenGL(this->getOwner()->getPhysicsLocalMatrix());
+    transform.setToIdentity();
+   transform.setFromOpenGL(this->getOwner()->getPhysicsLocalMatrix());
     BoxShape* boxShape = physicsCommon->createBoxShape(Vector3(scale.m_x / 2, scale.m_y / 2, scale.m_z / 2));
     this->rigidBody = physicsWorld->createRigidBody(transform);
     this->rigidBody->addCollider(boxShape, transform);

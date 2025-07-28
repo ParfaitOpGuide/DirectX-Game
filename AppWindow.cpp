@@ -101,7 +101,8 @@ void AppWindow::updateQuadPosition()
 void AppWindow::onCreate()
 {
 	//Window::onCreate();
-	phys = new PhysicsSystem();
+	BaseComponentSystem::getInstance()->initialize();
+	phys = BaseComponentSystem::getInstance()->getPhysicsSystem();;
 
 	InputSystem::get()->addListener(this);
 
@@ -261,10 +262,7 @@ void AppWindow::onUpdate()
 
 	static bool truth = true;
 
-	ImGuiWindowFlags flags = 0;
-	flags |= ImGuiWindowFlags_NoTitleBar;
-	flags |= ImGuiWindowFlags_NoMove;
-	flags |= ImGuiWindowFlags_NoResize;
+
 
 	RECT rc = this->getClientWindowRect();
 	auto width = rc.right - rc.left;
@@ -285,7 +283,11 @@ void AppWindow::onUpdate()
 	ViewportUIManager::getInstance()->OnUpdate();
 
 
-	ImGui::Begin("Credits");
+	ImGui::Begin("Credits", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	if (ImGui::Button("SpawnCube"))
+	{
+		spawnCube();
+	}
 	ImGui::InputFloat("Teapot Size", &size, 0.1f, 1.0f, "%.1f");
 	ImGui::Text("About\n\nBy Nathaniel Agasen\n\nSpecial Thanks to PardCode and JPres");
 

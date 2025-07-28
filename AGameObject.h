@@ -62,6 +62,7 @@ public:
 	void detachComponent(AComponent* component);
 	bool getComponentsOfTypeExists(AComponent::ComponentType type);
 
+	void reconstructMatrix();
 	void setLocalMatrix(float mat[16]);
 	float* getPhysicsLocalMatrix();
 
